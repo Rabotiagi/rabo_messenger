@@ -16,21 +16,23 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
+app.use(express.static(path.join(__dirname, 'views')));
+
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.resolve(__dirname, './views/index.html'));
 });
 
 io.on('connection', (socket) => {
-    socket.on("joinRoom", ({ username, room }) => {
-        createUser(socket.id, username, room);
+    // socket.on("joinRoom", ({ username, room }) => {
+    //     createUser(socket.id, username, room);
 
-        socket.join(room);
-    });
+    //     socket.join(room);
+    // });
 
     socket.on("chatMessage", (message) => {
         const user = findUser(socket.id);
 
-        io.to(user.room).emit("message", wrapper(user.username, message));
+        io.emit("message", wrapper('user', message));
     });
 
     socket.on("disconnect", () => {
@@ -43,7 +45,7 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(process.env.CHAT_PORT, () => {
-    console.log(`Chat server is running on port ${process.env.CHAT_PORT}`);
-});
-//module.exports = server;
+// server.listen(process.env.CHAT_PORT, () => {
+//     console.log(`Chat server is running on port ${process.env.CHAT_PORT}`);
+// });
+module.exports = server;
