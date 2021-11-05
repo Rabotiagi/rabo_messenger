@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+const path = require('path');
 const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
@@ -14,6 +15,10 @@ const {
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
+
+app.get('/', (req, res) => {
+    res.status(200).sendFile(path.resolve(__dirname, './views/index.html'));
+});
 
 io.on('connection', (socket) => {
     socket.on("joinRoom", ({ username, room }) => {
