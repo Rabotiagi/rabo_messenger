@@ -17,6 +17,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'tmp')));
 
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.resolve(__dirname, './views/index.html'));

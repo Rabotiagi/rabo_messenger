@@ -1,0 +1,6 @@
+{
+    "group": "<div class='item'></div>",
+    "contact": "<div class='item'><div class='image'></div><div class='name-message'><div class='name'>{{name}}</div><div class='message'>{{message}}</div></div><div class='date'>{{time}}</div></div>",
+    "message": "<div class='item {{author}}'><div class='image'></div><div class='message'><div class='name-time'><div class='name'>{{name}}</div><div class='time'>{{time}}</div></div><div class='text'>{{text}}</div></div></div>",
+    "profile": "<div class='image'></div><div class='name'>{{name}}</div><div class='status'>{{status}}</div><div class='info'>{{info}}</div><div class='files'>shared files</div>"
+}

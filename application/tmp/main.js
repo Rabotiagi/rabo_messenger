@@ -1,5 +1,5 @@
-const chatForm = document.getElementById("chat-form");
-const chatMessages = document.querySelector(".third");
+const messageForm = document.querySelector(".message-form");
+const messageField = document.querySelector(".messages");
 //const roomName = document.getElementById("room-name");
 //const userList = document.getElementById("users");
 
@@ -20,12 +20,12 @@ socket.on("message", (message) => {
   console.log(message);
   outputMessage(message);
 
-  chatMessages.scrollTop = chatMessages.scrollHeight;
+  messageField.scrollTop = messageField.scrollHeight;
 });
 
 //
 
-chatForm.addEventListener("submit", (e) => {
+messageForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const msg = e.target.elements.msg.value;
@@ -41,12 +41,15 @@ function outputMessage(message) {
   const div = document.createElement("div");
   div.classList.add("item");
   div.innerHTML = `
+    <div class="image"></div>
     <div class="message">
-        <div class="name">${message.username}</div>
-        <div class="time">${message.time}</div>
+        <div class="name-time">
+            <div class="name">${message.username}</div>
+            <div class="time">${message.time}</div>
+        </div>
         <div class="text">${message.message}</div>
-    </dvi>`;
-    chatMessages.appendChild(div);
+    </div>`;
+    messageField.appendChild(div);
 }
 
 // function outputRoomName(room) {

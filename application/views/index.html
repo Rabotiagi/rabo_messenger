@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>  
+    <section class="groups">
+        <div class="item add"><span class="icon"></span></div>
+        <div class="item account"></div>
+    </section>
+    <section class="contacts">
+        <form class="search-form">
+            <input type="text" placeholder="Search...">
+            <span class="icon"></span>
+        </form>
+        <div class="box pinned">
+            <div class="heading">pinned</div>
+        </div>
+        <div class="box direct">
+            <div class="heading">direct messages</div>
+        </div>
+    </section>
+    <section class="chat">
+        <div class="messages"></div>
+        <form class="message-form">
+            <input type="text" placeholder="Write a message...">
+            <button type="submit" class="submit-send"></span>
+        </form>
+    </section>
+    <section class="profile"></section>
+</body>
+<style>
+    * {font-family:Noto Sans;box-sizing: border-box;}
+    ::-webkit-scrollbar {display: none;}
+    body {margin:0;width:100%;height:100vh;display:flex;}
+    section {height:100%;padding:32px 24px;background-color:#191B20;border-right:1px solid #000000;position:relative;overflow-y: scroll;}
+    .groups {min-width:226px;}
+    .groups .item {width:70px;height:70px;border-radius:50%;background:white;margin-bottom:16px;}
+    .groups .item.add {display:flex;align-items:center;justify-content:center;background:rgba(63, 99, 161, 0.3);}
+    .groups .item.add .icon {display:inline-block;width:21px;height:21px;background-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='10.5' x2='10.5' y2='21' stroke='%235893F7' stroke-width='3'/%3E%3Cline x1='21' y1='10.5' y2='10.5' stroke='%235893F7' stroke-width='3'/%3E%3C/svg%3E%0A");}
+    .groups .item.account {position:absolute;bottom:16px;left:50%;transform: translateX(-50%)}
+    .contacts {min-width:344px;}
+    .contacts .search-form {position:relative}
+    .contacts .search-form input {width:100%;height:35px;border-radius:10px;padding:8px 48px 8px 24px;background-color: #0C0E12;color:#fff;border:0;}
+    .contacts .search-form .icon {position:absolute;right:12px;top:10px;display:inline-block;width:15px;height:15px;background-image: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.90812 10.35C8.85625 11.2981 7.46375 11.875 5.9375 11.875C2.66062 11.875 0 9.21437 0 5.9375C0 2.66062 2.66062 0 5.9375 0C9.21437 0 11.875 2.66062 11.875 5.9375C11.875 7.46375 11.2981 8.85625 10.35 9.90812L15 14.5581L14.5581 15L9.90812 10.35ZM5.9375 0.625C8.86938 0.625 11.25 3.00563 11.25 5.9375C11.25 8.86938 8.86938 11.25 5.9375 11.25C3.00563 11.25 0.625 8.86938 0.625 5.9375C0.625 3.00563 3.00563 0.625 5.9375 0.625Z' fill='white' fill-opacity='0.5'/%3E%3C/svg%3E%0A");}
+    .contacts .box {margin-top:12px;}
+    .contacts .box .heading {font-weight: 600;font-size: 16px;line-height: 19px;color: rgba(255, 255, 255, 0.25);text-transform: uppercase;margin-bottom:16px;}
+    .contacts .box .item {display:flex;margin-bottom: 26px;}
+    .contacts .box .item .image {min-width:50px;height:50px;border-radius:50%;background:white;}
+    .contacts .box .item .name-message {width:100%;display:flex;flex-direction: column;justify-content: space-around;margin:0 14px;}
+    .contacts .box .item .name-message .name {font-size: 18px;line-height: 18px;color: #FFFFFF;}
+    .contacts .box .item .name-message .message {font-size: 14px;line-height: 14px;color: rgba(255, 255, 255, 0.5);}
+    .contacts .box .item .date {font-size: 11px;line-height: 11px;color: rgba(107, 111, 147, 0.5);white-space: nowrap;margin-top:2px;}
+    .chat {width:100%;display: flex;flex-direction: column;justify-content: space-between;}
+    .chat .item {display:flex;align-items: flex-end;height:fit-content;margin-bottom:24px;}
+    .chat .item .image {width:45px;height:45px;border-radius:50%;background-color:#fff;}
+    .chat .item .message {max-width:503px;width:fit-content;padding:8px;margin:0 18px;background: #29292E;box-shadow: 1px 1px 4px #484851;border-radius: 10px;font-size:14px;color: rgba(255, 255, 255, 0.7);}
+    .chat .item .message .name-time {display:flex;justify-content: space-between;}
+    .chat .item .message .name-time .name {font-weight:600;margin-bottom:5px;font-size: 16px;color: #3063bb;}
+    .chat .item .message .name-time .time {color: rgba(107, 111, 147, 0.8)}
+    .chat .item.outgoing {flex-direction: row-reverse;}
+    .chat .item.outgoing .message {background: #1F2735;box-shadow: 1px 1px 5px #384761;}
+    .chat .message-form {position: relative;}
+    .chat .message-form input {width:100%;min-height:48px;max-height:72px;height:fit-content;border-radius:10px;padding:12px 80px 12px 24px;background-color: #0C0E12;color:#fff;border:0;}
+    .chat .message-form .submit-send {position:absolute;right:32px;top:11px;display:inline-block;width:24px;height:25px;cursor:pointer;border:0;background-color:transparent;background-image: url("data:image/svg+xml,%3Csvg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_183:168)'%3E%3Cpath d='M0 12.5L11 15.6L18 7.5L9.844 13.172L5.532 11.97L20.894 4.29L16.92 18.86L13.17 15.521L11 18.446V17.677L9 17.117V24.5L13.473 18.469L18 22.5L24 0.5L0 12.5Z' fill='white' fill-opacity='0.5'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_183:168'%3E%3Crect width='24' height='24' fill='white' transform='translate(0 0.5)'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");}
+    .profile {min-width:289px;display: flex;flex-direction: column;align-items: center;}
+    .profile .image {width:100px;height:100px;border-radius: 50%;background: white;margin-bottom:16px;}
+    .profile .name {font-weight: 600;font-size: 20px;color: #3063bb;margin-bottom:14px;}
+    .profile .status {font-weight: 600;font-size: 14px;color: rgba(255, 255, 255, 0.4);margin-bottom:18px;}
+    .profile .info {font-size: 14px;color: rgba(255, 255, 255, 0.5);margin-bottom:72px;}
+    .profile .files {font-weight: 600;font-size: 18px;color: rgba(255, 255, 255, 0.4);text-transform: uppercase;}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js" integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="main.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="render.js"></script>
+</html>
