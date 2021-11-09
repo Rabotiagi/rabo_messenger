@@ -1,14 +1,20 @@
 function loadData(info, template, element) {
-    fetch('http://localhost:3003/test.json')
+    fetch('http://localhost:3004/test.json')
         .then((response) => {
             return response.json();
         })
         .then((data) => {
-            element.innerHTML = '';
+            if (template == 'message' || template == 'profile') {
+                element.innerHTML = '';
+            }
             info.forEach(item => {
                 const rendered = Mustache.render(data[template], item);
                 element.innerHTML += rendered;
             });
+        })
+        .then(() => {
+            console.log(1);
+            document.querySelector('.chat').scrollTop = document.querySelector('.chat').scrollHeight
         });
 }
 
@@ -20,6 +26,19 @@ contactsData = [
     {name: 'Artem', message: 'AMOGUUUUS', time: '5h ago'},
 ]
 messagesData = [
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
+    {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
     {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
     {author: 'outgoing', name: 'Yaroslav', time: '12:23', text: 'yuagdfasdsadsadadasdasdsadasddsagdsfgukydsgyufgudsa'},
     {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},

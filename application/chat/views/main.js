@@ -1,5 +1,6 @@
 const messageForm = document.querySelector(".message-form");
 const messageField = document.querySelector(".messages");
+const messageSection = document.querySelector('.chat');
 //const roomName = document.getElementById("room-name");
 //const userList = document.getElementById("users");
 
@@ -20,7 +21,7 @@ socket.on("message", (message) => {
   console.log(message);
   outputMessage(message);
 
-  messageField.scrollTop = messageField.scrollHeight;
+  messageSection.scrollTop = messageSection.scrollHeight;
 });
 
 //

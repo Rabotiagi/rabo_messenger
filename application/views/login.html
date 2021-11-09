@@ -10,12 +10,12 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form class="login-form">
         <div class="welcome">Welcome</div>
         <div class="heading">Sign in</div>
         <div class="subheading">New user? <a href="/">Create an account.</a></div>
-        <label>Email adress <input type="text"></label>
-        <label>Password <input type="text"></label>
+        <label>Email adress <input name="email" type="text"></label>
+        <label>Password <input name="password" type="text"></label>
         <button>Log in</button>
     </form>
 </body>
@@ -31,4 +31,33 @@
     form .subheading {font-weight: 600;font-size: 14px;color: rgba(255, 255, 255, 0.5);margin-bottom:44px;}
     form .subheading a {font-weight: 600;font-size: 14px;color: #5893F7;text-decoration: none;}
 </style>
+<script>
+    document.querySelector('.login-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const data = new FormData(document.querySelector('.login-form'));
+        const obj = {};
+        for (var [key, value] of data) { 
+            obj[key] = value;
+        }
+        console.log(obj);
+
+        fetch('http://localhost:3000/login', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+                'Accept':'*/*',
+                'Accept-Encoding': 'gzip, deflate, br',
+                'Connection': 'keep-alive',
+            },
+            body: JSON.stringify(obj)
+        })
+            .then((res) => {
+                if (res.status === 200) {
+                    console.log(1);
+                    window.location.href = 'http://localhost:3001';
+                }       
+            });
+    })
+</script>
 </html>
