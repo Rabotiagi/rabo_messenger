@@ -7,7 +7,7 @@ const {
 const socketRouter = (io, socket) => {
     socket.on('chatMessage', chatMessage(io));
 
-    socket.on('getChats', getChats);
+    socket.on('getChats', getChats(socket));
 
     socket.on('joinChats', joinChat(socket));
 };

@@ -12,7 +12,7 @@ const chatMessage = (io) => async (message, id, chat) => {
     });
 };
 
-const getChats = async (id) => {
+const getChats = (socket) => async (id) => {
     const res = await Conversations.findAll({
         where:{
             [or]: [
@@ -30,7 +30,7 @@ const getChats = async (id) => {
         return conv.dataValues.firstUser;
     });
 
-    return convs;
+    socket.emit('chats', convs)
 };
 
 const joinChat = (socket) => async (chat, id) => {
