@@ -1,6 +1,7 @@
 const wrapper = require('../utils/wrapper.js');
 const Conversations = require('../../database/models/conversations.js');
 const Messages = require('../../database/models/messages.js');
+const {or} = require('sequelize').Op;
 
 const chatMessage = (io) => async (message, id, chat) => {
     io.emit('message', wrapper('user', message));

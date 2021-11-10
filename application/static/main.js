@@ -2,6 +2,12 @@ const elements = fetch(`/static/elements.json`).then(res => res.json());
 function $(element) {
     return document.querySelector(element);
 }
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 // socket events
 
@@ -11,22 +17,22 @@ const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
 });
 
-socket.emit("joinRoom", { username, room });
-
-socket.on("refreshChat", ({ users, room }) => {
-  
-});
-
 socket.on('message', (message) => {
     renderMessage(message);
     $('.chat').scrollTop = $('.chat').scrollHeight;
 });
 
+socket.on('chats', (data) => {
+    //onsole.log(data);
+    //render(chatsData[partner], 'message', $('.messages'));
+    //render(profileData[partner], 'profile', $('.profile'));
+});
 
 // HTMLElements events
 
-document.addEventListener('DOMContentLoaded', () => {
-    initContent();
+document.addEventListener('DOMContentLoaded', async () => {
+    await getChats();
+    //initContent();
 });
 
 $('.message-form').addEventListener('submit', (event) => {
@@ -36,29 +42,17 @@ $('.message-form').addEventListener('submit', (event) => {
 
 // functions
 
-function sendMessage(event) {
-    event.preventDefault();
-
-    const message = event.target.elements.msg.value;
-    socket.emit("chatMessage", message);
-
-    event.target.elements.msg.value = "";
-    event.target.elements.msg.focus();
+async function getChats() {
+    const id = getCookie('user-id');
+    await socket.emit('getChats', id);
 }
 
-function renderMessage(message) {
-    elements.then((res) => {
-        const rendered = Mustache.render(res.message, message);
-        $('.messages').innerHTML += rendered;
-    })
-}
-
-async function loadData(info, template, parent) {
+async function render(data, template, parent) {
     await elements.then((res) => {
         if (template == 'message' || template == 'profile') {
             parent.innerHTML = '';
         }
-        info.forEach(item => {
+        data.forEach(item => {
             const rendered = Mustache.render(res[template], item);
             parent.innerHTML += rendered;
         });
@@ -70,53 +64,30 @@ async function loadData(info, template, parent) {
 }
 
 async function initContent() {
-    await loadData(groupsData, 'group', $('.groups'));
-    await loadData(pinnedContactsData, 'contact', $('.pinned'));
-    await loadData(directContactsData, 'contact', $('.direct'));
+    await render(groupsData, 'group', $('.groups'));
+    await render(pinnedContactsData, 'contact', $('.pinned'));
+    await render(directContactsData, 'contact', $('.direct'));
 
     document.querySelectorAll('.contact').forEach(item => {
         item.addEventListener('click', () => {
-            const partner = item.getAttribute('name');
-            loadData(chatsData[partner], 'message', $('.messages'));
-            loadData(profileData[partner], 'profile', $('.profile'));
+            await socket.emit('joinChats', id);
         })
     });
 }
 
+function sendMessage(event) {
+    event.preventDefault();
 
+    const message = event.target.elements.msg.value;
+    socket.emit('chatMessage', message);
 
+    event.target.elements.msg.value = "";
+    event.target.elements.msg.focus();
+}
 
-
-groupsData = [{}, {}, {}, {}, {}, {}];
-pinnedContactsData = [
-    {name: 'Artem', message: 'AMOGUUUUS', time: '5h ago'},
-    {name: 'Oleg', message: 'AMOGUUUUS', time: '5h ago'},
-    {name: 'Nikita', message: 'AMOGUUUUS', time: '5h ago'}
-];
-directContactsData = [
-    {name: 'Oleg', message: 'AMOGUUUUS', time: '5h ago'},
-    {name: 'Artem', message: 'AMOGUUUUS', time: '5h ago'},
-    {name: 'Nikita', message: 'AMOGUUUUS', time: '5h ago'}
-];
-chatsData = {
-    Artem: [
-        {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
-        {author: 'outgoing', name: 'Yaroslav', time: '12:23', text: 'yuagdfasdsadsadadasdasdsadasddsagdsfgukydsgyufgudsa'},
-        {author: 'incoming', name: 'Artem', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
-    ],
-    Oleg: [
-        {author: 'outgoing', name: 'Yaroslav', time: '12:23', text: 'yuagdfasdsadsadadasdasdsadasddsagdsfgukydsgyufgudsa'},
-        {author: 'incoming', name: 'Oleg', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
-        {author: 'incoming', name: 'Oleg', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
-    ],
-    Nikita: [
-        {author: 'outgoing', name: 'Yaroslav', time: '12:23', text: 'yuagdfasdsadsadadasdasdsadasddsagdsfgukydsgyufgudsa'},
-        {author: 'incoming', name: 'Nikita', time: '12:23', text: 'yuagdfgdsfgukydsgyufgudsa'},
-        {author: 'outgoing', name: 'Yaroslav', time: '12:23', text: 'yuagdfasdsadsadadasdasdsadasddsagdsfgukydsgyufgudsa'},
-    ]
-};
-profileData = {
-    Artem: [{name: 'Artem', status: 'last seen recently', 'info': 'AMOGUS + AMOGUS'}],
-    Oleg: [{name: 'Oleg', status: 'last seen recently', 'info': 'AMOGUS + AMOGUS'}],
-    Nikita: [{name: 'Nikita', status: 'last seen recently', 'info': 'AMOGUS + AMOGUS'}]
-};
+function renderMessage(message) {
+    elements.then((res) => {
+        const rendered = Mustache.render(res.message, message);
+        $('.messages').innerHTML += rendered;
+    })
+}
