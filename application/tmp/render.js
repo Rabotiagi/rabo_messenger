@@ -1,5 +1,5 @@
 function loadData(info, template, element) {
-    fetch('http://localhost:3004/test.json')
+    fetch(`http://localhost:3001/tmp/test.json`)
         .then((response) => {
             return response.json();
         })

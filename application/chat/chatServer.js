@@ -7,15 +7,14 @@ const wrapper = require('./services/wrapper.js');
 const path = require('path');
 
 app.register(fastifyStatic, {
-    root: '/home/who/Desktop/Metanet/application/chat/views'
+    root: '/run/media/yaroslav_els/86C6A702C6A6F19B/yaroslavels/projects/Metanet/application'
 });
 
 app.register(fastifySocketIO);
 
-// app.get('/', (req, reply) => {
-//     //reply.send('qe');
-//     reply.re
-// });
+app.get('/', (req, reply) => {
+    return reply.sendFile('/views/index.html');
+});
 
 app.ready().then(() => {
     app.io.on('connection', (socket) => {
