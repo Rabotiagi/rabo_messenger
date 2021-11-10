@@ -51,7 +51,8 @@
     .contacts .search-form .icon {position:absolute;right:12px;top:10px;display:inline-block;width:15px;height:15px;background-image: url("data:image/svg+xml,%3Csvg width='15' height='15' viewBox='0 0 15 15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M9.90812 10.35C8.85625 11.2981 7.46375 11.875 5.9375 11.875C2.66062 11.875 0 9.21437 0 5.9375C0 2.66062 2.66062 0 5.9375 0C9.21437 0 11.875 2.66062 11.875 5.9375C11.875 7.46375 11.2981 8.85625 10.35 9.90812L15 14.5581L14.5581 15L9.90812 10.35ZM5.9375 0.625C8.86938 0.625 11.25 3.00563 11.25 5.9375C11.25 8.86938 8.86938 11.25 5.9375 11.25C3.00563 11.25 0.625 8.86938 0.625 5.9375C0.625 3.00563 3.00563 0.625 5.9375 0.625Z' fill='white' fill-opacity='0.5'/%3E%3C/svg%3E%0A");}
     .contacts .box {margin-top:12px;}
     .contacts .box .heading {font-weight: 600;font-size: 16px;line-height: 19px;color: rgba(255, 255, 255, 0.25);text-transform: uppercase;margin-bottom:16px;}
-    .contacts .box .item {display:flex;margin-bottom: 26px;}
+    .contacts .box .item {display:flex;margin-bottom: 18px;padding:8px;cursor:pointer;border-radius:10px;}
+    .contacts .box .item.active {border:2px solid #3063bb63;}
     .contacts .box .item .image {min-width:50px;height:50px;border-radius:50%;background:white;}
     .contacts .box .item .name-message {width:100%;display:flex;flex-direction: column;justify-content: space-around;margin:0 14px;}
     .contacts .box .item .name-message .name {font-size: 18px;line-height: 18px;color: #FFFFFF;}
@@ -76,9 +77,8 @@
     .profile .info {font-size: 14px;color: rgba(255, 255, 255, 0.5);margin-bottom:72px;}
     .profile .files {font-weight: 600;font-size: 18px;color: rgba(255, 255, 255, 0.4);text-transform: uppercase;}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js" integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/static/main.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-<script src="/static/render.js"></script>
 </html>
