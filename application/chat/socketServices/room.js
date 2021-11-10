@@ -2,6 +2,7 @@ const wrapper = require('../utils/wrapper.js');
 const Conversations = require('../../database/models/conversations.js');
 const Messages = require('../../database/models/messages.js');
 const {or} = require('sequelize').Op;
+const Users = require('../../database/models/users.js');
 
 const chatMessage = (io) => async (message, id, chat) => {
     io.emit('message', wrapper('user', message));
@@ -23,12 +24,19 @@ const getChats = (socket) => async (id) => {
         }
     });
 
-    const convs = res.map(conv => {
-        if(conv.dataValues.firstUser === id){
-            return conv.dataValues.secondUser;
-        }
+    const convs = res.map(async conv => {
+        const partner = conv.dataValues.firstUser === id ?
+            conv.dataValues.secondUser : conv.dataValues.firstUser;
+        
+        const user = await Users.findOne({
+            attributes: ['firstName'],
+            where: {
+                id: partner
+            }
+        });
 
-        return conv.dataValues.firstUser;
+        user[0].id = partner;
+        return user[0];
     });
 
     socket.emit('chats', convs)
