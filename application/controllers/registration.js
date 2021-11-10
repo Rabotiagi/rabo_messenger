@@ -5,7 +5,7 @@ const getReg = (req, reply) => {
 };
 
 const postReg = (req, reply) => {
-    
+    console.log(req.body);
 };
 
 module.exports = {getReg, postReg};

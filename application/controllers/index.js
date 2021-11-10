@@ -1,7 +1,7 @@
 const path = require('path');
 
 const getIndex = (req, reply) => {
-    return reply.sendFile('/views/login.html');
+    return reply.redirect('/login');
 };
 
 const postIndex = (req, reply) => {

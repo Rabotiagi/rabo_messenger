@@ -1,14 +1,13 @@
 const path = require('path');
 
-user = {login: 'yaroslav', password: '123'}
-
 const getLogin = (req, reply) => {
     return reply.sendFile('/views/login.html');
 };
 
 const postLogin = (req, reply) => {
-    if (req.body.email === user.login && req.body.password === user.password) {
-        reply.code(200).send();
+    console.log(JSON.stringify(req.body));
+    if (req.body.includes(`email=yaroslav`) && req.body.includes(`password=123`)) {
+        return reply.redirect('http://localhost:3001/')
     } else {
         reply.code(403).send();
     }

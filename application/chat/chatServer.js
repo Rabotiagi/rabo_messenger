@@ -7,7 +7,7 @@ const wrapper = require('./services/wrapper.js');
 const path = require('path');
 
 app.register(fastifyStatic, {
-    root: '/run/media/yaroslav_els/86C6A702C6A6F19B/yaroslavels/projects/Metanet/application'
+    root: path.resolve(__dirname, '../../application')
 });
 
 app.register(fastifySocketIO);

@@ -10,16 +10,16 @@
     <title>Document</title>
 </head>
 <body>
-    <form>
+    <form action="http://localhost:3000/registration" method="POST" enctype="text/plain" class="register-form">
         <div class="welcome">Welcome</div>
         <div class="heading">Create an account</div>
         <div class="subheading">Already have an account? <a href="/">Sign in.</a></div>
-        <label>Email adress <input type="text"></label>
+        <label>Email adress <input name="email" type="text"></label>
         <div class="name">
-            <label>First name <input type="text"></label>
-            <label>Last name <input type="text"></label>
+            <label>First name <input name="fname" type="text"></label>
+            <label>Last name <input name="lname" type="text"></label>
         </div>
-        <label>Password <input type="text"></label>
+        <label>Password <input name="password" type="text"></label>
         <button type="submit">Create account</button>
     </form>
 </body>

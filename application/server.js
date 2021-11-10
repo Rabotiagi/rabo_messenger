@@ -15,7 +15,7 @@ const Router = require('./routers/router.js');
 app.register(Router);
 
 app.register(fastifyStatic, {
-    root: '/run/media/yaroslav_els/86C6A702C6A6F19B/yaroslavels/projects/Metanet/application'
+    root: path.resolve(__dirname, '../application')
 });
 
 (async () => {
