@@ -1,29 +1,24 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
 
-const Users = seq.define('users', {
-    id: {
+const Chats = seq.define('chats', {
+    room_id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    email: {
+    name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    password: {
+    users: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    firstName: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    lastName: {
-        type: Sequelize.STRING,
-        allowNull: false
+    lastMsg: {
+        type: Sequelize.STRING
     }
 });
 
-module.exports = Users;
+module.exports = Chats;

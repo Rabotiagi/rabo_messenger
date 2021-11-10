@@ -3,8 +3,8 @@ require('dotenv').config();
 const app = require('fastify')({logger: true});
 const fastifyStatic = require('fastify-static');
 const fastifySocketIO = require('fastify-socket.io');
-const wrapper = require('./services/wrapper.js');
 const path = require('path');
+const socketRouter = require('./socketRouters/socketRouter');
 
 app.register(fastifyStatic, {
     root: path.resolve(__dirname, '../../application')
@@ -18,9 +18,7 @@ app.get('/', (req, reply) => {
 
 app.ready().then(() => {
     app.io.on('connection', (socket) => {
-        socket.on('chatMessage', (message) => {
-            app.io.emit('message', wrapper('user', message));
-        });
+        socketRouter(app.io, socket)
     });
 });
 

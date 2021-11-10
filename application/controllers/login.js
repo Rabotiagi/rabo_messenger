@@ -1,16 +1,29 @@
 const path = require('path');
+const Users = require('../database/models/users.js');
 
 const getLogin = (req, reply) => {
-    return reply.sendFile('/views/login.html');
+    reply.sendFile('/views/login.html');
 };
 
-const postLogin = (req, reply) => {
-    console.log(JSON.stringify(req.body));
-    if (req.body.includes(`email=yaroslav`) && req.body.includes(`password=123`)) {
-        return reply.redirect('http://localhost:3001/')
-    } else {
-        reply.code(403).send();
+const postLogin = async (req, reply) => {
+    const data = {};
+    const body = req.body.split('\r\n');
+    body.pop();
+    
+    body.map(prop => {
+        prop = prop.split('=');
+        data[prop[0]] = prop[1];
+    });
+    
+    const user = await Users.findOne({where: data});
+    console.log('\n\n' + user + '\n\n');
+
+    if (user) {
+        reply.redirect('/chat');
+        return;
     }
+ 
+    reply.redirect('/login');
 };
 
 module.exports = {getLogin, postLogin};

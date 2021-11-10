@@ -4,7 +4,7 @@ if(config.error){
     throw config.error;
 }
 
-//const Users = require('./database/models/users');
+const Users = require('./database/models/users');
 const app = require('fastify')({logger: true});
 const fastifyStatic = require('fastify-static');
 const chatServer = require('./chat/chatServer.js');
@@ -19,7 +19,7 @@ app.register(fastifyStatic, {
 });
 
 (async () => {
-    //await seq.sync({force: true});
+    await seq.sync({force: true});
 
     await app.listen(process.env.PORT, (err) => {
         if(err){

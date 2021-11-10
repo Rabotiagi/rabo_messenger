@@ -1,11 +1,7 @@
 const path = require('path');
 
 const getIndex = (req, reply) => {
-    return reply.redirect('/login');
+    reply.redirect('http://localhost:3001');
 };
 
-const postIndex = (req, reply) => {
-
-};
-
-module.exports = {getIndex, postIndex};
+module.exports = getIndex;
