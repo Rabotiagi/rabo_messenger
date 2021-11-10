@@ -19,7 +19,7 @@ const postLogin = async (req, reply) => {
     console.log('\n\n' + user + '\n\n');
 
     if (user) {
-        reply.redirect('/chat');
+        reply.header('Set-Cookie', `user-id=${user.dataValues.id}`).redirect('/chat');
         return;
     }
  

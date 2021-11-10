@@ -6,22 +6,22 @@ const getReg = (req, reply) => {
 };
 
 const postReg = async (req, reply) => {
-    const user = {};
+    const data = {};
     const body = req.body.split('\r\n');
     body.pop();
     
     body.map(prop => {
         prop = prop.split('=');
-        user[prop[0]] = prop[1];
+        data[prop[0]] = prop[1];
     });
     
-    const prevUser = await Users.findOne({where: {email: user.email}});
+    const prevUser = await Users.findOne({where: {email: data.email}});
     if(prevUser){
         reply.redirect('/registration');
         return;
     }
 
-    await Users.create(user);
+    await Users.create(data);
     reply.redirect('/login');
 };
 

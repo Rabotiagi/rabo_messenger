@@ -4,7 +4,9 @@ if(config.error){
     throw config.error;
 }
 
-const Users = require('./database/models/users');
+const Users = require('./database/models/users.js');
+const Conversations = require('./database/models/conversations.js');
+const Messages = require('./database/models/messages.js');
 const app = require('fastify')({logger: true});
 const fastifyStatic = require('fastify-static');
 const chatServer = require('./chat/chatServer.js');

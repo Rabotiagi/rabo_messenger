@@ -1,27 +1,22 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
-const Conversations = require('./conversations.js');
 const Users = require('./users.js');
 
-const Messages = seq.define('messages', {
-    msg_id: {
+const Conversations = seq.define('conversations', {
+    conv_id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    fromConv: {
+    firstUser: {
         type: Sequelize.INTEGER,
-        references: {
-            model: Conversations,
-            key: 'conv_id'
+        references:{
+            model: Users,
+            key: 'id'
         }
     },
-    msg: {
-        type: Sequelize.STRING,
-        allowNull: false
-    },
-    sender: {
+    secondUser: {
         type: Sequelize.INTEGER,
         references:{
             model: Users,
@@ -30,4 +25,4 @@ const Messages = seq.define('messages', {
     }
 });
 
-module.exports = Messages;
+module.exports = Conversations;
