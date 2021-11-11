@@ -1,15 +1,4 @@
-const elements = fetch(`/static/elements.json`).then(res => res.json());
-function $(element) {
-    return document.querySelector(element);
-}
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-// socket events
+// declarations
 
 const socket = io();
 
@@ -17,79 +6,87 @@ const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
 });
 
-socket.on('message', (message) => {
-    renderMessage(message);
-    $('.chat').scrollTop = $('.chat').scrollHeight;
-});
-
-socket.on('chats', (data) => {
-    //onsole.log(data);
-    initContent(data);
-});
-
-socket.on('history', async (data) => {
-    console.log(data);
-    await render(data, 'message', $('.messages'));
-});
-
-// HTMLElements events
-
-document.addEventListener('DOMContentLoaded', async () => {
-    await getChats();
-});
-
-$('.message-form').addEventListener('submit', (event) => {
-    sendMessage(event);
-});
-
-
-// functions
-
-async function getChats() {
-    await socket.emit('getChats', +getCookie('user-id'));
-}
+const elements = fetch('/static/elements.json').then(res => res.json());
 
 async function render(data, template, parent) {
     await elements.then((res) => {
-        if (template == 'message' || template == 'profile') {
-            parent.innerHTML = '';
-        }
         data.forEach(item => {
             const rendered = Mustache.render(res[template], item);
             parent.innerHTML += rendered;
         });
-    }).then(() => {
-        if (template == 'message') {
-            $('.chat').scrollTop = $('.chat').scrollHeight;
-        }
     });
 }
 
-async function initContent(data) {
-    //await render(data, 'group', $('.groups'));
-    await render(data, 'contact', $('.pinned'));
-    //await render(data, 'contact', $('.direct'));
+function $(element) {
+    if (document.querySelectorAll(element).length > 1) {
+        return document.querySelectorAll(element);
+    }
+    return document.querySelector(element);
+}
 
-    document.querySelectorAll('.contact').forEach(item => {
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? parseInt(decodeURIComponent(matches[1])) : undefined;
+}
+function transformDate(date) {
+    const time = new Date(date);
+    return `${time.getHours()}:${time.getMinutes()}`;
+}
+
+
+// socket events
+
+socket.on('chats', async (data) => {
+    data.forEach(item => {
+        item.createdAt = transformDate(data[0].createdAt);
+    });
+    await render(data, 'contact', $('.pinned'));
+
+    $('.contact').forEach(item => {
         item.addEventListener('click', async () => {
-            await socket.emit('joinChats', 1, +getCookie('user-id'));
+            if ($('.active')) {
+                $('.active').classList.remove('active');
+            }
+            item.classList.add('active');
+            await socket.emit('joinChats', item.id, getCookie('user-id'));
         })
     });
-}
+});
 
-function sendMessage(event) {
+socket.on('history', async (data) => {
+    data.forEach(item => {
+        item.time = transformDate(item.time);
+        if($('.active').getAttribute('name') != item.firstName) {
+            item.author = 'outgoing';
+        }
+    });
+    $('.messages').innerHTML = '';
+    await render(data, 'message', $('.messages'));
+
+    $('.chat').scrollTop = $('.chat').scrollHeight;
+});
+
+socket.on('message', async (data) => {
+    data.author = 'outgoing';
+    await render([data], 'message', $('.messages'));
+    $('.chat').scrollTop = $('.chat').scrollHeight;
+});
+
+
+// HTMLElements events
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await socket.emit('getChats', getCookie('user-id'));
+});
+
+$('.message-form').addEventListener('submit', (event) => {
     event.preventDefault();
 
     const message = event.target.elements.msg.value;
-    socket.emit('chatMessage', message, +getCookie('user-id'), 1);
+    socket.emit('chatMessage', message, getCookie('user-id'), $('.active').id);
 
     event.target.elements.msg.value = "";
     event.target.elements.msg.focus();
-}
-
-function renderMessage(message) {
-    elements.then((res) => {
-        const rendered = Mustache.render(res.message, message);
-        $('.messages').innerHTML += rendered;
-    })
-}
+});

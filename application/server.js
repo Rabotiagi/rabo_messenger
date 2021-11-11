@@ -42,39 +42,7 @@ app.register(fastifyStatic, {
     });
 
     
-
-    await seq.sync({force: true});
-
-    await Conversations.create({
-        firstUser: 1,
-        secondUser: 3
-    });
-
-    await Users.create({
-        email: 'who',
-        password: 'who',
-        firstName: 'who',
-        lastName: 'who'
-    });
-
-    await Users.create({
-        email: 'qwe',
-        password: 'qwe',
-        firstName: 'Azaz',
-        lastName: '??'
-    });
-
-    await Users.create({
-        email: '123',
-        password: '123',
-        firstName: '??',
-        lastName: '??'
-    });
-
-    await Conversations.create({
-        firstUser: 1,
-        secondUser: 2
-    });
+    await seq.sync();
 
 
     await app.listen(process.env.PORT, (err) => {
