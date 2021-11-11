@@ -56,13 +56,13 @@ const joinChat = (socket) => async (chat, id) => {
 
     for(let msg of res){
         if(msg.dataValues.sender === id){
-            nativeMsg.push([msg.dataValues.msg, msg.dataValues.createdAt]);
+            nativeMsg.push({msg: msg.dataValues.msg, date: msg.dataValues.createdAt});
         }
 
-        foreignMsg.push([msg.dataValues.msg, msg.dataValues.createdAt]);
+        foreignMsg.push({msg: msg.dataValues.msg, date: msg.dataValues.createdAt});
     }
 
-    socket.emit('history', {nativeMsg, foreignMsg});
+    socket.emit('history', [...nativeMsg, ...foreignMsg]);
 };
 
 module.exports = {
