@@ -21,48 +21,48 @@ app.register(fastifyStatic, {
 });
 
 (async () => {
-    await Conversations.hasMany(Messages, {
+    Conversations.hasMany(Messages, {
         foreignKey: 'fromConv',
         sourceKey: 'conv_id'
     });
     
-    await Messages.belongsTo(Conversations, {
+    Messages.belongsTo(Conversations, {
         foreignKey: 'fromConv',
         targetKey: 'conv_id'
     });
     
-    await Users.hasMany(Messages, {
+    Users.hasMany(Messages, {
         foreignKey: 'sender',
         sourceKey: 'id'
     });
 
-    await Messages.belongsTo(Users, {
+    Messages.belongsTo(Users, {
         foreignKey: 'sender',
         targetKey: 'id'
     });
 
     
 
-    await seq.sync({force: true});
+    await seq.sync();
 
-    await Users.create({
-        email: 'qwe',
-        password: 'qwe',
-        firstName: 'Azaz',
-        lastName: '??'
-    });
+    // await Users.create({
+    //     email: 'qwe',
+    //     password: 'qwe',
+    //     firstName: 'Azaz',
+    //     lastName: '??'
+    // });
 
-    await Users.create({
-        email: '123',
-        password: '123',
-        firstName: '??',
-        lastName: '??'
-    });
+    // await Users.create({
+    //     email: '123',
+    //     password: '123',
+    //     firstName: '??',
+    //     lastName: '??'
+    // });
 
-    await Conversations.create({
-        firstUser: 1,
-        secondUser: 2
-    });
+    // await Conversations.create({
+    //     firstUser: 1,
+    //     secondUser: 2
+    // });
 
 
     await app.listen(process.env.PORT, (err) => {

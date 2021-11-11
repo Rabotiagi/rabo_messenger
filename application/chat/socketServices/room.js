@@ -3,6 +3,7 @@ const Conversations = require('../../database/models/conversations.js');
 const Messages = require('../../database/models/messages.js');
 const {or} = require('sequelize').Op;
 const renderChats = require('../utils/chats.js');
+const Users = require('../../database/models/users.js');
 
 
 const chatMessage = (io) => async (message, id, chat) => {
@@ -38,14 +39,21 @@ const joinChat = (socket) => async (chat) => {
     const messages = [];
 
     const res = await Messages.findAll({
+        include: [Users],
         where: {
             fromConv: chat
         }
     });
 
     res.map(msg => {
-        messages.push({message: msg.msg, time: msg.createdAt});
+        messages.push({
+            message: msg.msg, 
+            time: msg.createdAt,
+            firstName: msg.user.firstName
+        });
     });
+
+    console.log(messages);
 
     socket.emit('history', messages);
 };
