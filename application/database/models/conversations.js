@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
-const Users = require('./users.js');
 
 const Conversations = seq.define('conversations', {
     conv_id: {
@@ -11,17 +10,11 @@ const Conversations = seq.define('conversations', {
     },
     firstUser: {
         type: Sequelize.INTEGER,
-        references:{
-            model: Users,
-            key: 'id'
-        }
+        allowNull: false
     },
     secondUser: {
         type: Sequelize.INTEGER,
-        references:{
-            model: Users,
-            key: 'id'
-        }
+        allowNull: false
     }
 });
 

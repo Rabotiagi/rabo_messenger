@@ -27,4 +27,6 @@ const Users = seq.define('users', {
     }
 });
 
+
+
 module.exports = Users;

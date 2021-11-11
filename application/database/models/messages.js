@@ -30,4 +30,6 @@ const Messages = seq.define('messages', {
     }
 });
 
+
+
 module.exports = Messages;
