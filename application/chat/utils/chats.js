@@ -1,5 +1,14 @@
-const Messages = require('../../database/models/messages.js');
 const Users = require('../../database/models/users.js');
+
+const getLastMsg = (messages) => {
+    let max = 0;
+
+    messages.forEach(msg => {
+        if(msg.createdAt > max) max = msg;
+    });
+
+    return max;
+};
 
 const renderChats = async (dialogs, id) => {
     const convs = [];
@@ -7,7 +16,7 @@ const renderChats = async (dialogs, id) => {
     for(let i = 0; i < dialogs.length; i++){
         const dialog = dialogs[i];
 
-        const { msg, createdAt} = dialog.messages.pop();
+        const { msg, createdAt } = getLastMsg(dialog.messages);
 
         const partner = dialog.firstUser === id ? 
             dialog.secondUser : dialog.firstUser;

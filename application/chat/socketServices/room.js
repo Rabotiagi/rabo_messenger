@@ -29,8 +29,6 @@ const getChats = (socket) => async (id) => {
     });
 
     const convs = await renderChats(res, id);
-
-    console.log(convs);
     
     socket.emit('chats', convs)
 };
