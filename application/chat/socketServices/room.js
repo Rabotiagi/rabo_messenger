@@ -9,7 +9,7 @@ const Users = require('../../database/models/users.js');
 const chatMessage = (io) => async (message, id, chat) => {
     const {firstName} = await Users.findOne({where: {id}});
 
-    io.emit('message', wrapper(firstName, message));
+    io.to(chat).emit('message', wrapper(firstName, message));
 
     const messageToPost = {
         fromConv: chat,
@@ -33,7 +33,7 @@ const getChats = (socket) => async (id) => {
 
     const convs = await renderChats(res, id);
     
-    socket.emit('chats', convs)
+    socket.emit('chats', convs);
 };
 
 const joinChat = (socket) => async (chat) => {

@@ -16,7 +16,7 @@ const renderChats = async (dialogs, id) => {
     for(let i = 0; i < dialogs.length; i++){
         const dialog = dialogs[i];
 
-        const { msg, createdAt } = getLastMsg(dialog.messages);
+        const { msg, createdAt, fromConv} = getLastMsg(dialog.messages);
 
         const partner = dialog.firstUser === id ? 
             dialog.secondUser : dialog.firstUser;
@@ -28,7 +28,7 @@ const renderChats = async (dialogs, id) => {
             }
         });
 
-        convs.push({firstName, partner, msg, createdAt});
+        convs.push({firstName, fromConv, msg, createdAt});
     }
 
     return convs;
