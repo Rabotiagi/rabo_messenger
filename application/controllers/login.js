@@ -16,7 +16,7 @@ const postLogin = async (req, reply) => {
     });
     
     const user = await Users.findOne({where: data});
-    console.log('\n\n' + user + '\n\n');
+    console.dir(user);
 
     if (user) {
         reply.header('Set-Cookie', `user-id=${user.dataValues.id}`).redirect('/chat');

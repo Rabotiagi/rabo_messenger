@@ -23,24 +23,24 @@ app.register(fastifyStatic, {
 (async () => {
     await seq.sync();
 
-    await Users.create({
-        email: 'qwe',
-        password: 'qwe',
-        firstName: 'Azaz',
-        lastName: '??'
-    });
+    // await Users.create({
+    //     email: 'qwe',
+    //     password: 'qwe',
+    //     firstName: 'Azaz',
+    //     lastName: '??'
+    // });
 
-    await Users.create({
-        email: '123',
-        password: '123',
-        firstName: '??',
-        lastName: '??'
-    });
+    // await Users.create({
+    //     email: '123',
+    //     password: '123',
+    //     firstName: '??',
+    //     lastName: '??'
+    // });
 
-    await Conversations.create({
-        firstUser: 1,
-        secondUser: 2
-    });
+    // await Conversations.create({
+    //     firstUser: 1,
+    //     secondUser: 2
+    // });
 
 
     await app.listen(process.env.PORT, (err) => {

@@ -24,21 +24,24 @@ const getChats = (socket) => async (id) => {
         }
     });
 
-    const convs = res.map(async conv => {
-        const partner = conv.dataValues.firstUser === id ?
-            conv.dataValues.secondUser : conv.dataValues.firstUser;
-        
-        const user = await Users.findOne({
-            attributes: ['firstName'],
-            where: {
-                id: partner
-            }
-        });
+    const convs = [];
 
-        user[0].id = partner;
-        return user[0];
+    const conv = res[0];
+    const partner = conv.dataValues.firstUser === id ?
+        conv.dataValues.secondUser : conv.dataValues.firstUser;
+
+    const user = await Users.findOne({
+        attributes: ['firstName'],
+        where: {
+            id: partner
+        }
     });
 
+    console.log(partner);
+
+    convs.push({name: user.dataValues.firstName, id: partner});
+
+    console.dir(convs);
     socket.emit('chats', convs)
 };
 

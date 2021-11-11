@@ -4,7 +4,7 @@ function $(element) {
 }
 function getCookie(name) {
     let matches = document.cookie.match(new RegExp(
-    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
     ));
     return matches ? decodeURIComponent(matches[1]) : undefined;
 }
@@ -23,16 +23,19 @@ socket.on('message', (message) => {
 });
 
 socket.on('chats', (data) => {
-    //onsole.log(data);
-    //render(chatsData[partner], 'message', $('.messages'));
-    //render(profileData[partner], 'profile', $('.profile'));
+    //console.log(data);
+    initContent(data);
+});
+
+socket.on('history', async (data) => {
+    console.log(data);
+    //await render(data, 'message', $('.messages'));
 });
 
 // HTMLElements events
 
 document.addEventListener('DOMContentLoaded', async () => {
     await getChats();
-    //initContent();
 });
 
 $('.message-form').addEventListener('submit', (event) => {
@@ -43,8 +46,7 @@ $('.message-form').addEventListener('submit', (event) => {
 // functions
 
 async function getChats() {
-    const id = getCookie('user-id');
-    await socket.emit('getChats', id);
+    await socket.emit('getChats', +getCookie('user-id'));
 }
 
 async function render(data, template, parent) {
@@ -63,14 +65,14 @@ async function render(data, template, parent) {
     });
 }
 
-async function initContent() {
-    await render(groupsData, 'group', $('.groups'));
-    await render(pinnedContactsData, 'contact', $('.pinned'));
-    await render(directContactsData, 'contact', $('.direct'));
+async function initContent(data) {
+    //await render(data, 'group', $('.groups'));
+    await render(data, 'contact', $('.pinned'));
+    //await render(data, 'contact', $('.direct'));
 
     document.querySelectorAll('.contact').forEach(item => {
-        item.addEventListener('click', () => {
-            await socket.emit('joinChats', id);
+        item.addEventListener('click', async () => {
+            await socket.emit('joinChats', +getCookie('user-id'));
         })
     });
 }
@@ -79,7 +81,7 @@ function sendMessage(event) {
     event.preventDefault();
 
     const message = event.target.elements.msg.value;
-    socket.emit('chatMessage', message);
+    socket.emit('chatMessage', message, +getCookie('user-id'), 1);
 
     event.target.elements.msg.value = "";
     event.target.elements.msg.focus();
