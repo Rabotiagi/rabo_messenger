@@ -23,13 +23,13 @@ socket.on('message', (message) => {
 });
 
 socket.on('chats', (data) => {
-    //console.log(data);
+    //onsole.log(data);
     initContent(data);
 });
 
 socket.on('history', async (data) => {
     console.log(data);
-    //await render(data, 'message', $('.messages'));
+    await render(data, 'message', $('.messages'));
 });
 
 // HTMLElements events
@@ -72,7 +72,7 @@ async function initContent(data) {
 
     document.querySelectorAll('.contact').forEach(item => {
         item.addEventListener('click', async () => {
-            await socket.emit('joinChats', +getCookie('user-id'));
+            await socket.emit('joinChats', 1, +getCookie('user-id'));
         })
     });
 }
