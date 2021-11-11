@@ -7,7 +7,9 @@ const Users = require('../../database/models/users.js');
 
 
 const chatMessage = (io) => async (message, id, chat) => {
-    io.emit('message', wrapper('user', message));
+    const {firstName} = await Users.findOne({where: {id}});
+
+    io.emit('message', wrapper(firstName, message));
 
     const messageToPost = {
         fromConv: chat,

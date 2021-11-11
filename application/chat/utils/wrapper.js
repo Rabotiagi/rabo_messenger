@@ -2,7 +2,7 @@ const moment = require('moment');
 
 const wrapper = (user, msg) => {
     return {
-        username: user,
+        firstName: user,
         message: msg,
         time: moment().format('h:mm a')
     };
