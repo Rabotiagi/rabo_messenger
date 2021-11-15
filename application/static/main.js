@@ -2,10 +2,6 @@
 
 const socket = io();
 
-const { username, room } = Qs.parse(location.search, {
-    ignoreQueryPrefix: true,
-});
-
 const elements = fetch('/static/elements.json').then(res => res.json());
 
 async function render(data, template, parent) {
@@ -18,9 +14,6 @@ async function render(data, template, parent) {
 }
 
 function $(element) {
-    if (document.querySelectorAll(element).length > 1) {
-        return document.querySelectorAll(element);
-    }
     return document.querySelector(element);
 }
 
@@ -30,21 +23,22 @@ function getCookie(name) {
     ));
     return matches ? parseInt(decodeURIComponent(matches[1])) : undefined;
 }
+
 function transformDate(date) {
     const time = new Date(date);
     return `${time.getHours()}:${time.getMinutes()}`;
 }
 
 
-// socket events
+// // socket events
 
 socket.on('chats', async (data) => {
     data.forEach(item => {
         item.createdAt = transformDate(data[0].createdAt);
     });
-    await render(data, 'contact', $('.pinned'));
+    await render(data, 'contact', $('.direct'));
 
-    $('.contact').forEach(item => {
+    document.querySelectorAll('.contact').forEach(item => {
         item.addEventListener('click', async () => {
             if ($('.active')) {
                 $('.active').classList.remove('active');
@@ -59,7 +53,7 @@ socket.on('history', async (data) => {
     data.forEach(item => {
         item.time = transformDate(item.time);
         if($('.active').getAttribute('name') != item.firstName) {
-            item.author = 'outgoing';
+            item.direction = 'outgoing';
         }
     });
     $('.messages').innerHTML = '';
@@ -69,7 +63,7 @@ socket.on('history', async (data) => {
 });
 
 socket.on('message', async (data) => {
-    data.author = 'outgoing';
+    data.direction = 'outgoing';
     await render([data], 'message', $('.messages'));
     $('.chat').scrollTop = $('.chat').scrollHeight;
 });
@@ -78,15 +72,26 @@ socket.on('message', async (data) => {
 // HTMLElements events
 
 document.addEventListener('DOMContentLoaded', async () => {
+    await elements.then((res) => {
+        document.getElementsByTagName('style')[0].innerHTML += res.styles;
+    })
+
     await socket.emit('getChats', getCookie('user-id'));
 });
 
 $('.message-form').addEventListener('submit', (event) => {
     event.preventDefault();
 
-    const message = event.target.elements.msg.value;
+    const message = event.target.elements.message.value;
     socket.emit('chatMessage', message, getCookie('user-id'), $('.active').id);
 
-    event.target.elements.msg.value = "";
-    event.target.elements.msg.focus();
+    event.target.elements.message.value = "";
+    event.target.elements.message.focus();
+});
+
+$('.search-form').addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const name = event.target.elements.name.value;
+    console.log(name);
 });
