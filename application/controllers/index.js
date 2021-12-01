@@ -1,7 +1,7 @@
-const path = require('path');
+require('dotenv').config();
 
 const getIndex = (req, reply) => {
-    reply.redirect('http://localhost:3001');
+    reply.redirect(process.env.CHAT_URL);
 };
 
 module.exports = getIndex;

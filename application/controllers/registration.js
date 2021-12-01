@@ -1,5 +1,4 @@
-const path = require('path');
-const Users = require('../database/models/users.js');
+const UsersRepo = require('../database/repository/usersRepo.js');
 
 const getReg = (req, reply) => {
     reply.sendFile('/views/register.html');
@@ -15,13 +14,13 @@ const postReg = async (req, reply) => {
         data[prop[0]] = prop[1];
     });
     
-    const prevUser = await Users.findOne({where: {email: data.email}});
+    const prevUser = await UsersRepo.getUser({email: data.email});
     if(prevUser){
         reply.redirect('/registration');
         return;
     }
 
-    await Users.create(data);
+    await UsersRepo.createUser(data);
     reply.redirect('/login');
 };
 

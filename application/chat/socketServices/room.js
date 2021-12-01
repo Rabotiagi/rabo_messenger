@@ -1,15 +1,22 @@
 const wrapper = require('../utils/wrapper.js');
-const Conversations = require('../../database/models/conversations.js');
-const Messages = require('../../database/models/messages.js');
-const {or} = require('sequelize').Op;
 const renderChats = require('../utils/chats.js');
-const Users = require('../../database/models/users.js');
+const UsersRepo = require('./../../database/repository/usersRepo.js');
+const ChatRepo = require('./../../database/repository/chatRepo.js');
+const MessagesRepo = require('./../../database/repository/msgRepo.js');
 
+const createChat = (socket) => async (firstUser, secondUser) => {
+    try{
+        await ChatRepo.createChat({firstUser, secondUser});
+        return true;
+    } catch(e){
+        return false;
+    }
+};
 
 const chatMessage = (io) => async (message, id, chat) => {
-    const {firstName} = await Users.findOne({where: {id}});
+    const {firstName} = await UsersRepo.getUser({id});
 
-    io.emit('message', wrapper(firstName, message));
+    io.to(chat).emit('message', wrapper(firstName, message));
 
     const messageToPost = {
         fromConv: chat,
@@ -17,20 +24,11 @@ const chatMessage = (io) => async (message, id, chat) => {
         sender: id
     };
 
-    await Messages.create(messageToPost);
+    await MessagesRepo.createMessage(messageToPost);
 };
 
 const getChats = (socket) => async (id) => {
-    const res = await Conversations.findAll({
-        where:{
-            [or]: [
-                {firstUser: id},
-                {secondUser: id}
-            ]
-        },
-        include: [Messages]
-    });
-
+    const res = await ChatRepo.getChats(id);
     const convs = await renderChats(res, id);
     
     socket.emit('chats', convs);
@@ -40,12 +38,7 @@ const joinChat = (socket) => async (chat) => {
     socket.join(chat);
     const messages = [];
 
-    const res = await Messages.findAll({
-        include: [Users],
-        where: {
-            fromConv: chat
-        }
-    });
+    const res = await MessagesRepo.getMessages(chat);
 
     res.map(msg => {
         messages.push({
@@ -63,5 +56,6 @@ const joinChat = (socket) => async (chat) => {
 module.exports = {
     chatMessage,
     joinChat,
-    getChats
+    getChats,
+    createChat
 };

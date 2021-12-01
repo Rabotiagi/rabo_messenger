@@ -40,10 +40,8 @@ app.register(fastifyStatic, {
         foreignKey: 'sender',
         targetKey: 'id'
     });
-
     
     await seq.sync();
-
 
     await app.listen(process.env.PORT, (err) => {
         if(err){
