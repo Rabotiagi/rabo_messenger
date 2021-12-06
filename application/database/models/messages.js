@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
-const Conversations = require('./conversations.js');
+const Conversations = require('./chats.js');
 const Users = require('./users.js');
 
 const Messages = seq.define('messages', {
@@ -14,7 +14,7 @@ const Messages = seq.define('messages', {
         type: Sequelize.INTEGER,
         references: {
             model: Conversations,
-            key: 'conv_id'
+            key: 'chat_id'
         }
     },
     msg: {
@@ -29,7 +29,5 @@ const Messages = seq.define('messages', {
         }
     }
 });
-
-
 
 module.exports = Messages;

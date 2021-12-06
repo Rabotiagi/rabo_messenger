@@ -4,12 +4,11 @@ const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
 
-const createChat = (socket) => async (firstUser, secondUser) => {
+const createChat = async (users) => {
     try{
-        await ChatRepo.createChat({firstUser, secondUser});
-        return true;
+        await ChatRepo.createChat({users});
     } catch(e){
-        return false;
+        console.log(e);
     }
 };
 

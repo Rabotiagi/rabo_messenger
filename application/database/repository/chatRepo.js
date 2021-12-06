@@ -1,19 +1,41 @@
-const Chats = require('./../models/conversations.js');
+const Chats = require('../models/chats.js');
 const Messages = require('./../models/messages');
-const {or} = require('sequelize').Op;
+const Op = require('sequelize').Op;
 
 module.exports = {
     async createChat(data){
         await Chats.create(data);
     },
 
-    async getChats(user){
+    async addUser(user, chat_id){
+        let users = await Chats.findOne({
+            attributes: ['users'],
+            where:{chat_id}
+        });
+
+        users = users.dataValues.users;
+        users.push(user);
+        console.log(users);
+        await Chats.update({users}, {where: {chat_id}});
+    },
+
+    async removeUser(user, chat_id){
+        let users = await Chats.findOne({
+            attributes: ['users'],
+            where: {chat_id}
+        });
+
+        users = users.dataValues.users.filter(u => u !== user);
+
+        await Chats.update({users}, {where: {chat_id}});
+    },
+
+    async getChats(user_id){
         return await Chats.findAll({
             where: {
-                [or]: [
-                    {firstUser: user},
-                    {secondUser: user}
-                ]
+                users:{
+                    [Op.contains]: [user_id]
+                }
             },
             include: [Messages]
         });
