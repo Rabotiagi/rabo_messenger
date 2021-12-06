@@ -5,6 +5,10 @@ const {
     createChat
 } = require('../socketServices/room.js');
 
+const {
+    findUsers
+} = require('../socketServices/users.js');
+
 const socketRouter = (io, socket) => {
     socket.on('chatMessage', chatMessage(io));
 
@@ -13,6 +17,8 @@ const socketRouter = (io, socket) => {
     socket.on('joinChats', joinChat(socket));
 
     socket.on('createChat', createChat(socket));
+
+    socket.on('findUsers', findUsers(socket));
 };
 
 module.exports = socketRouter;
