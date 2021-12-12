@@ -30,6 +30,16 @@ module.exports = {
         await Chats.update({users}, {where: {chat_id}});
     },
 
+    async getConversation(users){
+        return await Chats.findOne({
+            where: {
+                users: {
+                    [Op.or]: [[...users],[...(users.reverse())]]
+                }
+            }
+        });
+    },
+
     async getChats(user_id){
         return await Chats.findAll({
             where: {

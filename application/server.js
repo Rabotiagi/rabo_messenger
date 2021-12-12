@@ -13,7 +13,8 @@ const chatServer = require('./chat/chatServer.js');
 const path = require('path');
 const seq = require('./database/connection.js');
 const Router = require('./routers/router.js');
-const repo = require('./database/repository/msgRepo.js');
+const UsersRepo = require('./database/repository/usersRepo.js');
+const ChatRepo = require('./database/repository/chatRepo.js');
 
 app.register(Router);
 
@@ -67,6 +68,18 @@ app.register(fastifyStatic, {
     //     msg: 'NY KAK YARIK, TEPER PONIATNO STALO??)))',
     //     sender: 1
     // });
+
+    const res = [];
+    const users = await UsersRepo.getAllUsers(1);
+
+    for(let i = 0; i < users.length; i++){
+        const user = users[i];
+        const chat = await ChatRepo.getConversation([1, 2])
+
+        res.push({name: user.firstName, chat: chat.chat_id });
+    }
+
+    console.log(res);
 
     await app.listen(process.env.PORT, (err) => {
         if(err){
