@@ -45,42 +45,6 @@ app.register(fastifyStatic, {
     
     await seq.sync();
 
-    // await Users.create({
-    //     email: '123',
-    //     password: '123',
-    //     firstName: '1',
-    //     lastName: '1'
-    // });
-
-    // await Users.create({
-    //     email: 'qwe',
-    //     password: 'qwe',
-    //     firstName: '2',
-    //     lastName: '2'
-    // });
-
-    // await Chats.create({
-    //     users: [1,2]
-    // });
-
-    // await Messages.create({
-    //     fromConv: 1,
-    //     msg: 'NY KAK YARIK, TEPER PONIATNO STALO??)))',
-    //     sender: 1
-    // });
-
-    const res = [];
-    const users = await UsersRepo.getAllUsers(1);
-
-    for(let i = 0; i < users.length; i++){
-        const user = users[i];
-        const chat = await ChatRepo.getConversation([1, 2])
-
-        res.push({name: user.firstName, chat: chat.chat_id });
-    }
-
-    console.log(res);
-
     await app.listen(process.env.PORT, (err) => {
         if(err){
             throw err;
