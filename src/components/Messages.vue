@@ -42,7 +42,11 @@ export default {
         });
 
         this.$store.state.socket.on('message', async (data) => {
-            data.direction = 'outgoing';
+            console.log($('.active').getAttribute('name'));
+            console.log(data.firstName);
+            if($('.active').getAttribute('name') != data.firstName) {
+                data.direction = 'outgoing';
+            }
             this.messages.push(data)
             $('.chat').scrollTop = $('.chat').scrollHeight;
         });

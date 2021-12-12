@@ -84,17 +84,17 @@ body {
     line-height: 19px;
     color: rgba(255, 255, 255, .25);
     text-transform: uppercase;
-    margin: 16px 8px;
+    margin: 16px 8px 24px;
 }
 .contacts .item {
     display: flex;
-    margin-bottom: 18px;
-    padding: 8px;
+    margin: 0 -24px 18px;
+    padding: 8px 24px;
     cursor: pointer;
-    border-radius: 10px;
 }
 .contacts .item.active {
-    border: 2px solid #3063bb63;
+    background: #5893F733;
+    border-left: 2px solid rgba(88, 147, 247, .6);
 }
 .contacts .item > div {
     z-index: -1;
@@ -208,4 +208,62 @@ body {
 }
 .files {
     min-width: 289px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.files .heading {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: rgba(255, 255, 255, .25);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+.files .item {
+    position: relative;
+    width: 241px;
+    background: #12151B;
+    border-radius: 10px;
+    padding: 10px 53px 6px 20px;
+    margin-bottom: 20px;
+}
+.files .item .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 16px;
+    display: inline-block;
+    width: 21px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='21' height='20' viewBox='0 0 21 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='21' height='20' rx='10' fill='%2317191E'/%3E%3Cpath d='M10.5 4V15M10.5 15L14.5 11.4444M10.5 15L6.5 11.4444' stroke='white' stroke-opacity='0.4' stroke-width='1.2'/%3E%3C/svg%3E%0A");
+}
+.files .item .name {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
+}
+.files .item .size {
+    display: inline-block;
+    font-weight: normal;
+    font-size: 11.11px;
+    line-height: 13px;
+    color: rgba(255, 255, 255, 0.5);
+}
+.files .item .size:after {
+    content: "";
+    display: inline-block;
+    width: 3px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    margin: 0 10px 2px;
+}
+.files .item .date {
+    display: inline-block;
+    font-weight: normal;
+    font-size: 11.11px;
+    line-height: 13px;
+    color: rgba(255, 255, 255, 0.5);
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="contacts">
-        <form class="search-form">
+        <form class="search-form" v-on:submit="search">
             <input id="name" type="text" placeholder="Search...">
             <button type="submit" class="submit-search"></button>
         </form>
@@ -34,8 +34,20 @@ export default {
             data.forEach(item => {
                 item.createdAt = transformDate(item.createdAt);
             });
+            console.log(data);
+        });
+
+        this.$store.state.socket.on('show users', async (data) => {
             this.contacts = data;
         });
+    },
+    methods: {
+        search: function (event) {
+            event.preventDefault();
+
+            const name = event.target.elements.name.value;
+            this.$store.state.socket.emit('findUsers', name);
+        }
     }
 }
 </script>

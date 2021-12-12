@@ -13,7 +13,9 @@ module.exports = {
     async getAllUsers(name){
         return await Users.findAll({
             where: {
-                [Op.like]: `%${name}%`
+                firstName: {
+                    [Op.like]: `%${name}%`
+                }
             }
         });
     }
