@@ -42,7 +42,31 @@ app.register(fastifyStatic, {
         targetKey: 'id'
     });
     
-    await seq.sync({froce: true});
+    await seq.sync();
+
+    // await Users.create({
+    //     email: '123',
+    //     password: '123',
+    //     firstName: '1',
+    //     lastName: '1'
+    // });
+
+    // await Users.create({
+    //     email: 'qwe',
+    //     password: 'qwe',
+    //     firstName: '2',
+    //     lastName: '2'
+    // });
+
+    // await Chats.create({
+    //     users: [1,2]
+    // });
+
+    // await Messages.create({
+    //     fromConv: 1,
+    //     msg: 'NY KAK YARIK, TEPER PONIATNO STALO??)))',
+    //     sender: 1
+    // });
 
     await app.listen(process.env.PORT, (err) => {
         if(err){

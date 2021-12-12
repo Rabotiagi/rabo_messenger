@@ -7,13 +7,13 @@ const path = require('path');
 const socketRouter = require('./socketRouters/socketRouter');
 
 app.register(fastifyStatic, {
-    root: path.resolve(__dirname, '../../application')
+    root: path.resolve(__dirname, '../../dist')
 });
 
 app.register(fastifySocketIO);
 
 app.get('/', (req, reply) => {
-    return reply.sendFile('/views/index.html');
+    return reply.sendFile('/index.html');
 });
 
 app.ready().then(() => {
