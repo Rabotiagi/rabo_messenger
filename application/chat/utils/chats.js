@@ -18,8 +18,8 @@ const renderChats = async (dialogs, id) => {
 
         const { msg, createdAt, fromConv} = getLastMsg(dialog.messages);
 
-        const partner = dialog.firstUser === id ? 
-            dialog.secondUser : dialog.firstUser;
+        const partner = dialog.users[0] === id ? 
+            dialog.users[1] : dialog.users[0];
 
         const {firstName} = await UsersRepo.getUser(partner);
 

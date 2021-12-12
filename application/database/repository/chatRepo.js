@@ -34,7 +34,7 @@ module.exports = {
         return await Chats.findOne({
             where: {
                 users: {
-                    [Op.or]: [[...users],[...(users.reverse())]]
+                    [Op.or]: [users, users.reverse()]
                 }
             }
         });
