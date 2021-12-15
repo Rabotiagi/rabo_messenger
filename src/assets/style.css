@@ -86,6 +86,19 @@ body {
     text-transform: uppercase;
     margin: 16px 8px 24px;
 }
+.contacts .heading.srch {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+}
+.contacts .heading.srch .srch-close {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .25);
+    cursor: pointer;
+}
 .contacts .item {
     display: flex;
     margin: 0 -24px 18px;
@@ -136,6 +149,7 @@ body {
     justify-content: space-between;
 }
 .chat .item {
+    position:relative;
     display: flex;
     align-items: flex-end;
     height: fit-content;
@@ -154,7 +168,6 @@ body {
     padding: 8px;
     margin: 0 18px;
     background: #29292e;
-    box-shadow: 1px 1px 4px #484851;
     border-radius: 10px;
     font-size: 14px;
     color: rgba(255, 255, 255, .7);
@@ -177,7 +190,6 @@ body {
 }
 .chat .item.outgoing .message {
     background: #1f2735;
-    box-shadow: 1px 1px 5px #384761;
 }
 .chat .message-form {
     position: relative;

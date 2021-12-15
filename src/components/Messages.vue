@@ -31,14 +31,22 @@ export default {
     },
     created() {
         this.$store.state.socket.on('history', async (data) => {
-            data.forEach(item => {
+            data.forEach((item, i) => {
+                if (data[i+1]) {
+                    const date1 = new Date(item.time);
+                    const date2 = new Date(data[i+1].time)
+                    if(date1.getDay() !== date2.getDay()) {
+                        item.date = item.time;
+                    }
+                }
+
                 item.time = transformDate(item.time);
                 if($('.active').getAttribute('name') != item.firstName) {
                     item.direction = 'outgoing';
                 }
-            });
+            })
+
             this.messages = data;
-            $('.chat').scrollTop = $('.chat').scrollHeight;
         });
 
         this.$store.state.socket.on('message', async (data) => {
@@ -48,8 +56,10 @@ export default {
                 data.direction = 'outgoing';
             }
             this.messages.push(data)
-            $('.chat').scrollTop = $('.chat').scrollHeight;
         });
+    },
+    updated() {
+        $('.chat').scrollTop = $('.chat').scrollHeight;
     },
     methods: {
         send: function (event) {
