@@ -1,20 +1,12 @@
 const config = require('dotenv').config();
 
-if(config.error){
-    throw config.error;
-}
-
-const Users = require('./database/models/users.js');
-const Chats = require('./database/models/chats.js');
-const Messages = require('./database/models/messages.js');
 const app = require('fastify')({logger: true});
 const fastifyStatic = require('fastify-static');
 const chatServer = require('./chat/chatServer.js');
 const path = require('path');
 const seq = require('./database/connection.js');
 const Router = require('./routers/router.js');
-const UsersRepo = require('./database/repository/usersRepo.js');
-const ChatRepo = require('./database/repository/chatRepo.js');
+const associate = require('./database/associate.js');
 
 app.register(Router);
 
@@ -23,26 +15,7 @@ app.register(fastifyStatic, {
 });
 
 (async () => {
-    Chats.hasMany(Messages, {
-        foreignKey: 'fromConv',
-        sourceKey: 'chat_id'
-    });
-    
-    Messages.belongsTo(Chats, {
-        foreignKey: 'fromConv',
-        targetKey: 'chat_id'
-    });
-    
-    Users.hasMany(Messages, {
-        foreignKey: 'sender',
-        sourceKey: 'id'
-    });
-
-    Messages.belongsTo(Users, {
-        foreignKey: 'sender',
-        targetKey: 'id'
-    });
-    
+    associate();
     await seq.sync();
 
     await app.listen(process.env.PORT, (err) => {

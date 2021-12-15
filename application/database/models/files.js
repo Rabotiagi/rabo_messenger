@@ -1,17 +1,21 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
 
-const Chats = seq.define('chats', {
-    chat_id: {
+const Files = seq.define('files', {
+    id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    users: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
+    fromMsg: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+    path: {
+        type: Sequelize.STRING,
         allowNull: false
     }
 });
 
-module.exports = Chats;
+module.exports = Files;

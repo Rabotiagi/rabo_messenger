@@ -12,10 +12,11 @@ const Messages = seq.define('messages', {
     },
     fromConv: {
         type: Sequelize.INTEGER,
-        references: {
-            model: Conversations,
-            key: 'chat_id'
-        }
+        allowNull: false
+        // references: {
+        //     model: Conversations,
+        //     key: 'chat_id'
+        // }
     },
     msg: {
         type: Sequelize.STRING,
@@ -23,10 +24,11 @@ const Messages = seq.define('messages', {
     },
     sender: {
         type: Sequelize.INTEGER,
-        references:{
-            model: Users,
-            key: 'id'
-        }
+        allowNull: false
+        // references:{
+        //     model: Users,
+        //     key: 'id'
+        // }
     }
 });
 

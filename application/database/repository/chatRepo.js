@@ -15,7 +15,6 @@ module.exports = {
 
         users = users.dataValues.users;
         users.push(user);
-        console.log(users);
         await Chats.update({users}, {where: {chat_id}});
     },
 
