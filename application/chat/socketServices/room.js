@@ -3,10 +3,13 @@ const renderChats = require('../utils/chats.js');
 const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
+const chatRepo = require('./../../database/repository/chatRepo.js');
 
 const createChat = async (users) => {
     try{
         await ChatRepo.createChat({users});
+        const chat = await chatRepo.getConversation(users);
+        return chat.chat_id;
     } catch(e){
         console.log(e);
     }

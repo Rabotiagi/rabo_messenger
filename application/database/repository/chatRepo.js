@@ -30,11 +30,18 @@ module.exports = {
     },
 
     async getConversation(users){
+        const original = users.filter(e => true);
+
         return await Chats.findOne({
             where: {
-                users: {
-                    [Op.or]: [users, users.reverse()]
-                }
+                [Op.or]: [
+                    {
+                        users: original
+                    },
+                    {
+                        users: users.reverse()
+                    }
+                ]
             }
         });
     },

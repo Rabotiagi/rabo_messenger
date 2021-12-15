@@ -9,7 +9,6 @@ const Router = require('./routers/router.js');
 const associate = require('./database/associate.js');
 
 app.register(Router);
-
 app.register(fastifyStatic, {
     root: path.resolve(__dirname, '../application')
 });
