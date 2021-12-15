@@ -34,7 +34,7 @@ export default {
             data.forEach(item => {
                 item.createdAt = transformDate(item.createdAt);
             });
-            console.log(data);
+            this.contacts = data;
         });
 
         this.$store.state.socket.on('show users', async (data) => {
@@ -46,7 +46,7 @@ export default {
             event.preventDefault();
 
             const name = event.target.elements.name.value;
-            this.$store.state.socket.emit('findUsers', name);
+            this.$store.state.socket.emit('findUsers', name, getCookie('user-id'));
         }
     }
 }

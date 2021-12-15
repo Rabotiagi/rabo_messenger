@@ -7,9 +7,11 @@ const findUsers = (socket) => async (name, id) => {
 
     for(let i = 0; i < users.length; i++){
         const user = users[i];
-        const chat = await chatRepo.getConversation([user.id, id])
+        const chat = await chatRepo.getConversation([user.id, id]);
 
-        res.push({firstName: user.firstName, fromConv: chat.chat_id });
+        const fromConv = chat ? chat : null;
+
+        res.push({firstName: user.firstName, fromConv });
     }
 
     socket.emit('show users', res);

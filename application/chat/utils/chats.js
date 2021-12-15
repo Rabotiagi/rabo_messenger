@@ -16,6 +16,8 @@ const renderChats = async (dialogs, id) => {
     for(let i = 0; i < dialogs.length; i++){
         const dialog = dialogs[i];
 
+        if(!dialog) continue;
+
         const { msg, createdAt, fromConv} = getLastMsg(dialog.messages);
 
         const partner = dialog.users[0] === id ? 
