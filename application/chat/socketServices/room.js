@@ -36,15 +36,17 @@ const joinChat = (socket) => async (chat) => {
     socket.join(chat);
     const messages = [];
 
-    const res = await MessagesRepo.getMessages(chat);
+    if(chat){
+        const res = await MessagesRepo.getMessages(chat);
 
-    res.map(msg => {
-        messages.push({
-            message: msg.msg, 
-            time: msg.createdAt,
-            firstName: msg.user.firstName
+        res.map(msg => {
+            messages.push({
+                message: msg.msg, 
+                time: msg.createdAt,
+                firstName: msg.user.firstName
+            });
         });
-    });
+    }
 
     console.log(messages);
 

@@ -1,4 +1,4 @@
-const config = require('dotenv').config();
+require('dotenv').config();
 
 const app = require('fastify')({logger: true});
 const fastifyStatic = require('fastify-static');
