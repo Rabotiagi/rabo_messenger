@@ -15,7 +15,6 @@ const createChat = (socket) => async (users) => {
 };
 
 const chatMessage = (io) => async (message, id, chat) => {
-
     const {firstName} = await UsersRepo.getUser({id});
 
     const messageToPost = {
@@ -26,6 +25,7 @@ const chatMessage = (io) => async (message, id, chat) => {
 
     await MessagesRepo.createMessage(messageToPost);
     io.to(+chat).emit('message', wrapper(firstName, message));
+    io.to(+chat).emit('refreshChats');
 };
 
 const getChats = (socket) => async (id) => {
