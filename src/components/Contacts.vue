@@ -46,6 +46,7 @@ export default {
         });
 
         this.$store.state.socket.on('show users', async (data) => {
+            console.log(data);
             this.search_res = data;
         });
     },

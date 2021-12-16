@@ -15,7 +15,7 @@ app.register(fastifyStatic, {
 
 (async () => {
     associate();
-    await seq.sync();
+    await seq.sync({force: true});
 
     await app.listen(process.env.PORT, (err) => {
         if(err){

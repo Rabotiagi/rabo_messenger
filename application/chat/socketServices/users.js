@@ -8,8 +8,9 @@ const findUsers = (socket) => async (name, currentId) => {
     for(let i = 0; i < users.length; i++){
         const {id, firstName} = users[i];
         const chat = await chatRepo.getConversation([id, currentId]);
+        console.log(chat);
 
-        const fromConv = chat ? chat : null;
+        const fromConv = chat ? chat.chat_id : null;
 
         res.push({firstName, fromConv, id });
     }

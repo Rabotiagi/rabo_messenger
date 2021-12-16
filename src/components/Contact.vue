@@ -1,5 +1,5 @@
 <template>
-    <div class='item contact' v-bind:id="contact.fromConv" v-bind:name="contact.firstName" v-on:click="enter">
+    <div class='item contact' v-bind:id="contact.fromConv" v-bind:usr_id="contact.id" v-bind:name="contact.firstName" v-on:click="enter">
         <div class='image'></div>
         <div class='name-message'>
             <div class='name' v-bind:id="contact.firstName">{{contact.firstName}}</div>
