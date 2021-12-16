@@ -75,6 +75,7 @@ export default {
                 console.log('before message', data);
                 await this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), data);
                 await this.$store.state.socket.emit('joinChats', data, getCookie('user-id'));
+                await this.$store.state.socket.emit('getChats', getCookie('user-id'));
                 $('.active').id = data;
             });
 

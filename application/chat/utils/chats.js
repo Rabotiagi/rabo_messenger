@@ -10,7 +10,7 @@ const getLastMsg = (messages) => {
     return max;
 };
 
-const renderChats = async (dialogs, id) => {
+const renderChats = async (dialogs, user_id) => {
     const convs = [];
 
     for(let i = 0; i < dialogs.length; i++){
@@ -20,7 +20,7 @@ const renderChats = async (dialogs, id) => {
 
         const { msg, createdAt, fromConv} = getLastMsg(dialog.messages);
 
-        const partner = dialog.users[0] === id ? 
+        const partner = dialog.users[0] === user_id ? 
             dialog.users[1] : dialog.users[0];
 
         const {firstName, id} = await UsersRepo.getUser(partner);
