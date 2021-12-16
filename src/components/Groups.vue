@@ -47,7 +47,8 @@
 
 <script>
 import Group from '@/components/Group';
-import $ from '@/plugins/selector.js'
+import $ from '@/plugins/selector.js';
+import getCookie from '@/plugins/getCookie.js';
 
 export default {
     data() {
@@ -59,7 +60,7 @@ export default {
         Group
     },
     methods: {
-        toggle: function (event) {
+        toggle: function () {
             $('.create-group').classList.toggle('inviz');
         },
         search: function (event) {

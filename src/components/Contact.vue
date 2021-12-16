@@ -26,7 +26,10 @@ export default {
                 $('.active').classList.remove('active');
             }
             event.target.classList.add('active');
-            this.$store.state.socket.emit('joinChats', event.target.id, getCookie('user-id'));
+
+            if(event.target.id){
+                this.$store.state.socket.emit('joinChats', event.target.id, getCookie('user-id'));
+            }
         }
     }
 }

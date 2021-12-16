@@ -57,7 +57,7 @@ export default {
                 data.direction = 'outgoing';
             }
             this.messages.push(data)
-            console.log(this.messages);
+            console.log('ONO!!');
         });
 
 
@@ -72,12 +72,15 @@ export default {
             const message = event.target.elements.message.value;
 
             this.$store.state.socket.on('newChat', async (data) => {
+                console.log('before message', data);
                 await this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), data);
                 await this.$store.state.socket.emit('joinChats', data, getCookie('user-id'));
+                $('.active').id = data;
             });
 
             if (this.messages.length == 0) {
-                this.$store.state.socket.emit('createChat', [getCookie('user-id'), $('.active').getAttribute('usr_id')]);
+                console.log('before create', [getCookie('user-id'), $('.active').getAttribute('usr_id')]);
+                this.$store.state.socket.emit('createChat', [getCookie('user-id'), +$('.active').getAttribute('usr_id')]);
                 console.log(3);
             } else {
                 this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), $('.active').id);
