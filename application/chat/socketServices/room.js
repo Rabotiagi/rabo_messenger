@@ -3,12 +3,11 @@ const renderChats = require('../utils/chats.js');
 const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
-const chatRepo = require('./../../database/repository/chatRepo.js');
 
-const createChat = (socket) => async (users) => {
+const createChat = (socket) => async (users) => {    
     try{
         await ChatRepo.createChat({users});
-        const chat = await chatRepo.getConversation(users);
+        const chat = await ChatRepo.getConversation(users);
         socket.emit('newChat', chat.chat_id);
     } catch(e){
         console.log(e);
@@ -16,17 +15,17 @@ const createChat = (socket) => async (users) => {
 };
 
 const chatMessage = (io) => async (message, id, chat) => {
+
     const {firstName} = await UsersRepo.getUser({id});
 
-    io.to(chat).emit('message', wrapper(firstName, message));
-
     const messageToPost = {
-        fromConv: chat,
+        fromConv: +chat,
         msg: message,
         sender: id
     };
 
     await MessagesRepo.createMessage(messageToPost);
+    io.to(+chat).emit('message', wrapper(firstName, message));
 };
 
 const getChats = (socket) => async (id) => {
@@ -36,7 +35,7 @@ const getChats = (socket) => async (id) => {
 };
 
 const joinChat = (socket) => async (chat) => {
-    socket.join(chat);
+    socket.join(+chat);
     const messages = [];
 
     if(chat){
