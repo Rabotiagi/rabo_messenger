@@ -7,6 +7,7 @@ const path = require('path');
 const seq = require('./database/connection.js');
 const Router = require('./routers/router.js');
 const associate = require('./database/associate.js');
+const autoInsert = require('./database/autoInsert.js');
 
 app.register(Router);
 app.register(fastifyStatic, {
@@ -16,6 +17,7 @@ app.register(fastifyStatic, {
 (async () => {
     associate();
     await seq.sync({force: true});
+    await autoInsert();
 
     await app.listen(process.env.PORT, (err) => {
         if(err){

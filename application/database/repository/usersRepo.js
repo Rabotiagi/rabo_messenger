@@ -10,11 +10,14 @@ module.exports = {
         return await Users.findOne({where: data});
     },
 
-    async getAllUsers(name){
+    async getAllUsers(name, id){
         return await Users.findAll({
             where: {
                 firstName: {
                     [Op.like]: `%${name}%`
+                },
+                id: {
+                    [Op.ne]: id
                 }
             }
         });
