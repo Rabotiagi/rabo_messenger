@@ -1,8 +1,5 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
-const Conversations = require('./chats.js');
-const Users = require('./users.js');
-
 const Messages = seq.define('messages', {
     msg_id: {
         type: Sequelize.INTEGER,
@@ -13,10 +10,6 @@ const Messages = seq.define('messages', {
     fromConv: {
         type: Sequelize.INTEGER,
         allowNull: false
-        // references: {
-        //     model: Conversations,
-        //     key: 'chat_id'
-        // }
     },
     msg: {
         type: Sequelize.STRING,
@@ -25,10 +18,6 @@ const Messages = seq.define('messages', {
     sender: {
         type: Sequelize.INTEGER,
         allowNull: false
-        // references:{
-        //     model: Users,
-        //     key: 'id'
-        // }
     }
 });
 

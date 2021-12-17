@@ -55,5 +55,12 @@ module.exports = {
             },
             include: [Messages]
         });
+    },
+
+    async getChatName(chat_id){
+        return await Chats.findOne({
+            attributes: ['chatName'],
+            where: {chat_id}
+        });
     }
 };

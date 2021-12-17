@@ -1,4 +1,5 @@
 const UsersRepo = require('./repository/usersRepo.js');
+const ChatsRepo = require('./repository/chatRepo.js');
 
 const insert = async () => {
     await UsersRepo.createUser({

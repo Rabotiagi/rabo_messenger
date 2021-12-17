@@ -30,7 +30,8 @@ const chatMessage = (io) => async (message, id, chat) => {
 
 const getChats = (socket) => async (id) => {
     const res = await ChatRepo.getChats(+id);
-    const convs = await renderChats(res, id);
+    const convs = await renderChats(res, +id);
+    console.log(convs);
     socket.emit('chats', convs);
 };
 

@@ -11,6 +11,9 @@ const Chats = seq.define('chats', {
     users: {
         type: Sequelize.ARRAY(Sequelize.INTEGER),
         allowNull: false
+    },
+    chatName: {
+        type: Sequelize.STRING
     }
 });
 
