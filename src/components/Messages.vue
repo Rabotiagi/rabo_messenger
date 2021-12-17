@@ -31,7 +31,6 @@ export default {
     },
     created() {
         this.$store.state.socket.on('history', async (data) => {
-            console.log(data);
             data.forEach((item, i) => {
                 if (data[i+1]) {
                     const date1 = new Date(item.time);
@@ -48,16 +47,13 @@ export default {
             })
 
             this.messages = data;
-            console.log(data);
         });
 
         this.$store.state.socket.on('message', async (data) => {
-            console.log(data);
             if($('.active').getAttribute('name') != data.firstName) {
                 data.direction = 'outgoing';
             }
             this.messages.push(data)
-            console.log('ONO!!');
         });
 
 
@@ -72,7 +68,6 @@ export default {
             const message = event.target.elements.message.value;
 
             this.$store.state.socket.on('newChat', async (data) => {
-                console.log('before message', data);
                 await this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), data);
                 await this.$store.state.socket.emit('joinChats', data, getCookie('user-id'));
                 await this.$store.state.socket.emit('getChats', getCookie('user-id'));
@@ -80,9 +75,7 @@ export default {
             });
 
             if (this.messages.length == 0) {
-                console.log('before create', [getCookie('user-id'), $('.active').getAttribute('usr_id')]);
                 this.$store.state.socket.emit('createChat', [getCookie('user-id'), +$('.active').getAttribute('usr_id')]);
-                console.log(3);
             } else {
                 this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), $('.active').id);
             }

@@ -1,5 +1,5 @@
 <template>
-    <div class="usr" v-on:click="choose">
+    <div class="usr" v-bind:usr_id="user.id" v-on:click="choose">
         <div class="imgg"></div>
         <div class="name">{{user.firstName}}</div>
     </div>
@@ -15,7 +15,6 @@ export default {
     },
     methods: {
         choose: function (event) {
-            console.log(event.target);
             event.target.classList.toggle('chosen');
         }
     }

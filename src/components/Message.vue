@@ -24,7 +24,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .line {display:block;margin-bottom:32px;width:100%;height:1px;background: rgba(255, 255, 255, .1);border-radius:10px;font-weight: 400;font-size: 12px;color:rgba(255, 255, 255, .25);}
-</style>

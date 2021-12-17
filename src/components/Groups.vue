@@ -10,7 +10,7 @@
 
         <div class="create-group inviz">
             <div class="item add" v-on:click="toggle"><span class="icon"></span></div>
-            <div class="item add sub" v-on:click="toggle">Submit</div>
+            <div class="item add sub" v-on:click="create">Submit</div>
             <form class="search-form" autocomplete="off" v-on:submit="search">
                 <input id="name" type="text" placeholder="Search...">
                 <button type="submit" class="submit-search"></button>
@@ -52,7 +52,6 @@ export default {
 
             this.$store.state.socket.on('chats', async (data) => {
                 this.users = data;
-                console.log(data);
             });
         },
         search: function (event) {
@@ -62,10 +61,13 @@ export default {
             const name = event.target.elements.name.value;
             this.$store.state.socket.emit('findUsers', name, getCookie('user-id'));
         },
+        create: function () {
+            const ids = [getCookie('user-id')]
+            document.querySelectorAll('.chosen').forEach(item => {
+                ids.push(+item.getAttribute('usr_id'));
+            })
+            this.$store.state.socket.emit('createChat', ids);
+        }
     }
 }
 </script>
-
-<style scoped>
-
-</style>
