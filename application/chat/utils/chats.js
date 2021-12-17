@@ -20,14 +20,14 @@ const renderChats = async (dialogs, user_id) => {
         let msgs = dialog.messages.length ? dialog.messages : 
             await getMessages(dialog.chat_id);
 
-        const { msg, createdAt, fromConv} = getLastMsg(msgs);
+        const { msg, createdAt} = getLastMsg(msgs);
 
         const partner = dialog.users[0] === user_id ? 
             dialog.users[1] : dialog.users[0];
 
         const {firstName, id} = await UsersRepo.getUser(partner);
 
-        convs.push({id, firstName, fromConv, msg, createdAt});
+        convs.push({id, firstName, fromConv: dialog.chat_id, msg, createdAt});
     }
 
     return convs;
