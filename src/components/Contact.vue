@@ -1,8 +1,8 @@
 <template>
-    <div class='item contact' v-bind:id="contact.fromConv" v-bind:usr_id="contact.id" v-bind:name="contact.firstName" v-on:click="enter">
+    <div class='item contact' v-on:click="enter($event, contact)">
         <div class='image'></div>
         <div class='name-message'>
-            <div class='name' v-bind:id="contact.firstName">{{contact.firstName}}</div>
+            <div class='name'>{{contact.firstName}}</div>
             <div class='message'>{{contact.msg}}</div>
         </div>
         <div class='date'>{{contact.createdAt}}</div>
@@ -10,10 +10,12 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex';
 import $ from '@/plugins/selector.js';
 import getCookie from '@/plugins/getCookie.js';
 
 export default {
+    computed: mapGetters(['getChat']),
     props: {
         contact: {
             type: Object,
@@ -21,14 +23,19 @@ export default {
         }
     },
     methods: {
-        enter: function (event) {
+        ...mapMutations(['setChat', 'updateMessages']),
+        enter: function (event, item) {
             if ($('.active')) {
                 $('.active').classList.remove('active');
             }
             event.target.classList.add('active');
 
-            if(event.target.id){
-                this.$store.state.socket.emit('joinChats', event.target.id, getCookie('user-id'));
+            if (item.fromConv != null) {
+                this.setChat(item.fromConv);
+                this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
+            } else {
+                this.setChat(item.id);
+                this.updateMessages([]);
             }
         }
     }

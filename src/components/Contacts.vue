@@ -4,52 +4,38 @@
             <input id="name" type="text" placeholder="Search...">
             <button type="submit" class="submit-search"></button>
         </form>
-        <div class="heading srch">search results <span class="srch-close" v-on:click="hide"></span></div>
+        <div class="heading srch">
+            search results
+            <span class="srch-close" v-on:click="hide"></span>
+        </div>
         <Contact
-            v-for="(contact, index) of search_res"
-            :key="index+100"
+            v-for="contact of searchResults"
+            :key="contact.fromConv"
             v-bind:contact="contact"
         />
         <div class="heading">direct messages</div>
         <Contact
-            v-for="(contact, index) of contacts"
-            :key="index"
+            v-for="contact of allContacts"
+            :key="contact.fromConv + 100"
             v-bind:contact="contact"
+            :ref="contact.id"
         />
     </div> 
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 import Contact from '@/components/Contact';
 import $ from '@/plugins/selector.js';
 import getCookie from '@/plugins/getCookie.js';
-import transformDate from '@/plugins/transformDate.js';
 
 export default {
-    data() {
-        return {
-            search_res: [],
-            contacts: []
-        }
-    },
+    computed: mapGetters(['allContacts', 'searchResults']),
     components: {
         Contact
     },
-    created() {
-        this.$store.state.socket.emit('getChats', getCookie('user-id'));
-
-        this.$store.state.socket.on('chats', async (data) => {
-            data.forEach(item => {
-                item.createdAt = transformDate(item.createdAt);
-            });
-            this.contacts = data;
-        });
-
-        this.$store.state.socket.on('show users', async (data) => {
-            this.search_res = data;
-        });
-    },
     methods: {
+        ...mapMutations(['updateContacts', 'updateSearch']),
         search: function (event) {
             event.preventDefault();
 
@@ -59,8 +45,24 @@ export default {
         },
         hide: function (event) {
             event.target.closest("div").style.display = 'none';
-            this.search_res = [];
+            this.updateSearch([]);
         }
+    },
+    created() {
+        this.$store.state.socket.emit('getChats', getCookie('user-id'));
+
+        this.$store.state.socket.on('chats', async (data) => {
+            this.updateContacts(data);
+        });
+
+        this.$store.state.socket.on('show users', async (data) => {
+            this.updateSearch(data);
+        });
+
+        this.$store.state.socket.on('refreshChats', async () => {
+            this.$store.state.socket.emit('getChats', getCookie('user-id'));
+        });
     }
+
 }
 </script>

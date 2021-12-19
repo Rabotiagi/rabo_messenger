@@ -2,12 +2,12 @@
     <div class="chat">
         <div class="messages">
             <Message 
-                v-for="(message, index) in messages"
+                v-for="(message, index) in allMessages"
                 :key="index"
                 v-bind:message="message"
             />
         </div>
-        <form class="message-form" v-on:submit="send">
+        <form class="message-form" autocomplete="off" v-on:submit="send">
             <input id="message" type="text" placeholder="Write a message...">
             <button type="submit" class="submit-send"></button>
         </form>
@@ -15,45 +15,57 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 import Message from '../components/Message';
 import $ from '@/plugins/selector.js';
 import getCookie from '@/plugins/getCookie.js';
-import transformDate from '@/plugins/transformDate.js';
 
 export default {
-    data() {
-        return {
-            messages: []
-        }
-    },
+    computed: mapGetters(['getChat', 'allMessages']),
     components: {
         Message
     },
+    methods: {
+        ...mapMutations(['setChat', 'updateMessages', 'addMessage']),
+        send: function (event) {
+            event.preventDefault();
+
+            const message = event.target.elements.message.value;
+
+            this.$store.state.socket.on('newChat', async (data) => {
+                this.setChat(data);
+                await this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), this.getChat);
+                await this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
+                await this.$store.state.socket.emit('getChats', getCookie('user-id'));
+            });
+
+            if (this.allMessages.length == 0) {
+                this.$store.state.socket.emit('createChat', [getCookie('user-id'), this.getChat]);
+            } else {
+                this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), this.getChat);
+            }
+
+            event.target.elements.message.value = "";
+            event.target.elements.message.focus();
+        }
+    },
     created() {
         this.$store.state.socket.on('history', async (data) => {
-            data.forEach((item, i) => {
-                if (data[i+1]) {
-                    const date1 = new Date(item.time);
-                    const date2 = new Date(data[i+1].time)
-                    if(date1.getDay() !== date2.getDay()) {
-                        item.date = item.time;
-                    }
-                }
-
-                item.time = transformDate(item.time);
+            data.forEach(item => {
                 if($('.active').getAttribute('name') != item.firstName) {
                     item.direction = 'outgoing';
                 }
             })
 
-            this.messages = data;
+            this.updateMessages(data);
         });
 
         this.$store.state.socket.on('message', async (data) => {
             if($('.active').getAttribute('name') != data.firstName) {
                 data.direction = 'outgoing';
             }
-            this.messages.push(data)
+
+            this.addMessage(data);
         });
 
 
@@ -61,28 +73,5 @@ export default {
     updated() {
         $('.chat').scrollTop = $('.chat').scrollHeight;
     },
-    methods: {
-        send: function (event) {
-            event.preventDefault();
-
-            const message = event.target.elements.message.value;
-
-            this.$store.state.socket.on('newChat', async (data) => {
-                await this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), data);
-                await this.$store.state.socket.emit('joinChats', data, getCookie('user-id'));
-                await this.$store.state.socket.emit('getChats', getCookie('user-id'));
-                $('.active').id = data;
-            });
-
-            if (this.messages.length == 0) {
-                this.$store.state.socket.emit('createChat', [getCookie('user-id'), +$('.active').getAttribute('usr_id')]);
-            } else {
-                this.$store.state.socket.emit('chatMessage', message, getCookie('user-id'), $('.active').id);
-            }
-
-            event.target.elements.message.value = "";
-            event.target.elements.message.focus();
-        }
-    }
 }
 </script>
