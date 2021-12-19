@@ -28,6 +28,7 @@ import { mapGetters, mapMutations } from "vuex";
 import Contact from '@/components/Contact';
 import $ from '@/plugins/selector.js';
 import getCookie from '@/plugins/getCookie.js';
+import compare from '@/plugins/compare.js';
 
 export default {
     computed: mapGetters(['allContacts', 'searchResults']),
@@ -62,7 +63,9 @@ export default {
         this.$store.state.socket.on('refreshChats', async () => {
             this.$store.state.socket.emit('getChats', getCookie('user-id'));
         });
+    },
+    updated() {
+        compare(this.allContacts, this.searchResults);
     }
-
 }
 </script>

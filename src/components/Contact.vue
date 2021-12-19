@@ -2,7 +2,7 @@
     <div class='item contact' v-on:click="enter($event, contact)">
         <div class='image'></div>
         <div class='name-message'>
-            <div class='name'>{{contact.firstName}}</div>
+            <div class='name'>{{contact.name}}</div>
             <div class='message'>{{contact.msg}}</div>
         </div>
         <div class='date'>{{contact.createdAt}}</div>
