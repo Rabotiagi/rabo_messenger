@@ -46,7 +46,8 @@ const joinChat = (socket) => async (chat) => {
             messages.push({
                 message: msg.msg, 
                 time: msg.createdAt,
-                firstName: msg.user.firstName
+                firstName: msg.user.firstName,
+                sender: msg.sender
             });
         });
     }
