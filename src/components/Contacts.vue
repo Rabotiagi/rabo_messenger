@@ -49,10 +49,10 @@ export default {
             this.updateSearch([]);
         }
     },
-    created() {
+    async created() {
         this.$store.state.socket.emit('getChats', getCookie('user-id'));
 
-        this.$store.state.socket.on('chats', async (data) => {
+        await this.$store.state.socket.on('chats', async (data) => {
             this.updateContacts(data);
         });
 

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import Message from '../components/Message';
 import $ from '@/plugins/selector.js';
 import getCookie from '@/plugins/getCookie.js';
@@ -31,17 +31,22 @@ export default {
         Message
     },
     methods: {
+        ...mapActions(['isGroup']),
         ...mapMutations(['setChat', 'updateMessages', 'addMessage']),
-        send: function (event) {
+        send: async function (event) {
             event.preventDefault();
 
             this.newMsg = event.target.elements.message.value;
 
-            if (this.allMessages.length == 0 && !this.allContacts.find(item => (item.chat == this.getChat))) {
-                this.$store.state.socket.emit('createChat', [getCookie('user-id'), this.getChat]);
-            } else {
-                this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
-            }
+            await this.isGroup(this.getChat).then((res) => {
+                if (this.allMessages.length == 0 && !res) {
+                    console.log(2);
+                    this.$store.state.socket.emit('createChat', [getCookie('user-id'), this.getChat]);
+                } else {
+                    console.log(1);
+                    this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
+                }
+            });
 
             event.target.elements.message.value = "";
             event.target.elements.message.focus();
@@ -58,14 +63,13 @@ export default {
 
         this.$store.state.socket.on('newChat', async (id, users) => {
             this.setChat(id);
-            
+            await this.$store.state.socket.emit('getChats', getCookie('user-id'));
+            console.log(this.allContacts);
             if (users.length < 3) {
                 await this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
-                //this.newMsg = "welcome to new chat";
             }
-            
             await this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
-            await this.$store.state.socket.emit('getChats', getCookie('user-id'));
+            
         });
     },
     updated() {

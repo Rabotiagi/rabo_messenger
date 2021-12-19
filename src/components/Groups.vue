@@ -62,13 +62,13 @@ export default {
             const name = event.target.elements.name.value;
             this.$store.state.socket.emit('findUsers', name, getCookie('user-id'));
         },
-        create: function () {
+        create: async function () {
             const name = $('.name-input').value;
             const ids = [getCookie('user-id')]
             document.querySelectorAll('.chosen').forEach(item => {
                 ids.push(+item.getAttribute('usr_id'));
             })
-            this.$store.state.socket.emit('createChat', ids, name);
+            await this.$store.state.socket.emit('createChat', ids, name);
         }
     }
 }

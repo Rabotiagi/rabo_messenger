@@ -26,5 +26,14 @@ export default {
         updateSearch(state, data) {
             state.searchRes = data;
         }
-    } 
+    },
+    actions: {
+        isGroup({ getters }, id) {
+            const data = getters.allContacts;
+            if (data.find(item => item.chat == id)) {
+                return data.find(item => item.chat == id).id;
+            }
+            return false;
+        }
+    }
 }
