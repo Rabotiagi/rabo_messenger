@@ -7,7 +7,7 @@ const Messages = seq.define('messages', {
         allowNull: false,
         primaryKey: true
     },
-    chat: {
+    chatId: {
         type: Sequelize.INTEGER,
         allowNull: false
     },

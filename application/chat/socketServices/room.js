@@ -18,7 +18,7 @@ const chatMessage = (io) => async (message, id, chat) => {
     const {firstName} = await UsersRepo.getUser({id});
 
     const messageToPost = {
-        chat: +chat,
+        chatId: +chat,
         msg: message,
         sender: id
     };

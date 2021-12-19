@@ -5,12 +5,12 @@ const Messages = require('../database/models/messages.js');
 
 const associate = () => {
     Chats.hasMany(Messages, {
-        foreignKey: 'chat',
+        foreignKey: 'chatId',
         sourceKey: 'chatId'
     });
     
     Messages.belongsTo(Chats, {
-        foreignKey: 'chat',
+        foreignKey: 'chatId',
         targetKey: 'chatId'
     });
     
