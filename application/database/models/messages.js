@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 const seq = require('../connection.js');
 const Messages = seq.define('messages', {
-    msg_id: {
+    msgId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
         primaryKey: true
     },
-    fromConv: {
+    chat: {
         type: Sequelize.INTEGER,
         allowNull: false
     },

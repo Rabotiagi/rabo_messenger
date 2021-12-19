@@ -7,26 +7,26 @@ module.exports = {
         await Chats.create(data);
     },
 
-    async addUser(user, chat_id){
+    async addUser(user, chatId){
         let users = await Chats.findOne({
             attributes: ['users'],
-            where:{chat_id}
+            where:{chatId}
         });
 
         users = users.dataValues.users;
         users.push(user);
-        await Chats.update({users}, {where: {chat_id}});
+        await Chats.update({users}, {where: {chatId}});
     },
 
-    async removeUser(user, chat_id){
+    async removeUser(user, chatId){
         let users = await Chats.findOne({
             attributes: ['users'],
-            where: {chat_id}
+            where: {chatId}
         });
 
         users = users.dataValues.users.filter(u => u !== user);
 
-        await Chats.update({users}, {where: {chat_id}});
+        await Chats.update({users}, {where: {chatId}});
     },
 
     async getConversation(users){
@@ -57,10 +57,10 @@ module.exports = {
         });
     },
 
-    async getChatName(chat_id){
+    async getChatName(chatId){
         return await Chats.findOne({
             attributes: ['chatName'],
-            where: {chat_id}
+            where: {chatId}
         });
     }
 };

@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const seq = require('../connection.js');
 
 const Chats = seq.define('chats', {
-    chat_id: {
+    chatId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         allowNull: false,
