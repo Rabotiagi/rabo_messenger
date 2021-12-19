@@ -5,13 +5,13 @@ const Messages = require('../database/models/messages.js');
 
 const associate = () => {
     Chats.hasMany(Messages, {
-        foreignKey: 'fromConv',
-        sourceKey: 'chat_id'
+        foreignKey: 'chat',
+        sourceKey: 'chatId'
     });
     
     Messages.belongsTo(Chats, {
-        foreignKey: 'fromConv',
-        targetKey: 'chat_id'
+        foreignKey: 'chat',
+        targetKey: 'chatId'
     });
     
     Users.hasMany(Messages, {
@@ -26,12 +26,12 @@ const associate = () => {
     
     Messages.hasOne(Files, {
         foreignKey: 'fromMsg',
-        sourceKey: 'msg_id'
+        sourceKey: 'msgId'
     });
     
     Files.belongsTo(Messages, {
         foreignKey: 'fromMsg',
-        targetKey: 'msg_id'
+        targetKey: 'msgId'
     });
 };
 

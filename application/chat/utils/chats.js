@@ -20,7 +20,7 @@ const renderChats = async (dialogs, user_id) => {
         const dialog = dialogs[i];
 
         let msgs = dialog.messages.length ? dialog.messages : 
-            await MessagesRepo.getMessages(dialog.chat_id);
+            await MessagesRepo.getMessages(dialog.chatId);
         
         const { msg, createdAt} = getLastMsg(msgs);
 
@@ -28,10 +28,10 @@ const renderChats = async (dialogs, user_id) => {
             dialog.users[1] : dialog.users[0];
 
         const {firstName, id} = await UsersRepo.getUser(partner);
-        const {chatName} = await ChatsRepo.getChatName(dialog.chat_id);
+        const {chatName} = await ChatsRepo.getChatName(dialog.chatId);
         const name = chatName ? chatName : firstName;
 
-        convs.push({id, name, fromConv: dialog.chat_id, msg, createdAt});
+        convs.push({id, name, chat: dialog.chatId, msg, createdAt});
     }
 
     return convs;

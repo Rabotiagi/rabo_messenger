@@ -8,7 +8,7 @@ const createChat = (socket) => async (users) => {
     try{
         await ChatRepo.createChat({users});
         const chat = await ChatRepo.getConversation(users);
-        socket.emit('newChat', chat.chat_id);
+        socket.emit('newChat', chat.chatId);
     } catch(e){
         console.log(e);
     }
@@ -18,7 +18,7 @@ const chatMessage = (io) => async (message, id, chat) => {
     const {firstName} = await UsersRepo.getUser({id});
 
     const messageToPost = {
-        fromConv: +chat,
+        chat: +chat,
         msg: message,
         sender: id
     };

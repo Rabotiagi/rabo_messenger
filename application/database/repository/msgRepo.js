@@ -5,9 +5,7 @@ module.exports = {
     async getMessages(chat){
         return await Messages.findAll({
             include: [Users],
-            where: {
-                fromConv: chat
-            }
+            where: {chat}
         });
     },
 
