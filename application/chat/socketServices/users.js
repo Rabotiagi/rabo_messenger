@@ -12,7 +12,7 @@ const findUsers = (socket) => async (name, currentId) => {
 
         const chatId = chat ? chat.chatId : null;
 
-        res.push({firstName, chat: chatId, id });
+        res.push({name: firstName, chat: chatId, id });
     }
 
     console.log(res);

@@ -62,5 +62,9 @@ module.exports = {
             attributes: ['chatName'],
             where: {chatId}
         });
+    },
+
+    async removeChat(){
+        
     }
 };

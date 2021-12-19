@@ -4,7 +4,7 @@ const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
 
-const createChat = (socket) => async (users) => {    
+const createChat = (socket) => async (users) => {
     try{
         await ChatRepo.createChat({users});
         const chat = await ChatRepo.getConversation(users);
@@ -25,7 +25,7 @@ const chatMessage = (io) => async (message, id, chat) => {
 
     await MessagesRepo.createMessage(messageToPost);
     io.to(+chat).emit('message', wrapper(firstName, message));
-    io.to(+chat).emit('refreshChats');
+    io.to(+chat).emit('refreshChats', +chat, message);
 };
 
 const getChats = (socket) => async (id) => {
