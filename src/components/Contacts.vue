@@ -10,13 +10,13 @@
         </div>
         <Contact
             v-for="contact of searchResults"
-            :key="contact.fromConv"
+            :key="contact.chat"
             v-bind:contact="contact"
         />
         <div class="heading">direct messages</div>
         <Contact
             v-for="contact of allContacts"
-            :key="contact.fromConv + 100"
+            :key="contact.chat + 100"
             v-bind:contact="contact"
             :ref="contact.id"
         />

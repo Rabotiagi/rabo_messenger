@@ -1,4 +1,5 @@
 import transformDate from '@/plugins/transformDate.js';
+import getCookie from '@/plugins/getCookie.js';
 
 export default {
     state: {
@@ -17,14 +18,20 @@ export default {
                     const date2 = new Date(data[i+1].time)
                     if(date1.getDay() !== date2.getDay()) {
                         item.date = item.time;
-                    }
+                    }               
+                }
+                if(item.sender == getCookie('user-id')) {
+                    item.direction = 'outgoing';
                 }
                 item.time = transformDate(item.time);
             })
             state.messages = data;
         },
-        addMessage(state, data) {
-            state.messages.push(data);
+        addMessage(state, item) {
+            if(item.sender == getCookie('user-id')) {
+                item.direction = 'outgoing';
+            }
+            state.messages.push(item);
         }
     }  
 }

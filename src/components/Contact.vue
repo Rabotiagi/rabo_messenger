@@ -30,8 +30,8 @@ export default {
             }
             event.target.classList.add('active');
 
-            if (item.fromConv != null) {
-                this.setChat(item.fromConv);
+            if (item.chat != null) {
+                this.setChat(item.chat);
                 this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
             } else {
                 this.setChat(item.id);

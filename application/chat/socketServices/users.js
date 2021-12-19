@@ -10,9 +10,7 @@ const findUsers = (socket) => async (name, currentId) => {
         const chat = await chatRepo.getConversation([id, currentId]);
         console.log(chat);
 
-        const chatId = chat ? chat.chatId : null;
-
-        res.push({name: firstName, chat: chatId, id });
+        res.push({name: firstName, id });
     }
 
     console.log(res);
