@@ -1,7 +1,6 @@
 const UsersRepo = require('../../database/repository/usersRepo.js');
 const MessagesRepo = require('../../database/repository/msgRepo.js');
 const ChatsRepo = require('../../database/repository/chatRepo.js');
-const Chats = require('../../database/models/chats.js');
 
 const getLastMsg = (messages) => {
     let max = {createdAt: 0};
@@ -13,27 +12,27 @@ const getLastMsg = (messages) => {
     return max;
 };
 
-const renderChats = async (dialogs, user_id) => {
+const renderChats = async (chats, user_id) => {
     const convs = [];
 
-    for(let i = 0; i < dialogs.length; i++){
-        const dialog = dialogs[i];
+    for(let i = 0; i < chats.length; i++){
+        const chat = chats[i];
 
-        let msgs = dialog.messages.length ? dialog.messages : 
-            await MessagesRepo.getMessages(dialog.chatId);
+        let msgs = chat.messages.length ? chat.messages : 
+            await MessagesRepo.getMessages(chat.chatId);
         
         const { msg, createdAt} = getLastMsg(msgs);
 
-        const partner = dialog.users[0] === user_id ? 
-            dialog.users[1] : dialog.users[0];
+        const partner = chat.users[0] === user_id ? 
+            chat.users[1] : chat.users[0];
 
         const user = await UsersRepo.getUser(partner);
-        const {chatName} = await ChatsRepo.getChatName(dialog.chatId);
+        const {chatName} = await ChatsRepo.getChatName(chat.chatId);
 
-        const members = dialog.users.length > 2 ? dialog.users : user.id;
+        const members = chat.users.length > 2 ? chat.users : user.id;
         const name = chatName ? chatName : user.firstName;
 
-        convs.push({id: members, name, chat: dialog.chatId, msg, createdAt});
+        convs.push({id: members, name, chat: chat.chatId, msg, createdAt});
     }
 
     return convs;

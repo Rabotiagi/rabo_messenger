@@ -31,7 +31,7 @@ const chatMessage = (io) => async (message, id, chat) => {
 const getChats = (socket) => async (id) => {
     const res = await ChatRepo.getChats(+id);
     const convs = await renderChats(res, +id);
-    console.log(res.chatName);
+    console.log(convs);
     socket.emit('chats', convs);
 };
 
@@ -51,8 +51,6 @@ const joinChat = (socket) => async (chat) => {
             });
         });
     }
-
-    console.log(messages);
 
     socket.emit('history', messages);
 };
