@@ -21,7 +21,7 @@ import $ from '@/plugins/selector.js';
 import getCookie from '@/plugins/getCookie.js';
 
 export default {
-    computed: mapGetters(['getChat', 'allMessages']),
+    computed: mapGetters(['getChat', 'allContacts', 'allMessages']),
     data() {
         return {
             newMsg: ''
@@ -56,8 +56,14 @@ export default {
             this.addMessage(data);
         });
 
-        this.$store.state.socket.on('newChat', async (data) => {
-            this.setChat(data);
+        this.$store.state.socket.on('newChat', async (id, users) => {
+            this.setChat(id);
+            
+            if (users.length > 2) {
+                //await this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
+                this.newMsg = "welcome to new chat";
+            }
+            
             await this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
             await this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
             await this.$store.state.socket.emit('getChats', getCookie('user-id'));

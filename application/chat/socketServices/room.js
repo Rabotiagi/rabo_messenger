@@ -8,7 +8,7 @@ const createChat = (socket) => async (users, chatName) => {
     try{
         await ChatRepo.createChat({users, chatName});
         const chat = await ChatRepo.getConversation(users);
-        socket.emit('newChat', chat.chatId);
+        socket.emit('newChat', chat.chatId, users);
     } catch(e){
         console.log(e);
     }

@@ -15,6 +15,7 @@
                 <input id="name" type="text" placeholder="Search...">
                 <button type="submit" class="submit-search"></button>
             </form>
+            <input class="name-input" type="text" placeholder="Name">
             <div class="heading">select user to add to a new group</div>
             <div class="users">
                 <User
@@ -62,11 +63,12 @@ export default {
             this.$store.state.socket.emit('findUsers', name, getCookie('user-id'));
         },
         create: function () {
+            const name = $('.name-input').value;
             const ids = [getCookie('user-id')]
             document.querySelectorAll('.chosen').forEach(item => {
                 ids.push(+item.getAttribute('usr_id'));
             })
-            this.$store.state.socket.emit('createChat', ids);
+            this.$store.state.socket.emit('createChat', ids, name);
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="usr" v-bind:usr_id="user.id" v-on:click="choose">
         <div class="imgg"></div>
-        <div class="name">{{user.firstName}}</div>
+        <div class="name">{{user.name}}</div>
     </div>
 </template>
 

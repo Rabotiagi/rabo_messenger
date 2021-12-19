@@ -27,11 +27,13 @@ const renderChats = async (dialogs, user_id) => {
         const partner = dialog.users[0] === user_id ? 
             dialog.users[1] : dialog.users[0];
 
-        const {firstName, id} = await UsersRepo.getUser(partner);
+        const user = await UsersRepo.getUser(partner);
         const {chatName} = await ChatsRepo.getChatName(dialog.chatId);
-        const name = chatName ? chatName : firstName;
 
-        convs.push({id, name, chat: dialog.chatId, msg, createdAt});
+        const members = dialog.users.length > 2 ? dialog.users : user.id;
+        const name = chatName ? chatName : user.firstName;
+
+        convs.push({id: members, name, chat: dialog.chatId, msg, createdAt});
     }
 
     return convs;
