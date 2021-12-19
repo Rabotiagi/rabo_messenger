@@ -37,7 +37,7 @@ export default {
 
             this.newMsg = event.target.elements.message.value;
 
-            if (this.allMessages.length == 0) {
+            if (this.allMessages.length == 0 && !this.allContacts.find(item => (item.chat == this.getChat))) {
                 this.$store.state.socket.emit('createChat', [getCookie('user-id'), this.getChat]);
             } else {
                 this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
@@ -59,12 +59,11 @@ export default {
         this.$store.state.socket.on('newChat', async (id, users) => {
             this.setChat(id);
             
-            if (users.length > 2) {
-                //await this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
-                this.newMsg = "welcome to new chat";
+            if (users.length < 3) {
+                await this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
+                //this.newMsg = "welcome to new chat";
             }
             
-            await this.$store.state.socket.emit('chatMessage', this.newMsg, getCookie('user-id'), this.getChat);
             await this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
             await this.$store.state.socket.emit('getChats', getCookie('user-id'));
         });
