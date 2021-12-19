@@ -1,5 +1,6 @@
 const Chats = require('../models/chats.js');
 const Messages = require('./../models/messages');
+const MessagesRepo = require('./msgRepo.js');
 const Op = require('sequelize').Op;
 
 module.exports = {
@@ -64,7 +65,10 @@ module.exports = {
         });
     },
 
-    async removeChat(){
-        
+    async removeChat(chatId){
+        await MessagesRepo.removeMessages(chatId);
+        await Chats.destroy({
+            where: {chatId}
+        });      
     }
 };

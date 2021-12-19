@@ -11,5 +11,11 @@ module.exports = {
 
     async createMessage(msg){
         await Messages.create(msg);
+    },
+
+    async removeMessages(chatId){
+        await Messages.destroy({
+            where: {chatId}
+        });
     }
 };
