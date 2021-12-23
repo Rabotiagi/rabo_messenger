@@ -1,40 +1,53 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 import io from 'socket.io-client';
+import group from './modules/group';
 import contact from './modules/contact';
-import message from './modules/message'
+import message from './modules/message';
+import getCookie from '@/plugins/getCookie.js';
 
 Vue.use(Vuex)
 
-const socket = io();
-
 export default new Vuex.Store({
     state: {
-        socket: socket,
+        socket: io(),
         currentUser: false,
-        currentChat: false
+        currentChat: false,
+        newMessage: ''
     },
     getters: {
-        getUser(state) {
+        socket(state) {
+            return state.socket;
+        },
+        user(state) {
             if (state.currentUser) {
                 return state.currentUser;
             }
         },
-        getChat(state) {
+        chat(state) {
             if (state.currentChat) {
                 return state.currentChat;
+            }
+        },
+        message(state) {
+            if (state.newMessage) {
+                return state.newMessage;
             }
         }
     },
     mutations: {
-        setUser(state, id) {
-            state.currentUser = id;
+        setUser(state) {
+            state.currentUser = getCookie('user-id');
         },
         setChat(state, id) {
             state.currentChat = id;
+        },
+        setMessage(state, message) {
+            state.newMessage = message;
         }
     },
     modules: {
+        group,
         contact,
         message
     }

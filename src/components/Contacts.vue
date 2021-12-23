@@ -27,42 +27,29 @@
 import { mapGetters, mapMutations } from "vuex";
 import Contact from '@/components/Contact';
 import $ from '@/plugins/selector.js';
-import getCookie from '@/plugins/getCookie.js';
 import compare from '@/plugins/compare.js';
 
 export default {
-    computed: mapGetters(['allContacts', 'searchResults']),
+    computed: mapGetters(['socket', 'user', 'allContacts', 'searchResults']),
     components: {
         Contact
     },
     methods: {
-        ...mapMutations(['updateContacts', 'updateSearch']),
+        ...mapMutations(['updateGroups', 'updateContacts', 'updateSearch']),
         search: function (event) {
             event.preventDefault();
 
             $('.srch').style.display = 'flex';
             const name = event.target.elements.name.value;
-            this.$store.state.socket.emit('findUsers', name, getCookie('user-id'));
+            this.$store.state.socket.emit('findUsers', name, this.user);
         },
         hide: function (event) {
             event.target.closest("div").style.display = 'none';
             this.updateSearch([]);
         }
     },
-    async created() {
-        this.$store.state.socket.emit('getChats', getCookie('user-id'));
-
-        await this.$store.state.socket.on('chats', async (data) => {
-            this.updateContacts(data);
-        });
-
-        this.$store.state.socket.on('show users', async (data) => {
-            this.updateSearch(data);
-        });
-
-        this.$store.state.socket.on('refreshChats', async () => {
-            this.$store.state.socket.emit('getChats', getCookie('user-id'));
-        });
+    created() {
+        this.socket.emit('getChats', this.user);   
     },
     updated() {
         compare(this.allContacts, this.searchResults);

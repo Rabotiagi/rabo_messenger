@@ -12,10 +12,9 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import $ from '@/plugins/selector.js';
-import getCookie from '@/plugins/getCookie.js';
 
 export default {
-    computed: mapGetters(['getChat']),
+    computed: mapGetters(['socket', 'user', 'chat']),
     props: {
         contact: {
             type: Object,
@@ -32,9 +31,9 @@ export default {
 
             if (item.chat != null) {
                 this.setChat(item.chat);
-                this.$store.state.socket.emit('joinChats', this.getChat, getCookie('user-id'));
+                this.socket.emit('joinChats', this.chat, this.user);
             } else {
-                this.setChat(item.id);
+                this.setChat({new: item.id});
                 this.updateMessages([]);
             }
         }

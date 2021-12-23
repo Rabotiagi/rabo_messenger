@@ -15,25 +15,20 @@ export default {
     },
     mutations: {
         updateContacts(state, data) {
+            const newArr = [];
             data.forEach(item => {
-                item.createdAt = transformDate(item.createdAt);
+                if (!Array.isArray(item.id)) {
+                    item.createdAt = transformDate(item.createdAt);
+                    newArr.push(item);
+                }
             });
-            state.contacts = data;
+            state.contacts = newArr;
         },
         addContact(state, data) {
             state.contacts.push(data);
         },
         updateSearch(state, data) {
             state.searchRes = data;
-        }
-    },
-    actions: {
-        isGroup({ getters }, id) {
-            const data = getters.allContacts;
-            if (data.find(item => item.chat == id)) {
-                return data.find(item => item.chat == id).id;
-            }
-            return false;
         }
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="groups">
         <Group 
-            v-for="(group, index) in groups"
+            v-for="(group, index) in allGroups"
             :key="index"
             v-bind:group="group"
         />
@@ -19,7 +19,7 @@
             <div class="heading">select user to add to a new group</div>
             <div class="users">
                 <User
-                    v-for="(user, index) of users"
+                    v-for="(user, index) of allContacts"
                     :key="index+200"
                     v-bind:user="user"
                 />
@@ -29,30 +29,26 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from "vuex";
 import Group from '@/components/Group';
 import User from '@/components/User'
 import $ from '@/plugins/selector.js';
-import getCookie from '@/plugins/getCookie.js';
 
 export default {
-    data() {
-        return {
-            groups: [],
-            users: []
-        }
-    },
+    computed: mapGetters(['user', 'allGroups', 'allContacts']),
     components: {
         Group,
         User
     },
     methods: {
+        ...mapMutations(['updateGroups', 'updateContacts']),
         toggle: function () {
             $('.create-group').classList.toggle('inviz');
 
-            this.$store.state.socket.emit('getChats', getCookie('user-id'));
+            this.$store.state.socket.emit('getChats', this.user);
 
             this.$store.state.socket.on('chats', async (data) => {
-                this.users = data;
+                this.updateContacts(data);
             });
         },
         search: function (event) {
@@ -60,11 +56,11 @@ export default {
 
             $('.srch').style.display = 'flex';
             const name = event.target.elements.name.value;
-            this.$store.state.socket.emit('findUsers', name, getCookie('user-id'));
+            this.$store.state.socket.emit('findUsers', name, this.user);
         },
         create: async function () {
             const name = $('.name-input').value;
-            const ids = [getCookie('user-id')]
+            const ids = [this.user]
             document.querySelectorAll('.chosen').forEach(item => {
                 ids.push(+item.getAttribute('usr_id'));
             })
