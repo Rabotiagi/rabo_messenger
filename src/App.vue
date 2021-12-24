@@ -45,8 +45,8 @@ export default {
     async created() {
         this.setUser();
 
-        await this.socket.on('refreshChats', (id, message) => {
-            this.updateLastMessage(id, message);
+        await this.socket.on('refreshChats', () => {
+            this.socket.emit('getChats', this.user);
         });
 
         await this.socket.on('chats', (data) => {
