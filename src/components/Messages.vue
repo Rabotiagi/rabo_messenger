@@ -20,7 +20,7 @@ import Message from '../components/Message';
 import $ from '@/plugins/selector.js';
 
 export default {
-    computed: mapGetters(['user', 'chat', 'message', 'allMessages']),
+    computed: mapGetters(['socket', 'user', 'chat', 'message', 'allMessages']),
     components: {
         Message
     },
@@ -30,12 +30,18 @@ export default {
         send: async function (event) {
             event.preventDefault();
 
+            if (!event.target.elements.message.value) {
+                alert('vvedi soobschenie dayn');
+                return;
+            }
+
             this.setMessage(event.target.elements.message.value);
 
             if (this.allMessages.length == 0 && this.chat.new) {
-                this.$store.state.socket.emit('createChat', [this.user, this.chat.new]);
+                this.socket.emit('createChat', [this.user, this.chat.new]);
             } else {
-                this.$store.state.socket.emit('chatMessage', this.message, this.user, this.chat);
+                this.socket.emit('chatMessage', this.message, this.user, this.chat);
+                this.setMessage('');
             }
 
             event.target.elements.message.value = "";
