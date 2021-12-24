@@ -1,5 +1,5 @@
 <template>
-    <div class="create-group inviz">
+    <div class="create-group disabled">
         <div class="line">
             <div class="butt" v-on:click="close">Cancel</div>
             <div class="title">Create a new group</div>
