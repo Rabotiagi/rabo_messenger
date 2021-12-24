@@ -5,15 +5,13 @@ const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
 const chatRepo = require('./../../database/repository/chatRepo.js');
 
-const createChat = (socket, io) => async (users, chatName) => {
+const createChat = (io) => async (users, chatName) => {
     try{
         await ChatRepo.createChat({users, chatName});
         const chat = await ChatRepo.getConversation(users);
 
         io.sockets.sockets.forEach((s) => {
-            console.log(s.userId);
             if(users.includes(s.userId)){
-                // s._events.newChat(chat.chatId, users);
                 s.emit('newChat', chat.chatId, users);
             }
         });
@@ -48,18 +46,18 @@ const joinChat = (socket) => async (chat) => {
     socket.join(+chat);
     const messages = [];
 
-    if(chat){
-        const res = await MessagesRepo.getMessages(chat);
+    
+    const res = await MessagesRepo.getMessages(chat);
 
-        res.map(msg => {
-            messages.push({
-                message: msg.msg, 
-                time: msg.createdAt,
-                firstName: msg.user.firstName,
-                sender: msg.sender
-            });
+    res.map(msg => {
+        messages.push({
+            message: msg.msg, 
+            time: msg.createdAt,
+            firstName: msg.user.firstName,
+            sender: msg.sender
         });
-    }
+    });
+    
 
     socket.emit('history', messages);
 };

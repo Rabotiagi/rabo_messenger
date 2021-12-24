@@ -17,7 +17,7 @@ const socketRouter = (io, socket) => {
 
     socket.on('joinChats', joinChat(socket));
 
-    socket.on('createChat', createChat(socket, io));
+    socket.on('createChat', createChat(io));
 
     socket.on('findUsers', findUsers(socket));
 
