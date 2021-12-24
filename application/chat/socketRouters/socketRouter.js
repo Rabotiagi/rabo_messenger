@@ -17,11 +17,13 @@ const socketRouter = (io, socket) => {
 
     socket.on('joinChats', joinChat(socket));
 
-    socket.on('createChat', createChat(socket));
+    socket.on('createChat', createChat(socket, io));
 
     socket.on('findUsers', findUsers(socket));
 
     socket.on('deleteChat', deleteChat);
+
+    socket.on('setUserId', id => {socket.userId = id});
 };
 
 module.exports = socketRouter;

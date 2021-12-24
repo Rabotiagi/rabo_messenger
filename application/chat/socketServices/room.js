@@ -5,11 +5,18 @@ const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
 const chatRepo = require('./../../database/repository/chatRepo.js');
 
-const createChat = (socket) => async (users, chatName) => {
+const createChat = (socket, io) => async (users, chatName) => {
     try{
         await ChatRepo.createChat({users, chatName});
         const chat = await ChatRepo.getConversation(users);
-        socket.emit('newChat', chat.chatId, users);
+
+        io.sockets.sockets.forEach((s) => {
+            console.log(s.userId);
+            if(users.includes(s.userId)){
+                // s._events.newChat(chat.chatId, users);
+                s.emit('newChat', chat.chatId, users);
+            }
+        });
     } catch(e){
         console.log(e);
     }

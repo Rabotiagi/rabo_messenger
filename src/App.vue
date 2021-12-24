@@ -45,6 +45,8 @@ export default {
     ]),
     created() {
         this.setUser();
+        this.socket.emit('setUserId', this.user);
+        console.log(this.socket.userId);
 
         this.socket.on('refreshChats', (data) => {
             this.updateOneGroup(data);
@@ -72,11 +74,16 @@ export default {
 
         // rewrite
         this.socket.on('newChat', async (id, users) => {
-            this.setChat(id);
-            if (users.length < 3) {
-                await this.socket.emit('chatMessage', this.message, this.user, this.chat);
+            console.log(1111111);
+            if(this.message){
+                this.setChat(id);
+                if (users.length < 3) {
+                    console.log(this.user);
+                    await this.socket.emit('chatMessage', this.message, this.user, this.chat);
+                }
+                await this.socket.emit('joinChats', this.chat, this.user);
             }
-            await this.socket.emit('joinChats', this.chat, this.user);
+            
             await this.socket.emit('getChats', this.user);    
         });
     }
