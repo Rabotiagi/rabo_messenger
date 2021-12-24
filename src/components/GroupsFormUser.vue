@@ -1,11 +1,13 @@
 <template>
-    <div class="usr" v-bind:usr_id="user.id" v-on:click="choose">
-        <div class="imgg"></div>
+    <div class="user" v-on:click="choose($event, user)">
+        <div class="img"></div>
         <div class="name">{{user.name}}</div>
     </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+
 export default {
     props: {
         user: {
@@ -14,8 +16,10 @@ export default {
         }
     },
     methods: {
-        choose: function (event) {
+        ...mapMutations(['chooseUser']),
+        choose: function (event, user) {
             event.target.classList.toggle('chosen');
+            this.chooseUser(user);
         }
     }
 }

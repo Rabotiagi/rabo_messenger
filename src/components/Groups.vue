@@ -23,7 +23,7 @@ export default {
     methods: {
         ...mapMutations(['updateGroups', 'updateContacts']),
         toggle: function () {
-            $('.create-group').classList.toggle('inviz');
+            $('.create-group').classList.remove('disabled');
         }
     }
 }

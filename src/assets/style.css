@@ -304,7 +304,7 @@ body {
 
 
 
-.inviz {
+.disabled {
     display: none !important;
 }
 
@@ -313,17 +313,126 @@ body {
 #app .create-group {
     position: absolute;
     z-index: 1;
-    height: 500px;
     left: 50%;
     transform: translateX(-50%);
-    width: 500px;
-    background: #fff;
+    width: 700px;
+    height: 490px;
+    padding: 24px 32px;
+    background: #17191E;
 }
-#app .create-group .sub {
-    height: 20px;
-    border: 1px solid black;
+
+.create-group .line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.create-group .line .butt {
+    width: 85px;
+    padding: 5px 0;
+    background: #5893F7;
+    border-radius: 7px;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    text-align: center;
     cursor: pointer;
 }
-#app .create-group .chosen {
-    background: grey;
+
+.create-group .line .title {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+}
+
+.create-group .line .inputs {
+    width: 45%;
+    height: 87px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.create-group .line .inputs input {
+    width: 100%;
+    height: 36px;
+    padding: 12px 10px;
+    background: rgba(88, 147, 247, 0.2);
+    border-radius: 7px;
+    font-weight: normal;
+    font-size: 13.33px;
+    line-height: 16px;
+    color: rgba(255, 255, 255, 0.3);
+    border: 0;
+}
+
+.create-group .line .photo {
+    width: 45%;
+    height: 87px;
+    padding: 12px 15px;
+    background: rgba(88, 147, 247, 0.2);
+    border-radius: 7px;
+    font-weight: normal;
+    font-size: 13.33px;
+    line-height: 16px;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+}
+
+.create-group .line .photo .preview {
+    display: inline-block;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_348_294)'%3E%3Cpath d='M26.6745 6.6775H21.2109L19.6988 3.36385C19.5629 3.06852 19.2676 2.8736 18.9427 2.8736H11.0632C10.7383 2.8736 10.443 3.06261 10.3071 3.36385L8.79504 6.6775H5.09155V6.38216C5.09155 5.92144 4.71943 5.54932 4.25871 5.54932C3.79799 5.54932 3.42587 5.92144 3.42587 6.38216V6.6775H3.33136C1.49439 6.6775 0 8.17189 0 10.0089V23.795C0 25.632 1.49439 27.1264 3.33136 27.1264H26.6686C28.5056 27.1264 30 25.632 30 23.795V10.0089C30.0059 8.17189 28.5115 6.6775 26.6745 6.6775ZM11.6007 4.53928H18.4052L19.3798 6.6775H10.6261L11.6007 4.53928ZM26.6745 25.4607H3.33136C2.40992 25.4607 1.66568 24.7106 1.66568 23.795V10.0089C1.66568 9.08742 2.41583 8.34318 3.33136 8.34318H26.6686C27.5901 8.34318 28.3343 9.09333 28.3343 10.0089V23.795H28.3402C28.3402 24.7165 27.5901 25.4607 26.6745 25.4607Z' fill='white' fill-opacity='0.5'/%3E%3Cpath d='M6.6332 10.0089H3.9811C3.52038 10.0089 3.14825 10.381 3.14825 10.8417C3.14825 11.3024 3.52038 11.6745 3.9811 11.6745H6.6332C7.09392 11.6745 7.46604 11.3024 7.46604 10.8417C7.46604 10.381 7.09392 10.0089 6.6332 10.0089Z' fill='white' fill-opacity='0.5'/%3E%3Cpath d='M15.003 10.0089C11.205 10.0089 8.10986 13.098 8.10986 16.9019C8.10986 20.6999 11.1991 23.795 15.003 23.795C18.8009 23.795 21.896 20.7058 21.896 16.9019C21.896 13.104 18.8009 10.0089 15.003 10.0089ZM15.003 22.1294C12.1205 22.1294 9.77555 19.7844 9.77555 16.9019C9.77555 14.0195 12.1205 11.6745 15.003 11.6745C17.8854 11.6745 20.2304 14.0195 20.2304 16.9019C20.2304 19.7844 17.8854 22.1294 15.003 22.1294Z' fill='white' fill-opacity='0.5'/%3E%3Cpath d='M15.0029 13.3461C14.5422 13.3461 14.1701 13.7183 14.1701 14.179C14.1701 14.6397 14.5422 15.0118 15.0029 15.0118C16.0484 15.0118 16.8931 15.8624 16.8931 16.9019C16.8931 17.3627 17.2652 17.7348 17.7259 17.7348C18.1866 17.7348 18.5588 17.3627 18.5588 16.9019C18.5588 14.9409 16.964 13.3461 15.0029 13.3461Z' fill='white' fill-opacity='0.5'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_348_294'%3E%3Crect width='30' height='30' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
+}
+
+.create-group .line .photo p {
+    display: inline-block;
+    height: 100%;
+    margin-left: 20px;
+    vertical-align: middle;
+}
+
+.create-group .users {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.user {
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    min-width: 45%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.user.chosen {
+    background: rgba(88, 147, 247, 0.2);
+}
+
+.user .img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #fff;
+    margin-right: 14px;
+    z-index: -1;
+}
+
+.user .name {
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 18px;
+    color: #FFFFFF;
+    z-index: -1;
 }
