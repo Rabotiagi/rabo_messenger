@@ -26,13 +26,15 @@ const chatMessage = (io) => async (message, id, chat) => {
 
     await MessagesRepo.createMessage(messageToPost);
     io.to(+chat).emit('message', wrapper(firstName, message, id));
-    io.to(+chat).emit('refreshChats', +chat, message);
+
+    const chats = await renderChats(+id);
+
+    const chatToRender = chats.find(c => c.chat === +chat);
+    io.to(+chat).emit('refreshChats', chatToRender);
 };
 
 const getChats = (socket) => async (id) => {
-    const res = await ChatRepo.getChats(+id);
-    const convs = await renderChats(res, +id);
-    console.log(convs);
+    const convs = await renderChats(+id);
     socket.emit('chats', convs);
 };
 
