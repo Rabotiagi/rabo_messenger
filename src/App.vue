@@ -39,14 +39,14 @@ export default {
         'updateContacts', 
         'updateSearch', 
         'updateMessages', 
-        'addMessage'
+        'addMessage',
+        'updateLastMessage'
     ]),
     async created() {
         this.setUser();
 
-        // rewrite
-        await this.socket.on('refreshChats', async () => {
-            await this.socket.emit('getChats', this.user);
+        await this.socket.on('refreshChats', (id, message) => {
+            this.updateLastMessage(id, message);
         });
 
         await this.socket.on('chats', (data) => {

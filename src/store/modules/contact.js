@@ -29,6 +29,12 @@ export default {
         },
         updateSearch(state, data) {
             state.searchRes = data;
+        },
+        updateLastMessage(state, id, message) {
+            const contact = state.contacts.find((item) => item.id = id);
+            if (contact) {
+                contact.msg = message;
+            }
         }
     }
 }
