@@ -45,8 +45,6 @@ const getChats = (socket) => async (id) => {
 const joinChat = (socket) => async (chat) => {
     socket.join(+chat);
     const messages = [];
-
-    
     const res = await MessagesRepo.getMessages(chat);
 
     res.map(msg => {
@@ -57,7 +55,6 @@ const joinChat = (socket) => async (chat) => {
             sender: msg.sender
         });
     });
-    
 
     socket.emit('history', messages);
 };

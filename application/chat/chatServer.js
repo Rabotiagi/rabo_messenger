@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const app = require('fastify')({logger: true});
 const fastifyStatic = require('fastify-static');
 const fastifySocketIO = require('fastify-socket.io');
