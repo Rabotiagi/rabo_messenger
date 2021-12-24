@@ -49,8 +49,7 @@ export default {
         }
     },
     created() {
-        this.socket.emit('getChats', this.user);   
-        
+        this.socket.emit('getChats', this.user);  
     },
     updated() {
         compare(this.allContacts, this.searchResults);

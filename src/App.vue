@@ -43,37 +43,35 @@ export default {
         'updateMessages', 
         'addMessage'
     ]),
-    async created() {
+    created() {
         this.setUser();
 
-        await this.socket.on('refreshChats', (data) => {
-            console.log(data);
+        this.socket.on('refreshChats', (data) => {
             this.updateOneGroup(data);
             this.updateOneContact(data);
         });
 
-        await this.socket.on('chats', (data) => {
+        this.socket.on('chats', (data) => {
             this.updateContacts(data);
             this.updateGroups(data);
         });
 
-        await this.socket.on('show users', (data) => {
+        this.socket.on('show users', (data) => {
             this.updateSearch(data);
         });
 
-        await this.socket.on('history', (data) => {
+        this.socket.on('history', (data) => {
             this.updateMessages(data);
         });
 
         this.socket.on('message', (data, chat) => {
-            console.log(chat, this.chat);
-            if(chat == this.chat){
+            if(this.chat == chat){
                 this.addMessage(data);
             }
         });
 
         // rewrite
-        await this.socket.on('newChat', async (id, users) => {
+        this.socket.on('newChat', async (id, users) => {
             this.setChat(id);
             if (users.length < 3) {
                 await this.socket.emit('chatMessage', this.message, this.user, this.chat);

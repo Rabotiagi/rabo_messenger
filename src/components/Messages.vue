@@ -26,7 +26,7 @@ export default {
     },
     methods: {
         ...mapActions(['isGroup']),
-        ...mapMutations(['setChat', 'setMessage', 'updateMessages', 'addMessage']),
+        ...mapMutations(['setChat', 'setMessage']),
         send: async function (event) {
             event.preventDefault();
 

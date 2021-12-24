@@ -25,8 +25,6 @@ export default {
             state.contacts = newArr;
         },
         updateOneContact(state, data) {
-            console.log(data);
-
             const contact = state.contacts.find((item) => item.chat == data.chat);
             if (contact) {
                 contact.msg = data.msg;
