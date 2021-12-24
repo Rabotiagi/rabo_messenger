@@ -21,6 +21,16 @@ export default {
             });
             state.groups = newArr;
         },
+        updateOneGroup(state, data) {
+            const group = state.groups.find((item) => item.id == data.id);
+            if (group) {
+                group.msg = data.msg;
+                return;
+            }
+            if (Array.isArray(data.id)) {
+                state.groups.push(data);
+            }
+        },
         addGroup(state, data) {
             state.groups.push(data);
         },

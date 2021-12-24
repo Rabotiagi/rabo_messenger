@@ -24,17 +24,21 @@ export default {
             });
             state.contacts = newArr;
         },
+        updateOneContact(state, data) {
+            const contact = state.contacts.find((item) => item.id == data.id);
+            if (contact) {
+                contact.msg = data.msg;
+                return;
+            }
+            if (!Array.isArray(data.id)) {
+                state.contacts.push(data);
+            }
+        },
         addContact(state, data) {
             state.contacts.push(data);
         },
         updateSearch(state, data) {
             state.searchRes = data;
-        },
-        updateLastMessage(state, id, message) {
-            const contact = state.contacts.find((item) => item.id = id);
-            if (contact) {
-                contact.msg = message;
-            }
         }
     }
 }

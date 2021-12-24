@@ -36,17 +36,19 @@ export default {
         'setUser', 
         'setChat',
         'updateGroups', 
-        'updateContacts', 
+        'updateOneGroup',
+        'updateContacts',
+        'updateOneContact', 
         'updateSearch', 
         'updateMessages', 
-        'addMessage',
-        'updateLastMessage'
+        'addMessage'
     ]),
     async created() {
         this.setUser();
 
-        await this.socket.on('refreshChats', () => {
-            this.socket.emit('getChats', this.user);
+        await this.socket.on('refreshChats', (data) => {
+            this.updateOneGroup(data);
+            this.updateOneContact(data);
         });
 
         await this.socket.on('chats', (data) => {
