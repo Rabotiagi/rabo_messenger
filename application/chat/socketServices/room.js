@@ -3,6 +3,7 @@ const renderChats = require('../utils/chats.js');
 const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
+const chatRepo = require('./../../database/repository/chatRepo.js');
 
 const createChat = (socket) => async (users, chatName) => {
     try{
@@ -25,7 +26,7 @@ const chatMessage = (io) => async (message, id, chat) => {
 
     await MessagesRepo.createMessage(messageToPost);
     io.to(+chat).emit('message', wrapper(firstName, message, id));
-    io.to(+chat).emit('refreshChats', +chat, message);
+    io.to(+chat).emit('refreshChats');
 };
 
 const getChats = (socket) => async (id) => {
@@ -55,9 +56,14 @@ const joinChat = (socket) => async (chat) => {
     socket.emit('history', messages);
 };
 
+const deleteChat = async (chat) => {
+    await chatRepo.removeChat(+chat);
+};
+
 module.exports = {
     chatMessage,
     joinChat,
     getChats,
-    createChat
+    createChat,
+    deleteChat
 };

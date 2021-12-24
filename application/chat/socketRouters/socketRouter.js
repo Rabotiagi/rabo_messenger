@@ -2,7 +2,8 @@ const {
     chatMessage, 
     joinChat,
     getChats,
-    createChat
+    createChat,
+    deleteChat
 } = require('../socketServices/room.js');
 
 const {
@@ -19,6 +20,8 @@ const socketRouter = (io, socket) => {
     socket.on('createChat', createChat(socket));
 
     socket.on('findUsers', findUsers(socket));
+
+    socket.on('deleteChat', deleteChat);
 };
 
 module.exports = socketRouter;
