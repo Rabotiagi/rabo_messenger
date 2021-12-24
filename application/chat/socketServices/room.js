@@ -25,10 +25,9 @@ const chatMessage = (io) => async (message, id, chat) => {
     };
 
     await MessagesRepo.createMessage(messageToPost);
-    io.to(+chat).emit('message', wrapper(firstName, message, id));
+    io.to(+chat).emit('message', wrapper(firstName, message, id), chat);
 
     const chats = await renderChats(+id);
-
     const chatToRender = chats.find(c => c.chat === +chat);
     io.to(+chat).emit('refreshChats', chatToRender);
 };

@@ -22,7 +22,7 @@ export default {
             state.groups = newArr;
         },
         updateOneGroup(state, data) {
-            const group = state.groups.find((item) => item.id == data.id);
+            const group = state.groups.find((item) => item.chat == data.chat);
             if (group) {
                 group.msg = data.msg;
                 return;

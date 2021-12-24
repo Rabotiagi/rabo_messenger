@@ -47,6 +47,7 @@ export default {
         this.setUser();
 
         await this.socket.on('refreshChats', (data) => {
+            console.log(data);
             this.updateOneGroup(data);
             this.updateOneContact(data);
         });
@@ -64,18 +65,21 @@ export default {
             this.updateMessages(data);
         });
 
-        this.socket.on('message', (data) => {
-            this.addMessage(data);
+        this.socket.on('message', (data, chat) => {
+            console.log(chat, this.chat);
+            if(chat == this.chat){
+                this.addMessage(data);
+            }
         });
 
         // rewrite
         await this.socket.on('newChat', async (id, users) => {
             this.setChat(id);
-            await this.socket.emit('getChats', this.user);
             if (users.length < 3) {
                 await this.socket.emit('chatMessage', this.message, this.user, this.chat);
             }
-            await this.socket.emit('joinChats', this.chat, this.user);    
+            await this.socket.emit('joinChats', this.chat, this.user);
+            await this.socket.emit('getChats', this.user);    
         });
     }
 }
