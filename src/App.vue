@@ -1,6 +1,7 @@
 <template>
     <div id="app">
         <Groups />
+        <GroupsFrom />
         <Contacts />
         <Messages />
         <Files />
@@ -10,6 +11,7 @@
 <script>
 import { mapGetters, mapMutations } from 'vuex';
 import Groups from '@/components/Groups.vue';
+import GroupsFrom from '@/components/GroupsFrom.vue';
 import Contacts from '@/components/Contacts.vue';
 import Messages from '@/components/Messages.vue';
 import Files from '@/components/Files.vue';
@@ -25,6 +27,7 @@ export default {
     name: 'App',
     components: {
         Groups,
+        GroupsFrom,
         Contacts,
         Messages,
         Files

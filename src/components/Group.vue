@@ -28,8 +28,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-    .active {border: 2px solid blue}
-    .item {text-align: center}
-</style>
