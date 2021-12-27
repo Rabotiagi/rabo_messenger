@@ -11,6 +11,10 @@
             <input id="message" type="text" placeholder="Write a message...">
             <button type="submit" class="submit-send"></button>
         </form>
+        <form class="upload-form" v-on:submit="upload">
+            <input type="file" name="avatar"/>
+            <button type="submit">upload</button>
+        </form>
     </div>
 </template>
 
@@ -46,6 +50,22 @@ export default {
 
             event.target.elements.message.value = "";
             event.target.elements.message.focus();
+        },
+        upload: async function (event) {
+            event.preventDefault();
+
+            const input = document.querySelector('input[type="file"]');
+            const data = new FormData()
+            data.append('file', input.files[0])
+            data.append('user', this.chat)
+
+            await fetch('/upload', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                },
+                body: data
+            })
         }
     },
     updated() {
@@ -53,3 +73,14 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+.chat .upload-form {
+    position: absolute;
+    right: 24px;
+    bottom: 100px;
+}
+.chat .upload-form input {
+    color: #fff;
+}
+</style>
