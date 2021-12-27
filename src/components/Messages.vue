@@ -12,7 +12,7 @@
             <button type="submit" class="submit-send"></button>
         </form>
         <form class="upload-form" v-on:submit="upload">
-            <input type="file" name="avatar"/>
+            <input type="file" name="file"/>
             <button type="submit">upload</button>
         </form>
     </div>
@@ -57,13 +57,11 @@ export default {
             const input = document.querySelector('input[type="file"]');
             const data = new FormData()
             data.append('file', input.files[0])
-            data.append('user', this.chat)
+            data.append('user', this.user)
+            data.append('chat', this.chat)
 
             await fetch('/upload', {
                 method: 'POST',
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
                 body: data
             })
         }

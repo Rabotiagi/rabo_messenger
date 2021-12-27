@@ -5,11 +5,13 @@ const fastifySocketIO = require('fastify-socket.io');
 const multer = require('fastify-multer');
 const path = require('path');
 const socketRouter = require('./socketRouters/socketRouter');
+const FilesRepo = require('../database/repository/fileRepo.js');
 
 const storage = multer.diskStorage({
-    destination: '../database/files/',
+    destination: './database/files/',
     filename: function(req, file, cb){
-        cb(null, req.body.name + '-' + Date.now());
+        req.fileName = file.originalname;
+        cb(null, file.originalname.split('.')[0] + '-' + Date.now());
     }
 });
 const upload = multer({storage});
@@ -24,8 +26,9 @@ app.get('/', (req, reply) => {
     return reply.sendFile('/index.html');
 });
 
-app.post('/chat/upload', {preHandler: upload.single('file')}, (req, reply) => {
-    reply.code(200).send('SUCCESS!!!');
+app.post('/upload', {preHandler: upload.single('file')}, async (req, reply) => {
+    await FilesRepo.create(req.body.user, req.fileName, req.body.chat);
+    reply.code(200).send();
 });
 
 app.ready().then(() => {
