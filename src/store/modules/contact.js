@@ -37,6 +37,10 @@ export default {
         addContact(state, data) {
             state.contacts.push(data);
         },
+        deleteContact(state, id) {
+            const res = state.contacts.find(item => item.id = id);
+            state.contacts.splice(state.contacts.indexOf(res), 1);
+        },
         updateSearch(state, data) {
             state.searchRes = data;
         }
