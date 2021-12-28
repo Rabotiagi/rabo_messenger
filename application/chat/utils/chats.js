@@ -61,7 +61,6 @@ const renderMessages = (input) => {
             });
         }
     });
-    console.log(files);
     return {messages, files};
 };
 

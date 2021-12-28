@@ -14,9 +14,9 @@ export default {
         updateFiles(state, data) {
             data.forEach((item) => {
                 if (item.size > 1048576) {
-                    item.size = `${item.size / 1048576} MB`;
+                    item.size = `${(item.size / 1048576).toFixed(3)} MB`;
                 } else {
-                    item.size = `${item.size / 1024} KB`
+                    item.size = `${(item.size / 1024).toFixed(3)} KB`
                 }
                 if (item.sender == getCookie('user-id')) {
                     item.direction = 'outgoing';

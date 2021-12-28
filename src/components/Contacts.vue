@@ -1,7 +1,7 @@
 <template>
     <div class="contacts">
         <form class="search-form" autocomplete="off" v-on:submit="search">
-            <input id="name" type="text" placeholder="Search...">
+            <input id="name" type="text" placeholder="Search..." required>
             <button type="submit" class="submit-search"></button>
         </form>
         <div class="heading srch">

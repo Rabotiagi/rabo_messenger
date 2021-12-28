@@ -41,9 +41,10 @@ export default {
         'updateContacts',
         'updateOneContact', 
         'updateSearch', 
+        'setActive',
         'updateMessages', 
         'addMessage',
-        'setActive'
+        'updateFiles'
     ]),
     created() {
         this.setUser();
@@ -64,8 +65,9 @@ export default {
             this.updateSearch(data);
         });
 
-        this.socket.on('history', (data) => {
-            this.updateMessages(data);
+        this.socket.on('history', (messages, files) => {
+            this.updateMessages(messages);
+            this.updateFiles(files)
         });
 
         this.socket.on('message', (data, chat) => {
@@ -85,6 +87,10 @@ export default {
                 await this.socket.emit('joinChats', this.chat, this.user);
             }
             await this.socket.emit('getChats', this.user);
+        });
+
+        this.socket.on('file', async (data) => {
+            console.log(data);
         });
     }
 }

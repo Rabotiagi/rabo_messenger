@@ -44,19 +44,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-.files .delete {
-    position:absolute;
-    bottom: 32px;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 19px;
-    color: rgba(255, 255, 255, .25);
-    text-transform: uppercase;
-    cursor: pointer;
-}
-.files .delete:hover {
-    color: rgba(255, 255, 255, 0.808);
-}
-</style>

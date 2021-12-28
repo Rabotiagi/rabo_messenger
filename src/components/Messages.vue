@@ -12,8 +12,8 @@
             <button type="submit" class="submit-send"></button>
         </form>
         <form class="upload-form" v-on:submit="upload">
-            <input type="file" name="file"/>
-            <button type="submit">upload</button>
+            <input type="file" name="file" required>
+            <button type="submit">send file</button>
         </form>
     </div>
 </template>
@@ -34,11 +34,6 @@ export default {
         send: async function (event) {
             event.preventDefault();
 
-            if (!event.target.elements.message.value) {
-                alert('vvedi soobschenie dayn');
-                return;
-            }
-
             this.setMessage(event.target.elements.message.value);
 
             if (this.allMessages.length == 0 && this.chat.new) {
@@ -54,31 +49,32 @@ export default {
         upload: async function (event) {
             event.preventDefault();
 
-            const input = document.querySelector('input[type="file"]');
+            await this.socket.emit('chatMessage', '', this.user, this.chat);
+
+            const file = $('input[type="file"]').files[0];
+
+            if (file.name.indexOf('_') > -1) {
+                alert('file name should not contain "_"');
+                return;
+            }
+            if (file.size > 157286400) {
+                alert('max allowed file size is 150 MB');
+                return;
+            }
+
             const data = new FormData()
-            data.append('file', input.files[0])
+            data.append('file', file)
             data.append('user', this.user)
             data.append('chat', this.chat)
 
             await fetch('/upload', {
                 method: 'POST',
                 body: data
-            })
+            });
         }
     },
     updated() {
         $('.chat').scrollTop = $('.chat').scrollHeight;
-    },
+    }
 }
 </script>
-
-<style scoped>
-.chat .upload-form {
-    position: absolute;
-    right: 24px;
-    bottom: 100px;
-}
-.chat .upload-form input {
-    color: #fff;
-}
-</style>

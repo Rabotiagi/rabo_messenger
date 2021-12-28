@@ -56,8 +56,9 @@ const joinChat = (socket) => async (chat) => {
 };
 
 const getFile = (socket) => async (fileId) => {
-    const path = await FilesRepo.getFilePath(fileId);
-    const stream = fs.createReadStream('../../database/' + path);
+    console.log(__dirname);
+    const {path} = await FilesRepo.getFilePath(fileId);
+    const stream = fs.createReadStream('/run/media/yaroslav_els/86C6A702C6A6F19B/yaroslavels/projects/rabo_messenger/application/database/' + path);
 
     socket.emit('file', stream);
 };
