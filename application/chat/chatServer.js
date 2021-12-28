@@ -10,8 +10,8 @@ const FilesRepo = require('../database/repository/fileRepo.js');
 const storage = multer.diskStorage({
     destination: './database/files/',
     filename: function(req, file, cb){
-        req.fileName = file.originalname;
-        cb(null, file.originalname.split('.')[0] + '-' + Date.now());
+        req.fileName = Date.now() + '_' + file.originalname;
+        cb(null, req.fileName);
     }
 });
 const upload = multer({storage});
@@ -27,7 +27,7 @@ app.get('/', (req, reply) => {
 });
 
 app.post('/upload', {preHandler: upload.single('file')}, async (req, reply) => {
-    await FilesRepo.create(req.body.user, req.fileName, req.body.chat);
+    await FilesRepo.create(req.body.user, req.fileName, req.body.chat, req.file.size);
     reply.code(200).send();
 });
 

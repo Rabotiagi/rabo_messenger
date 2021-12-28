@@ -1,9 +1,10 @@
 const wrapper = require('../utils/wrapper.js');
-const renderChats = require('../utils/chats.js');
+const {renderChats, renderMessages} = require('../utils/chats.js');
 const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
-const chatRepo = require('./../../database/repository/chatRepo.js');
+const FilesRepo = require('./../../database/repository/fileRepo.js');
+const fs = require('fs');
 
 const createChat = (io) => async (users, chatName) => {
     try{
@@ -44,23 +45,25 @@ const getChats = (socket) => async (id) => {
 
 const joinChat = (socket) => async (chat) => {
     socket.join(+chat);
-    const messages = [];
-    const res = await MessagesRepo.getMessages(chat);
 
-    res.map(msg => {
-        messages.push({
-            message: msg.msg, 
-            time: msg.createdAt,
-            firstName: msg.user.firstName,
-            sender: msg.sender
-        });
-    });
+    let messages = await MessagesRepo.getMessages(chat);
+    messages = messages.sort((m1, m2) => {
+        return new Date(m2.createdAt) - new Date(m1.createdAt);
+    }).reverse();
 
-    socket.emit('history', messages);
+    const result = renderMessages(messages);
+    socket.emit('history', result.messages, result.files);
+};
+
+const getFile = (socket) => async (fileId) => {
+    const path = await FilesRepo.getFilePath(fileId);
+    const stream = fs.createReadStream('../../database/' + path);
+
+    socket.emit('file', stream);
 };
 
 const deleteChat = async (chat) => {
-    await chatRepo.removeChat(+chat);
+    await ChatRepo.removeChat(+chat);
 };
 
 module.exports = {
@@ -68,5 +71,6 @@ module.exports = {
     joinChat,
     getChats,
     createChat,
-    deleteChat
+    deleteChat,
+    getFile
 };
