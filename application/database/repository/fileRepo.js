@@ -2,7 +2,7 @@ const Files = require('../models/files.js');
 const Messages = require('../models/messages.js');
 
 module.exports = {
-    async create(sender, fileName, chatId){
+    async create(sender, fileName, chatId, size){
         const {msgId} = await Messages.create({
             sender,
             chatId,
@@ -11,7 +11,15 @@ module.exports = {
         
         await Files.create({
             fromMsg: msgId,
-            path: 'files/' + fileName
+            path: 'files/' + fileName,
+            size
+        });
+    },
+
+    async getFilePath(fileId){
+        return await Files.findOne({
+            where: {fileId},
+            attributes: ['path']
         });
     }
 };

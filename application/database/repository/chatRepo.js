@@ -5,7 +5,7 @@ const Op = require('sequelize').Op;
 
 module.exports = {
     async createChat(data){
-        await Chats.create(data);
+        return await Chats.create(data);
     },
 
     async addUser(user, chatId){
