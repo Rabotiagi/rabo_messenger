@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import group from './modules/group';
 import contact from './modules/contact';
 import message from './modules/message';
+import file from './modules/file';
 import getCookie from '@/plugins/getCookie.js';
 
 Vue.use(Vuex)
@@ -11,9 +12,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         socket: io(),
-        currentUser: false,
-        currentChat: false,
-        newMessage: ''
+        currentUser: null,
+        currentChat: null,
+        newMessage: null
     },
     getters: {
         socket(state) {
@@ -49,6 +50,7 @@ export default new Vuex.Store({
     modules: {
         group,
         contact,
-        message
+        message,
+        file
     }
 });

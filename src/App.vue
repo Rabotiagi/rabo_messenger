@@ -3,8 +3,8 @@
         <Groups />
         <GroupsFrom />
         <Contacts />
-        <Messages />
-        <Files />
+        <Messages v-if="chat" />
+        <Files v-if="chat" />
     </div>
 </template>
 
@@ -42,7 +42,8 @@ export default {
         'updateOneContact', 
         'updateSearch', 
         'updateMessages', 
-        'addMessage'
+        'addMessage',
+        'setActive'
     ]),
     created() {
         this.setUser();
@@ -56,6 +57,7 @@ export default {
         this.socket.on('chats', (data) => {
             this.updateContacts(data);
             this.updateGroups(data);
+            this.setActive(this.chat);
         });
 
         this.socket.on('show users', (data) => {
@@ -82,7 +84,7 @@ export default {
                 }
                 await this.socket.emit('joinChats', this.chat, this.user);
             }
-            await this.socket.emit('getChats', this.user);    
+            await this.socket.emit('getChats', this.user);
         });
     }
 }
