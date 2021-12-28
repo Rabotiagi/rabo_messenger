@@ -30,12 +30,12 @@ import $ from '@/plugins/selector.js';
 import compare from '@/plugins/compare.js';
 
 export default {
-    computed: mapGetters(['socket', 'user', 'allContacts', 'searchResults']),
+    computed: mapGetters(['socket', 'user', 'chat', 'allContacts', 'searchResults']),
     components: {
         Contact
     },
     methods: {
-        ...mapMutations(['updateGroups', 'updateContacts', 'updateSearch']),
+        ...mapMutations(['updateSearch', 'setActive']),
         search: function (event) {
             event.preventDefault();
 

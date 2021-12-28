@@ -2,7 +2,7 @@
     <div class="files">
         <div class="heading">shared files</div>
         <File 
-            v-for="(file, index) in files"
+            v-for="(file, index) in allFiles"
             :key="index"
             v-bind:file="file"
         />
@@ -18,17 +18,12 @@ import { mapGetters, mapMutations } from 'vuex';
 import File from '../components/File';
 
 export default {
-    computed: mapGetters(['socket', 'chat']),
-    data() {
-        return {
-            files: []
-        }
-    },
+    computed: mapGetters(['socket', 'chat', 'allFiles']),
     components: {
         File
     },
     methods: {
-        ...mapMutations(['setUser', 'updateMessages', 'deleteContact']),
+        ...mapMutations(['setUser', 'setChat', 'updateMessages', 'deleteContact']),
         ev1: function() {
             document.cookie = "user-id=1";
             this.setUser();
@@ -43,6 +38,7 @@ export default {
                 await this.socket.emit('deleteChat', this.chat);
                 this.deleteContact(this.chat);
                 this.updateMessages([]);
+                this.setChat(null);
             }
         }
     }
