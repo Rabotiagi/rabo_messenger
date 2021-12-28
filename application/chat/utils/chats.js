@@ -53,15 +53,15 @@ const renderMessages = (input) => {
         });
 
         if(message.file){
-            const {id, path, size} = message.file;
+            const {fileId, path, size} = message.file;
             files.push({
-                id,
+                fileId,
                 fileName: path.split('/')[1].split('_')[1],
                 size
             });
         }
     });
-
+    console.log(files);
     return {messages, files};
 };
 
