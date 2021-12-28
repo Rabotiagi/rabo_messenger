@@ -4,8 +4,10 @@ const fastifyStatic = require('fastify-static');
 const fastifySocketIO = require('fastify-socket.io');
 const multer = require('fastify-multer');
 const path = require('path');
-const socketRouter = require('./socketRouters/socketRouter');
+const socketRouter = require('./routers/socketRouter.js');
 const FilesRepo = require('../database/repository/fileRepo.js');
+const MessagesRepo = require('../database/repository/msgRepo.js');
+const {getLastmessage} = require('./utils/chats.js');
 
 const storage = multer.diskStorage({
     destination: './database/files/',
@@ -27,7 +29,10 @@ app.get('/', (req, reply) => {
 });
 
 app.post('/upload', {preHandler: upload.single('file')}, async (req, reply) => {
-    await FilesRepo.create(req.body.user, req.fileName, req.body.chat, req.file.size);
+    const messages = await MessagesRepo.getMessages(req.body.chat);
+    const {msgId} = getLastmessage(messages);
+    console.log(msgId);
+    await FilesRepo.create(req.fileName, msgId, req.file.size);
     reply.code(200).send();
 });
 

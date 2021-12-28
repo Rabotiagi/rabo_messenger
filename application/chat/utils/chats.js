@@ -67,5 +67,6 @@ const renderMessages = (input) => {
 
 module.exports = {
     renderChats,
-    renderMessages
+    renderMessages,
+    getLastmessage
 };
