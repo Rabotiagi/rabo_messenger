@@ -31,7 +31,7 @@ app.get('/', (req, reply) => {
 app.post('/upload', {preHandler: upload.single('file')}, async (req, reply) => {
     const messages = await MessagesRepo.getMessages(req.body.chat);
     const {msgId} = getLastmessage(messages);
-    console.log(msgId);
+    
     await FilesRepo.create(req.fileName, msgId, req.file.size);
     reply.code(200).send();
 });
