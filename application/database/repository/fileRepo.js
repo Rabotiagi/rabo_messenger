@@ -11,7 +11,7 @@ module.exports = {
         
         await Files.create({
             fromMsg,
-            path: 'files/' + fileName,
+            path: fileName,
             size
         });
     },

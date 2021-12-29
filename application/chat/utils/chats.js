@@ -2,7 +2,7 @@ const UsersRepo = require('../../database/repository/usersRepo.js');
 const MessagesRepo = require('../../database/repository/msgRepo.js');
 const ChatRepo = require('../../database/repository/chatRepo.js');
 
-const getLastmessage = (messages) => {
+const getLastMessage = (messages) => {
     let max = {createdAt: 0};
 
     messages.forEach(message => {
@@ -22,7 +22,7 @@ const renderChats = async (user_id) => {
         let messages = chat.messages.length ? chat.messages : 
             await MessagesRepo.getMessages(chat.chatId);
         
-        const { msg, createdAt} = getLastmessage(messages);
+        const { msg, createdAt} = getLastMessage(messages);
 
         const partner = chat.users[0] === user_id ? 
             chat.users[1] : chat.users[0];
@@ -56,7 +56,7 @@ const renderMessages = (input) => {
             const {fileId, path, size} = message.file;
             files.push({
                 fileId,
-                fileName: path.split('/')[1].split('_')[1],
+                fileName: path.split('_')[1],
                 size
             });
         }
@@ -67,5 +67,5 @@ const renderMessages = (input) => {
 module.exports = {
     renderChats,
     renderMessages,
-    getLastmessage
+    getLastMessage
 };

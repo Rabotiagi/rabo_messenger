@@ -58,7 +58,7 @@ const joinChat = (socket) => async (chat) => {
 
 const getFile = (socket) => async (fileId) => {
     const {path} = await FilesRepo.getFilePath(fileId);
-    const stream = fs.createReadStream(join(__dirname, '../..', 'database', path));
+    const stream = fs.createReadStream(join(__dirname, '../..', 'database/files', path));
 
     socket.emit('file', stream);
 };

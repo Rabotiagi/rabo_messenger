@@ -7,7 +7,7 @@ const path = require('path');
 const socketRouter = require('./routers/socketRouter.js');
 const FilesRepo = require('../database/repository/fileRepo.js');
 const MessagesRepo = require('../database/repository/msgRepo.js');
-const {getLastmessage} = require('./utils/chats.js');
+const {getLastMessage} = require('./utils/chats.js');
 
 const storage = multer.diskStorage({
     destination: './database/files/',
@@ -30,7 +30,7 @@ app.get('/', (req, reply) => {
 
 app.post('/upload', {preHandler: upload.single('file')}, async (req, reply) => {
     const messages = await MessagesRepo.getMessages(req.body.chat);
-    const {msgId} = getLastmessage(messages);
+    const {msgId} = getLastMessage(messages);
     
     await FilesRepo.create(req.fileName, msgId, req.file.size);
     reply.code(200).send();
