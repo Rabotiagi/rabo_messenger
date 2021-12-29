@@ -324,6 +324,9 @@ body {
 .chat .item .message .name-time .time {
     color: rgba(107, 111, 147, .8);
 }
+.chat .item .message .text-file a {
+    color: #3063bb;
+}
 .chat .item.outgoing {
     flex-direction: row-reverse;
 }

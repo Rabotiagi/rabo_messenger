@@ -45,6 +45,15 @@ export default new Vuex.Store({
         },
         setMessage(state, message) {
             state.newMessage = message;
+        },
+        connectFilesToMessages(state) {
+            state.file.files.forEach(item => {
+                const res = state.message.messages.find(elem => elem.id == item.fromMsg);
+                if (res) {
+                    res.message = item.name;
+                    res.file = item.fileName;
+                }
+            });
         }
     },
     modules: {

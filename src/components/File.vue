@@ -1,7 +1,7 @@
 <template>
     <div class="item file" v-on:click="download(file)">
         <div class="icon"></div>
-        <div class="name">{{file.fileName}}</div>
+        <div class="name">{{file.name}}</div>
         <div class="size">{{file.size}}</div>
         <div class="date">{{file.date}}</div>
     </div>

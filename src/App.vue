@@ -45,7 +45,8 @@ export default {
         'setActive',
         'updateMessages', 
         'addMessage',
-        'updateFiles'
+        'updateFiles',
+        'connectFilesToMessages'
     ]),
     created() {
         this.setUser();
@@ -68,7 +69,8 @@ export default {
 
         this.socket.on('history', (messages, files) => {
             this.updateMessages(messages);
-            this.updateFiles(files)
+            this.updateFiles(files);
+            this.connectFilesToMessages();
         });
 
         this.socket.on('message', (data, chat) => {

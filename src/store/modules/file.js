@@ -21,6 +21,7 @@ export default {
                 if (item.sender == getCookie('user-id')) {
                     item.direction = 'outgoing';
                 }
+                item.name = item.fileName.split('_')[1];
                 item.time = transformDate(item.time);
             })
             state.files = data;
@@ -29,6 +30,7 @@ export default {
             if (item.sender == getCookie('user-id')) {
                 item.direction = 'outgoing';
             }
+            item.name = item.fileName.split('_')[1];
             state.files.push(item);
         }
     }  
