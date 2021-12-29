@@ -44,8 +44,9 @@ const renderMessages = (input) => {
     const files = [];
 
     input.map(message => {
-        const {msg, createdAt, sender, user} = message;
+        const {msgId, msg, createdAt, sender, user} = message;
         messages.push({
+            id: msgId,
             message: msg,
             time: createdAt,
             firstName: user.firstName,
@@ -53,10 +54,11 @@ const renderMessages = (input) => {
         });
 
         if(message.file){
-            const {fileId, path, size} = message.file;
+            const {fileId, path, size, fromMsg} = message.file;
             files.push({
+                fromMsg,
                 fileId,
-                fileName: path.split('_')[1],
+                fileName: path,
                 size
             });
         }

@@ -56,7 +56,6 @@ const joinChat = (socket) => async (chat) => {
 
 const getFile = (socket) => async (fileId) => {
     const {path} = await FilesRepo.getFilePath(fileId);
-    
     socket.emit('file', path);
 };
 
