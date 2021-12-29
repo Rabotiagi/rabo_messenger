@@ -6,8 +6,7 @@
             :key="index"
             v-bind:file="file"
         />
-        <button v-on:click="ev1">1</button>
-        <button v-on:click="ev2">2</button>
+
 
         <div class="delete" v-on:click="deletion">Delete this chat?</div>
     </div>
@@ -24,14 +23,6 @@ export default {
     },
     methods: {
         ...mapMutations(['setUser', 'setChat', 'updateMessages', 'deleteContact']),
-        ev1: function() {
-            document.cookie = "user-id=1";
-            this.setUser();
-        },
-        ev2: function() {
-            document.cookie = "user-id=2";
-            this.setUser();
-        },
         deletion: async function() {
             const res = confirm(`are you sure you want to delete this chat?`);
             if (res) {
