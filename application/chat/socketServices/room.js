@@ -4,8 +4,6 @@ const UsersRepo = require('./../../database/repository/usersRepo.js');
 const ChatRepo = require('./../../database/repository/chatRepo.js');
 const MessagesRepo = require('./../../database/repository/msgRepo.js');
 const FilesRepo = require('./../../database/repository/fileRepo.js');
-const fs = require('fs');
-const {join} = require('path');
 
 const createChat = (io) => async (users, chatName) => {
     try{
@@ -58,9 +56,8 @@ const joinChat = (socket) => async (chat) => {
 
 const getFile = (socket) => async (fileId) => {
     const {path} = await FilesRepo.getFilePath(fileId);
-    const stream = fs.createReadStream(join(__dirname, '../..', 'database/files', path));
-
-    socket.emit('file', stream);
+    
+    socket.emit('file', path);
 };
 
 const deleteChat = async (chat) => {

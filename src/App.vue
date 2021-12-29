@@ -15,6 +15,7 @@ import GroupsFrom from '@/components/GroupsFrom.vue';
 import Contacts from '@/components/Contacts.vue';
 import Messages from '@/components/Messages.vue';
 import Files from '@/components/Files.vue';
+import downloadFile from '@/plugins/downloadFile.js';
 
 export default {
     computed: mapGetters([
@@ -90,7 +91,7 @@ export default {
         });
 
         this.socket.on('file', async (data) => {
-            console.log(data);
+            downloadFile(data);
         });
     }
 }
