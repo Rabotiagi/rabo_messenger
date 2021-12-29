@@ -13,6 +13,10 @@ app.register(Router);
 app.register(fastifyStatic, {
     root: path.resolve(__dirname, '../application')
 });
+app.addHook('onRequest', (req, reply, done) => {
+    if(req.url.includes('database/files')) reply.header('Access-Control-Allow-Origin','http://localhost:3000');
+    done();
+});
 
 (async () => {
     associate();
