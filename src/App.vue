@@ -23,7 +23,8 @@ export default {
         'user',
         'chat', 
         'message',
-        'allContacts'
+        'allContacts',
+        'allFiles'
     ]),
     name: 'App',
     components: {
@@ -40,9 +41,9 @@ export default {
         'updateGroups', 
         'updateOneGroup',
         'updateContacts',
-        'updateOneContact', 
+        'updateOneContact',
+        'setActive', 
         'updateSearch', 
-        'setActive',
         'updateMessages', 
         'addMessage',
         'updateFiles',

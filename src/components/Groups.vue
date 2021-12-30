@@ -2,7 +2,7 @@
     <div class="groups">
         <Group 
             v-for="(group, index) in allGroups"
-            :key="index"
+            :key="index+300"
             v-bind:group="group"
         />
         <div class="item add" v-on:click="showForm"><span class="icon"></span></div>

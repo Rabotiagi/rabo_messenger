@@ -7,7 +7,6 @@
             v-bind:file="file"
         />
 
-
         <div class="delete" v-on:click="deletion">Delete this chat?</div>
     </div>
 </template>

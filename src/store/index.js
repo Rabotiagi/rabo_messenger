@@ -46,6 +46,31 @@ export default new Vuex.Store({
         setMessage(state, message) {
             state.newMessage = message;
         },
+        setActive(state, id) { // definitely needs a rewrite
+            state.contact.contacts.forEach(item => {
+                item.active = false;
+            });
+            state.contact.searchRes.forEach(item => {
+                item.active = false;
+            });
+            state.group.groups.forEach(item => {
+                item.active = false;
+            });
+            const res1 = state.contact.contacts.find(item => item.chat == id);
+            if (res1) {
+                res1.active = true;
+                return;
+            }
+            const res2 = state.contact.searchRes.find(item => item.id == id);
+            if (res2) {
+                res2.active = true;
+                return;
+            }
+            const res3 = state.group.groups.find(item => item.chat == id);
+            if (res3) {
+                res3.active = true;
+            }
+        },
         connectFilesToMessages(state) {
             state.file.files.forEach(item => {
                 const res = state.message.messages.find(elem => elem.id == item.fromMsg);

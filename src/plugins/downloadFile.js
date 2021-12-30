@@ -1,8 +1,8 @@
-
 export default function downloadFile(name) {
-    fetch(('http://localhost:3000/database/files/' + name), {
+    console.log(process.env.VUE_APP_URL + '/database/files/' + name);
+    fetch((process.env.VUE_APP_URL + '/database/files/' + name), {
         headers: {
-            'Origin': 'http://localhost:3000/'
+            'Origin': process.env.VUE_APP_URL
         }
     }).then(res => {
         res.blob().then(blob => {

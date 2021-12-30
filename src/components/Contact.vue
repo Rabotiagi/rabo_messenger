@@ -3,7 +3,8 @@
         <div class='image'></div>
         <div class='name-message'>
             <div class='name'>{{contact.name}}</div>
-            <div class='message'>{{contact.msg}}</div>
+            <div class='message' v-if="contact.msg">{{contact.msg}}</div>
+            <div class='message file' v-if="!contact.msg && contact.chat"><em>attached file</em></div>
         </div>
         <div class='date'>{{contact.createdAt}}</div>
         <div class="azaz" v-if="contact.active"></div>

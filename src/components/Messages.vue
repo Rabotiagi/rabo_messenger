@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 import Message from '../components/Message';
 import $ from '@/plugins/selector.js';
 
@@ -29,7 +29,6 @@ export default {
         Message
     },
     methods: {
-        ...mapActions(['isGroup']),
         ...mapMutations(['setChat', 'setMessage']),
         send: async function (event) {
             event.preventDefault();
@@ -49,8 +48,6 @@ export default {
         upload: async function (event) {
             event.preventDefault();
 
-            await this.socket.emit('chatMessage', '', this.user, this.chat);
-
             const file = $('input[type="file"]').files[0];
 
             if (file.name.indexOf('_') > -1) {
@@ -61,6 +58,8 @@ export default {
                 alert('max allowed file size is 150 MB');
                 return;
             }
+
+            await this.socket.emit('chatMessage', '', this.user, this.chat);
 
             const data = new FormData()
             data.append('file', file)

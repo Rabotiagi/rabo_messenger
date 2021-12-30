@@ -35,7 +35,7 @@ export default {
         Contact
     },
     methods: {
-        ...mapMutations(['updateSearch', 'setActive']),
+        ...mapMutations(['updateSearch']),
         search: function (event) {
             event.preventDefault();
 

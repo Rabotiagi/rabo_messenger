@@ -47,20 +47,6 @@ export default {
                 item.active = false;
             })
             state.searchRes = data;
-        },
-        setActive(state, id) {
-            state.contacts.forEach(item => {
-                item.active = false;
-            });
-            let res = state.contacts.find(item => item.chat == id);
-            if (res) {
-                res.active = true;
-                return;
-            }
-            res = state.searchRes.find(item => item.id == id);
-            if (res) {
-                res.active = true;
-            }
         }
     }
 }

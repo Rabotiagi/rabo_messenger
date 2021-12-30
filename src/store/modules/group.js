@@ -16,6 +16,7 @@ export default {
             const newArr = [];
             data.forEach(item => {
                 if (Array.isArray(item.id)) {
+                    item.active = false;
                     newArr.push(item);
                 }
             });

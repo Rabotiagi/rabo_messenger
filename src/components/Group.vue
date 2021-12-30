@@ -1,10 +1,12 @@
 <template>
-    <div class='item' v-on:click="enter($event, group)">{{group.name}}</div>
+    <div class='item' v-on:click="enter(group)">
+        {{group.name}}
+        <div class="azaz" v-if="group.active"></div>
+    </div>
 </template>
 
 <script>
 import { mapGetters, mapMutations } from 'vuex';
-import $ from '@/plugins/selector.js';
 
 export default {
     computed: mapGetters(['socket', 'user', 'chat']),
@@ -15,13 +17,9 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['setChat']),
-        enter: function (event, item) {
-            if ($('.active')) {
-                $('.active').classList.remove('active');
-            }
-            event.target.classList.add('active');
-
+        ...mapMutations(['setChat', 'setActive']),
+        enter: function (item) {
+            this.setActive(item.chat);
             this.setChat(item.chat);
             this.socket.emit('joinChats', this.chat, this.user);
         }
