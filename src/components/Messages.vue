@@ -7,14 +7,16 @@
                 v-bind:message="message"
             />
         </div>
-        <form class="message-form" autocomplete="off" v-on:submit="send">
-            <input id="message" type="text" placeholder="Write a message...">
-            <button type="submit" class="submit-send"></button>
-        </form>
-        <form class="upload-form" v-on:submit="upload">
-            <input type="file" name="file" required>
-            <button type="submit">send file</button>
-        </form>
+        <div>
+            <form class="upload-form" v-on:submit="upload">
+                <input type="file" name="file" required>
+                <button type="submit">send file</button>
+            </form>
+            <form class="message-form" autocomplete="off" v-on:submit="send">
+                <input id="message" type="text" placeholder="Write a message...">
+                <button type="submit" class="submit-send"></button>
+            </form>
+        </div>
     </div>
 </template>
 

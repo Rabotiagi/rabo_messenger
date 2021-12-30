@@ -419,9 +419,8 @@ body {
 
 
 .chat .upload-form {
-    position: absolute;
-    right: 24px;
-    bottom: 100px;
+    margin: 0 0 0 auto;
+    width: fit-content;
 }
 .chat .upload-form input {
     color: #fff;

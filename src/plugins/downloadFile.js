@@ -1,5 +1,4 @@
 export default function downloadFile(name) {
-    console.log(process.env.VUE_APP_URL + '/database/files/' + name);
     fetch((process.env.VUE_APP_URL + '/database/files/' + name), {
         headers: {
             'Origin': process.env.VUE_APP_URL

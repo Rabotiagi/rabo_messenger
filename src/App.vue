@@ -74,9 +74,13 @@ export default {
             this.connectFilesToMessages();
         });
 
+        // rewrite
         this.socket.on('message', (data, chat) => {
             if (this.chat == chat) {
                 this.addMessage(data);
+                if (data.message == '') {
+                    this.socket.emit('joinChats', this.chat, this.user);
+                }
             }
         });
 
