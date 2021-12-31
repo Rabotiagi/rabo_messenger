@@ -42,13 +42,19 @@ export default ({
         create: function () {
             const name = $('.name-input').value;
             if (!name) {
-                alert('Enter the name');
+                alert('enter the name');
                 return;
             }
+
             const ids = [this.user];
             this.chosenUsers.forEach(item => {
                 ids.push(item.id);
             })
+            if  (ids.length < 3) {
+                alert('select at least 2 users');
+                return;
+            }
+            
             this.socket.emit('createChat', ids, name);
             this.close();
         },

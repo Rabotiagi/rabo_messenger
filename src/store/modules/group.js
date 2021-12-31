@@ -35,6 +35,12 @@ export default {
         addGroup(state, data) {
             state.groups.push(data);
         },
+        deleteGroup(state, id) {
+            const res = state.groups.find(item => item.chat == id);
+            if (res) {
+                state.groups.splice(state.groups.indexOf(res), 1);
+            }
+        },
         updateChosenUsers(state, data) {
             state.chosenUsers = data;
         },

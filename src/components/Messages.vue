@@ -7,7 +7,7 @@
                 v-bind:message="message"
             />
         </div>
-        <div>
+        <div class="qwe">
             <form class="upload-form" v-on:submit="upload">
                 <input type="file" name="file" required>
                 <button type="submit">send file</button>
@@ -79,3 +79,12 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.qwe {
+    position: sticky;
+    bottom: 0;
+    background: #191b20;
+    padding: 32px 0;
+}
+</style>

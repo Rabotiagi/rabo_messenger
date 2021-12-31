@@ -28,7 +28,8 @@ body {
 }
 .groups {
     position:relative;
-    min-width: 226px;
+    min-width: 209px;
+    max-width: 209px;
     overflow-y: unset !important;
 }
 .groups .item {
@@ -39,9 +40,12 @@ body {
     background: #fff;
     margin-bottom: 16px;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+}
+.groups .item:nth-child(odd) {
+    margin-right: 20px;
 }
 .groups .item.add {
     display: flex;
@@ -64,8 +68,6 @@ body {
 #app .create-group {
     position: absolute;
     z-index: 1;
-    left: 50%;
-    transform: translateX(-50%);
     width: 700px;
     height: 490px;
     padding: 24px 32px;
@@ -176,6 +178,7 @@ body {
 }
 .contacts {
     min-width: 344px;
+    max-width: 344px;
     z-index: 0;
 }
 .contacts .search-form {
@@ -256,6 +259,9 @@ body {
     line-height: 14px;
     color: rgba(255, 255, 255, .5);
     letter-spacing: 0.03em;
+    max-width: 185px;
+    overflow-x: hidden;
+    white-space: nowrap;
 }
 .contacts .item .date {
     font-size: 11px;
@@ -264,11 +270,12 @@ body {
     white-space: nowrap;
     margin-top: 2px;
 }
-.chat {
+#app .chat {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding-bottom: 0;
 }
 .chat .line {
     display: block;
@@ -318,6 +325,9 @@ body {
 .chat .item .message .name-time .time {
     color: rgba(107, 111, 147, .8);
 }
+.chat .item .message .text {
+    word-break: break-word;;
+}
 .chat .item .message .text-file a {
     color: #3063bb;
 }
@@ -356,6 +366,7 @@ body {
 }
 .files {
     min-width: 289px;
+    max-width: 289px;
     display: flex;
     flex-direction: column;
     align-items: center;

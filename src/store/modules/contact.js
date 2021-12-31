@@ -26,7 +26,7 @@ export default {
             state.contacts = newArr;
         },
         updateOneContact(state, data) {
-            const contact = state.contacts.find((item) => item.chat == data.chat);
+            const contact = state.contacts.find(item => item.chat == data.chat);
             if (contact) {
                 contact.msg = data.msg;
                 return;
@@ -39,8 +39,10 @@ export default {
             state.contacts.push(data);
         },
         deleteContact(state, id) {
-            const res = state.contacts.find(item => item.id = id);
-            state.contacts.splice(state.contacts.indexOf(res), 1);
+            const res = state.contacts.find(item => item.chat == id);
+            if (res) {
+                state.contacts.splice(state.contacts.indexOf(res), 1);
+            }
         },
         updateSearch(state, data) {
             data.forEach(item => {

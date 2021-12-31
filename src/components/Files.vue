@@ -21,13 +21,13 @@ export default {
         File
     },
     methods: {
-        ...mapMutations(['setUser', 'setChat', 'updateMessages', 'deleteContact']),
+        ...mapMutations(['setChat', 'deleteContact', 'deleteGroup']),
         deletion: async function() {
             const res = confirm(`are you sure you want to delete this chat?`);
             if (res) {
                 await this.socket.emit('deleteChat', this.chat);
                 this.deleteContact(this.chat);
-                this.updateMessages([]);
+                this.deleteGroup(this.chat);
                 this.setChat(null);
             }
         }

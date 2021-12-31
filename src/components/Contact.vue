@@ -23,12 +23,13 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['setChat', 'updateMessages', 'setActive']),
+        ...mapMutations(['setChat', 'updateMessages', 'updateFiles', 'setActive']),
         enter: function (item) {
             if (item.chat == null) {
                 this.setActive(item.id)
                 this.setChat({new: item.id});
                 this.updateMessages([]);
+                this.updateFiles([]);
                 return;
             }
             this.setActive(item.chat);
