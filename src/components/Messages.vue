@@ -61,7 +61,7 @@ export default {
                 return;
             }
 
-            await this.socket.emit('chatMessage', '', this.user, this.chat);
+            // await this.socket.emit('chatMessage', '', this.user, this.chat);
 
             const data = new FormData()
             data.append('file', file)
@@ -70,8 +70,13 @@ export default {
 
             await fetch('/upload', {
                 method: 'POST',
-                body: data
+                body: data,
+                headers: {
+                  'Origin': process.env.VUE_APP_URL
+                }
             });
+
+            await this.socket.emit('joinChat', this.chat)
         }
     },
     updated() {

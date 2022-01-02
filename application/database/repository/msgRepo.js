@@ -11,7 +11,7 @@ module.exports = {
     },
 
     async createMessage(msg){
-        await Messages.create(msg);
+        return await Messages.create(msg);
     },
 
     async removeMessages(chatId){
