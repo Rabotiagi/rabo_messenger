@@ -2,6 +2,7 @@ const multer = require("fastify-multer");
 const MessagesRepo = require("../../database/repository/msgRepo.js");
 const FilesRepo = require("../../database/repository/fileRepo.js");
 const UsersRepo = require('../../database/repository/usersRepo.js');
+const { renderChats } = require('../utils/chats.js');
 const wrapper = require('../utils/wrapper.js');
 
 const storage = multer.diskStorage({
@@ -35,7 +36,10 @@ function Router(fastify, opts, done){
             user
         ), chat);
 
-        fastify.io.to(+chat).emit('refreshChats', chat);
+        const chats = await renderChats(+user);
+        fastify.io.to(+chat).emit('refreshChats', chats.find(
+            c => c.chat === +chat
+        ));
 
         reply.code(200).send();
     });
