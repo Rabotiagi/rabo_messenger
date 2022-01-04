@@ -9,7 +9,7 @@
         </div>
         <div class="qwe">
             <form class="upload-form" v-on:submit="upload">
-                <input type="file" name="file" required>
+                <input type="file" name="file" class="msg-file" required>
                 <button type="submit">send file</button>
             </form>
             <form class="message-form" autocomplete="off" v-on:submit="send">
@@ -50,7 +50,7 @@ export default {
         upload: async function (event) {
             event.preventDefault();
 
-            const file = $('input[type="file"]').files[0];
+            const file = $('.msg-file').files[0];
 
             if (file.name.indexOf('_') > -1) {
                 alert('file name should not contain "_"');
@@ -61,22 +61,17 @@ export default {
                 return;
             }
 
-            // await this.socket.emit('chatMessage', '', this.user, this.chat);
+            const data = new FormData();
+            data.append('file', file);
+            data.append('user', this.user);
+            data.append('chat', this.chat);
 
-            const data = new FormData()
-            data.append('file', file)
-            data.append('user', this.user)
-            data.append('chat', this.chat)
-
-            await fetch('/file', {
+            fetch('/file', {
                 method: 'POST',
-                body: data,
-                headers: {
-                  'Origin': process.env.VUE_APP_URL
-                }
+                body: data
             });
 
-            await this.socket.emit('joinChat', this.chat)
+            await this.socket.emit('joinChat', this.chat);
         }
     },
     updated() {

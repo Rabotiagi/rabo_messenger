@@ -1,6 +1,6 @@
 <template>
     <div class='item contact' v-on:click="enter(contact)">
-        <div class='image'></div>
+        <img src="http://localhost:3000/database/photos/1641330428704_1640862233-1.jpg" alt="photo" class='image'>
         <div class='name-message'>
             <div class='name'>{{contact.name}}</div>
             <div class='message' v-if="contact.msg">{{contact.msg}}</div>
@@ -8,6 +8,7 @@
         </div>
         <div class='date'>{{contact.createdAt}}</div>
         <div class="azaz" v-if="contact.active"></div>
+        <div class="azazaz" v-if="contact.notify"></div>
     </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
         }
     },
     methods: {
-        ...mapMutations(['setChat', 'updateMessages', 'updateFiles', 'setActive']),
+        ...mapMutations(['setChat', 'updateMessages', 'updateFiles', 'setActive', 'removeNotify']),
         enter: function (item) {
             if (item.chat == null) {
                 this.setActive(item.id)
@@ -34,6 +35,7 @@ export default {
             }
             this.setActive(item.chat);
             this.setChat(item.chat);
+            this.removeNotify(item);
             this.socket.emit('joinChats', this.chat, this.user);
         }
     }

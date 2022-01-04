@@ -5,6 +5,11 @@
         <Contacts />
         <Messages v-if="chat" />
         <Files v-if="chat" />
+
+        <div>
+            <button id="zxc">zxc</button>
+        </div>
+
     </div>
 </template>
 
@@ -47,16 +52,22 @@ export default {
         'updateMessages', 
         'addMessage',
         'updateFiles',
-        'connectFilesToMessages'
+        'connectFilesToMessages',
+        'setNotify'
     ]),
     created() {
         this.setUser();
         this.socket.emit('setUserId', this.user);
+        const audio = new Audio("https://freesound.org/data/previews/458/458586_5121236-lq.mp3");
 
         this.socket.on('refreshChats', (data) => {
-            console.log(data);
             this.updateOneGroup(data);
             this.updateOneContact(data);
+
+            this.setNotify(data);
+            if (this.chat !== data.chat) {
+                audio.play();
+            }
         });
 
         this.socket.on('chats', (data) => {
@@ -81,7 +92,6 @@ export default {
                 this.addMessage(data);
                 if (data.message == '') {
                     this.socket.emit('joinChats', this.chat, this.user);
-                    console.log(1);
                 }
             }
         });
@@ -102,6 +112,13 @@ export default {
         this.socket.on('file', async (data) => {
             downloadFile(data);
         });
+    },
+    mounted() {
+        var typeWriter = new Audio("https://freesound.org/data/previews/458/458586_5121236-lq.mp3");
+        console.log(typeWriter);
+        document.getElementById('zxc').addEventListener('click', () => {
+            typeWriter.play();
+        })
     }
 }
 </script>

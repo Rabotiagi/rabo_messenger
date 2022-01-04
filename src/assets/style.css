@@ -437,6 +437,17 @@ body {
     color: #fff;
 }
 
+.groups .image-form {
+    margin: 0 0 0 auto;
+    width: fit-content;
+    position: absolute;
+    bottom: 120px;
+    color: #fff
+}
+.groups .image-form input {
+    color: #fff;
+}
+
 .files .delete {
     position:absolute;
     bottom: 32px;
@@ -469,4 +480,14 @@ body {
     top: 0;
     border-radius: 50%;
     border: 5px solid rgba(88, 147, 247, .8);
+}
+
+.azazaz {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #5893F733;
+    border-left: 2px solid rgba(247, 112, 112, 0.6);
 }

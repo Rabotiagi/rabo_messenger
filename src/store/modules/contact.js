@@ -20,6 +20,7 @@ export default {
                 if (!Array.isArray(item.id)) {
                     item.createdAt = transformDate(item.createdAt);
                     item.active = false;
+                    item.notify = false;
                     newArr.push(item);
                 }
             });
@@ -49,6 +50,18 @@ export default {
                 item.active = false;
             })
             state.searchRes = data;
+        },
+        setNotify(state, data) {
+            const res = state.contacts.find(item => item.chat == data.chat);
+            if (res) {
+                state.contacts[state.contacts.indexOf(res)].notify = true;
+            }
+        },
+        removeNotify(state, data) {
+            const res = state.contacts.find(item => item.chat == data.chat);
+            if (res) {
+                state.contacts[state.contacts.indexOf(res)].notify = false;
+            }
         }
     }
 }
