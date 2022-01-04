@@ -41,6 +41,7 @@ export default {
     },
     methods: mapMutations([
         'setUser', 
+        'setUserInfo',
         'setChat',
         'setMessage',
         'updateGroups', 
@@ -59,7 +60,12 @@ export default {
     created() {
         this.setUser();
         this.socket.emit('setUserId', this.user);
+        this.socket.emit('getUserPhoto', this.user);
         const audio = new Audio("https://freesound.org/data/previews/458/458586_5121236-lq.mp3");
+
+        this.socket.on('photo', (data) => {
+            this.setUserInfo(data);
+        });
 
         this.socket.on('refreshChats', (data) => {
             this.updateOneGroup(data);

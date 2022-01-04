@@ -13,6 +13,7 @@ export default new Vuex.Store({
     state: {
         socket: io(),
         currentUser: null,
+        userInfo: null,
         currentChat: null,
         newMessage: null
     },
@@ -23,6 +24,11 @@ export default new Vuex.Store({
         user(state) {
             if (state.currentUser) {
                 return state.currentUser;
+            }
+        },
+        userInfo(state) {
+            if (state.userInfo) {
+                return state.userInfo;
             }
         },
         chat(state) {
@@ -39,6 +45,9 @@ export default new Vuex.Store({
     mutations: {
         setUser(state) {
             state.currentUser = getCookie('user-id');
+        },
+        setUserInfo(state, str) {
+            state.userInfo = {photo: str};
         },
         setChat(state, id) {
             state.currentChat = id;
@@ -81,14 +90,12 @@ export default new Vuex.Store({
             });
         },
         connectPhotosToMessages(state) {
+            const pic = state.contact.contacts.find(item => item.id == state.currentChat).photo;
             state.message.messages.forEach(item => {
                 if (item.photo !== null) {
                     return;
                 }
-                const res = state.contact.contacts.find(elem => elem.id == item.sender);
-                if (res) {
-                    item.photo = res.photo;
-                }
+                item.photo = item.direction ? state.userInfo.photo : pic;
             })
         }
     },
