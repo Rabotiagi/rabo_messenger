@@ -1,7 +1,8 @@
 <template>
     <div>
         <div class='item mess' v-bind:class="message.direction">
-            <div class='image'></div>
+            <img class="image" v-bind:src="'http://localhost:3000/database/photos/'+message.photo" v-if="message.photo">
+            <div class="image" v-else></div>
             <div class='message'>
                 <div class='name-time'>
                     <div class='mess-name'>{{message.firstName}}</div>

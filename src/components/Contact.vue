@@ -1,6 +1,7 @@
 <template>
     <div class='item contact' v-on:click="enter(contact)">
-        <img src="http://localhost:3000/database/photos/1641330428704_1640862233-1.jpg" alt="photo" class='image'>
+        <img class="image" v-bind:src="'http://localhost:3000/database/photos/'+contact.photo" v-if="contact.photo">
+        <div class="image" v-else></div>
         <div class='name-message'>
             <div class='name'>{{contact.name}}</div>
             <div class='message' v-if="contact.msg">{{contact.msg}}</div>

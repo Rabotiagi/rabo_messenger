@@ -53,6 +53,7 @@ export default {
         'addMessage',
         'updateFiles',
         'connectFilesToMessages',
+        'connectPhotosToMessages',
         'setNotify'
     ]),
     created() {
@@ -64,8 +65,8 @@ export default {
             this.updateOneGroup(data);
             this.updateOneContact(data);
 
-            this.setNotify(data);
             if (this.chat !== data.chat) {
+                this.setNotify(data);
                 audio.play();
             }
         });
@@ -84,6 +85,7 @@ export default {
             this.updateMessages(messages);
             this.updateFiles(files);
             this.connectFilesToMessages();
+            this.connectPhotosToMessages();
         });
 
         // rewrite
@@ -94,6 +96,7 @@ export default {
                     this.socket.emit('joinChats', this.chat, this.user);
                 }
             }
+            this.connectPhotosToMessages();
         });
 
         // rewrite
@@ -115,7 +118,6 @@ export default {
     },
     mounted() {
         var typeWriter = new Audio("https://freesound.org/data/previews/458/458586_5121236-lq.mp3");
-        console.log(typeWriter);
         document.getElementById('zxc').addEventListener('click', () => {
             typeWriter.play();
         })

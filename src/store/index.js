@@ -79,6 +79,17 @@ export default new Vuex.Store({
                     res.file = item.fileName;
                 }
             });
+        },
+        connectPhotosToMessages(state) {
+            state.message.messages.forEach(item => {
+                if (item.photo !== null) {
+                    return;
+                }
+                const res = state.contact.contacts.find(elem => elem.id == item.sender);
+                if (res) {
+                    item.photo = res.photo;
+                }
+            })
         }
     },
     modules: {

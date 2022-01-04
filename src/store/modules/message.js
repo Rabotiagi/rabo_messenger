@@ -24,6 +24,7 @@ export default {
                     item.direction = 'outgoing';
                 }
                 item.time = transformDate(item.time);
+                item.photo = null;
             })
             state.messages = data;
         },

@@ -54,13 +54,13 @@ export default {
         setNotify(state, data) {
             const res = state.contacts.find(item => item.chat == data.chat);
             if (res) {
-                state.contacts[state.contacts.indexOf(res)].notify = true;
+                res.notify = true;
             }
         },
         removeNotify(state, data) {
             const res = state.contacts.find(item => item.chat == data.chat);
             if (res) {
-                state.contacts[state.contacts.indexOf(res)].notify = false;
+                res.notify = false;
             }
         }
     }

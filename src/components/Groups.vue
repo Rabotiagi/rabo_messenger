@@ -24,7 +24,7 @@ import Group from '@/components/Group';
 import $ from '@/plugins/selector.js';
 
 export default {
-    computed: mapGetters(['socket', 'user', 'chat', 'allGroups']),
+    computed: mapGetters(['socket', 'user', 'allGroups']),
     components: {
         Group
     },
