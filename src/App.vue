@@ -54,6 +54,7 @@ export default {
         this.socket.emit('setUserId', this.user);
 
         this.socket.on('refreshChats', (data) => {
+            console.log(data);
             this.updateOneGroup(data);
             this.updateOneContact(data);
         });
@@ -80,6 +81,7 @@ export default {
                 this.addMessage(data);
                 if (data.message == '') {
                     this.socket.emit('joinChats', this.chat, this.user);
+                    console.log(1);
                 }
             }
         });

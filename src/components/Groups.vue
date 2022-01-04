@@ -7,6 +7,12 @@
         />
         <div class="item add" v-on:click="showForm"><span class="icon"></span></div>
         <div class="item account"></div>
+
+        <!-- <form class="upload-form">
+            <input type="file" name="picture" required>
+            <button type="submit">submit</button>
+        </form> -->
+
         <button v-on:click="ev1">1</button>
         <button v-on:click="ev2">2</button>
     </div>
@@ -37,3 +43,11 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .upload-form {
+        position: absolute;
+        bottom: 120px;
+        color: #fff
+    }
+</style>

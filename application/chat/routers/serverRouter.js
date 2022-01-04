@@ -35,6 +35,8 @@ function Router(fastify, opts, done){
             user
         ), chat);
 
+        fastify.io.to(+chat).emit('refreshChats', chat);
+
         reply.code(200).send();
     });
 
