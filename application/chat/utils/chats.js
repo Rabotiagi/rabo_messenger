@@ -2,6 +2,11 @@ const UsersRepo = require('../../database/repository/usersRepo.js');
 const MessagesRepo = require('../../database/repository/msgRepo.js');
 const ChatRepo = require('../../database/repository/chatRepo.js');
 
+const getPhoto = async (id) => {
+    const {photo} = await UsersRepo.getPhoto(id);
+    return photo ? photo.path : null;
+};
+
 const getLastMessage = (messages) => {
     let max = {createdAt: 0};
 
@@ -26,6 +31,7 @@ const renderChats = async (user_id) => {
 
         const partner = chat.users[0] === user_id ? 
             chat.users[1] : chat.users[0];
+        await getPhoto(partner);
             
         const user = await UsersRepo.getUser(partner);
         const {chatName} = await ChatRepo.getChatName(chat.chatId);
@@ -33,9 +39,15 @@ const renderChats = async (user_id) => {
         const members = chat.users.length > 2 ? chat.users : user.id;
         const name = chatName ? chatName : user.firstName;
 
-        convs.push({id: members, name, chat: chat.chatId, msg, createdAt});
+        convs.push({
+            id: members,
+            name, msg,
+            chat: chat.chatId,
+            createdAt,
+            photo: await getPhoto(partner)
+        });
     }
-
+    console.log(convs);
     return convs;
 };
 

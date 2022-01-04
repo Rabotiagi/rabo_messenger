@@ -10,12 +10,16 @@ const fileStorage = multer.diskStorage({
     destination: './database/files/',
     filename: function(req, file, cb){
         req.fileName = Date.now() + '_' + file.originalname;
+        if(req.url.split('/').pop() === 'photo'){
+            req.fileName = 'PHOTO~' + req.fileName;
+        }
         cb(null, req.fileName);
     }
 });
 const photoStorage = multer.diskStorage({
     destination: './database/photos/',
     filename: function(req, file, cb){
+        console.log(req);
         req.fileName = Date.now() + '_' + file.originalname;
         cb(null, req.fileName);
     }
@@ -28,8 +32,7 @@ const getIndex = (req, reply) => {
     return reply.sendFile('/index.html');
 };
 
-const uploadFile = (io) => async (req, reply) => {
-    console.log(io);
+async function uploadFile(req, reply){
     const {user, chat} = req.body;
     const {firstName} = await UsersRepo.getUser({id: user});
 
@@ -40,19 +43,19 @@ const uploadFile = (io) => async (req, reply) => {
     });
     await FilesRepo.create(req.fileName, msgId, req.file.size);
 
-    io.to(+chat).emit('message', wrapper(
+    this.io.to(+chat).emit('message', wrapper(
         firstName,
         '',
         user
     ), chat);
 
     const chats = await renderChats(+user);
-    io.to(+chat).emit('refreshChats', chats.find(
+    this.io.to(+chat).emit('refreshChats', chats.find(
         c => c.chat === +chat
     ));
 
     reply.code(200).send();
-};
+}
 
 const uploadPhoto = async (req, reply) => {
     await PhotosRepo.post(req.fileName, req.body.user);

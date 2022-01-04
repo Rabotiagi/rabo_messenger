@@ -1,4 +1,5 @@
 const Users = require('./../models/users.js');
+const Photos = require('./../models/photos.js');
 const Op = require('sequelize').Op;
 
 module.exports = {
@@ -21,5 +22,13 @@ module.exports = {
                 }
             }
         });
+    },
+
+    async getPhoto(id){
+        return await Users.findOne({
+            where: {id},
+            include: [Photos]
+        })
     }
+
 };
