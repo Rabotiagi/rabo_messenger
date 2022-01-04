@@ -68,7 +68,7 @@ export default {
             data.append('user', this.user)
             data.append('chat', this.chat)
 
-            await fetch('/upload', {
+            await fetch('/file', {
                 method: 'POST',
                 body: data,
                 headers: {

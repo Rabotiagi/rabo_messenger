@@ -2,6 +2,7 @@ const Files = require('../database/models/files.js');
 const Users = require('../database/models/users.js');
 const Chats = require('../database/models/chats.js');
 const Messages = require('../database/models/messages.js');
+const Photos = require('../database/models/photos.js');
 
 const associate = () => {
     Chats.hasMany(Messages, {
@@ -32,6 +33,16 @@ const associate = () => {
     Files.belongsTo(Messages, {
         foreignKey: 'fromMsg',
         targetKey: 'msgId'
+    });
+
+    Users.hasOne(Photos, {
+        foreignKey: 'userId',
+        targetKey: 'id'
+    });
+
+    Photos.belongsTo(Users, {
+        foreignKey: 'userId',
+        targetKey: 'id'
     });
 };
 

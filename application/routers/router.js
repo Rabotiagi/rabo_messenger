@@ -1,6 +1,6 @@
-const getIndex = require('../controllers/index.js');
-const { getLogin, postLogin } = require('../controllers/login.js');
-const { getReg, postReg } = require('../controllers/registration.js');
+const getIndex = require('../services/index.js');
+const { getLogin, postLogin } = require('../services/login.js');
+const { getReg, postReg } = require('../services/registration.js');
 
 function Router(fastify, options, done){
     fastify.get('/', getLogin);

@@ -4,6 +4,20 @@ const MessagesRepo = require('./repository/msgRepo.js');
 const fs = require('fs');
 const path = require('path');
 
+const clearDirs = (dirs) => {
+    for(let dir of dirs){
+        fs.readdir(dir, (err, files) => {
+            if (err) throw err;
+
+            for (const file of files) {
+                fs.unlink(path.join(dir, file), err => {
+                    if (err) throw err;
+                });
+            }
+        });
+    }
+};
+
 const insert = async () => {
     await UsersRepo.createUser({
         email: '123',
@@ -50,17 +64,8 @@ const insert = async () => {
         sender: 3
     });
     
-    const directory = './database/files';
-
-    fs.readdir(directory, (err, files) => {
-        if (err) throw err;
-    
-        for (const file of files) {
-        fs.unlink(path.join(directory, file), err => {
-            if (err) throw err;
-        });
-        }
-    });
+    const directories = ['./database/files', './database/photos'];
+    clearDirs(directories);
 };
 
 module.exports = insert;

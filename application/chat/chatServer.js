@@ -5,13 +5,13 @@ const fastifySocketIO = require('fastify-socket.io');
 const multer = require('fastify-multer');
 const path = require('path');
 const socketRouter = require('./routers/socketRouter.js');
-const serverRouter = require('./routers/serverRouter.js');
+const httpRouter = require('./routers/httpRouter.js');
 
 app.register(fastifyStatic, {
     root: path.resolve(__dirname, '../../dist')
 });
 app.register(multer.contentParser);
-app.register(serverRouter);
+app.register(httpRouter);
 app.register(fastifySocketIO);
 
 app.ready().then(() => {
