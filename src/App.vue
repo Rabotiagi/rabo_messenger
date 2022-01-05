@@ -5,11 +5,6 @@
         <Contacts />
         <Messages v-if="chat" />
         <Files v-if="chat" />
-
-        <div>
-            <button id="zxc">zxc</button>
-        </div>
-
     </div>
 </template>
 
@@ -121,12 +116,6 @@ export default {
         this.socket.on('file', async (data) => {
             downloadFile(data);
         });
-    },
-    mounted() {
-        var typeWriter = new Audio("https://freesound.org/data/previews/458/458586_5121236-lq.mp3");
-        document.getElementById('zxc').addEventListener('click', () => {
-            typeWriter.play();
-        })
     }
 }
 </script>
