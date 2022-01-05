@@ -16,7 +16,8 @@ app.register(fastifySocketIO);
 
 app.ready().then(() => {
     app.io.on('connection', (socket) => {
-        socketRouter(app.io, socket)
+        socket.IO = app.io;
+        socketRouter(socket)
     });
 });
 

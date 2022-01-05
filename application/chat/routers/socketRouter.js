@@ -3,30 +3,36 @@ const {
     joinChat,
     getChats,
     createChat,
-    deleteChat,
+    deleteChat
+} = require('../socketServices/chats.js');
+
+const {
+    getUserPhoto,
     getFile
-} = require('../socketServices/room.js');
+} = require('../socketServices/files.js');
 
 const {
     findUsers
 } = require('../socketServices/users.js');
 
-const socketRouter = (io, socket) => {
-    socket.on('chatMessage', chatMessage(io));
+function socketRouter(socket) {
+    socket.on('chatMessage', chatMessage);
 
-    socket.on('getChats', getChats(socket));
+    socket.on('getChats', getChats);
 
-    socket.on('joinChats', joinChat(socket));
+    socket.on('joinChats', joinChat);
 
-    socket.on('createChat', createChat(io));
+    socket.on('createChat', createChat);
 
-    socket.on('findUsers', findUsers(socket));
+    socket.on('findUsers', findUsers);
 
     socket.on('deleteChat', deleteChat);
 
-    socket.on('setUserId', id => {socket.userId = id});
+    socket.on('setUserId', (id) => {socket.userId = id});
 
-    socket.on('getFile', getFile(socket));
-};
+    socket.on('getFile', getFile);
+
+    socket.on('getUserPhoto', getUserPhoto);
+}
 
 module.exports = socketRouter;

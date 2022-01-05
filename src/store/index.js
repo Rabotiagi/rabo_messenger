@@ -90,7 +90,7 @@ export default new Vuex.Store({
             });
         },
         connectPhotosToMessages(state) {
-            const pic = state.contact.contacts.find(item => item.id == state.currentChat).photo;
+            const pic = state.contact.contacts.find(item => item.chat == state.currentChat).photo;
             state.message.messages.forEach(item => {
                 if (item.photo !== null) {
                     return;

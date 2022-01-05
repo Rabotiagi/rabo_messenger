@@ -17,21 +17,19 @@ const getLastMessage = (messages) => {
     return max;
 };
 
-const renderChats = async (user_id) => {
-    const chats = await ChatRepo.getChats(+user_id);
+const renderChats = async (userId) => {
+    const chats = await ChatRepo.getChats(+userId);
     const convs = [];
 
     for(let i = 0; i < chats.length; i++){
         const chat = chats[i];
 
-        let messages = chat.messages.length ? chat.messages : 
+        let messages = chat.messages.length ? chat.messages :
             await MessagesRepo.getMessages(chat.chatId);
         
         const { msg, createdAt} = getLastMessage(messages);
 
-        const partner = chat.users[0] === user_id ? 
-            chat.users[1] : chat.users[0];
-        await getPhoto(partner);
+        const partner = chat.users[0] === +userId ? chat.users[1] : chat.users[0];
             
         const user = await UsersRepo.getUser(partner);
         const {chatName} = await ChatRepo.getChatName(chat.chatId);
@@ -47,7 +45,7 @@ const renderChats = async (user_id) => {
             photo: await getPhoto(partner)
         });
     }
-    console.log(convs);
+
     return convs;
 };
 

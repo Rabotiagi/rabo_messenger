@@ -6,5 +6,13 @@ module.exports = {
             userId,
             path: fileName
         });
+    },
+
+    async getPhoto(userId){
+        return await Photos.findOne({where: {userId}});
+    },
+
+    async updatePhoto(photoId, path){
+        await Photos.update({path}, {where: {photoId}});
     }
 };
