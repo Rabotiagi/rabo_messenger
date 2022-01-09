@@ -11,9 +11,7 @@ const {
     getFile
 } = require('../socketServices/files.js');
 
-const {
-    findUsers
-} = require('../socketServices/users.js');
+const {findUsers} = require('../socketServices/users.js');
 
 function socketRouter(socket) {
     socket.on('chatMessage', chatMessage);
